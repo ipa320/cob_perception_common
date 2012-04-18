@@ -167,6 +167,7 @@ namespace ipa_CameraSensors
     void inputCallback(const sensor_msgs::PointCloud2::ConstPtr& point_cloud_msg, const sensor_msgs::Image::ConstPtr& color_image_msg)
     {
       // check camera link orientation and decide whether image must be turned around
+
       bool turnAround = false;
       tf::StampedTransform transform;
       try
@@ -183,7 +184,7 @@ namespace ipa_CameraSensors
       {
         ROS_WARN("%s",ex.what());
       }
-            
+
       if (turnAround==false)
       {
         // image upright, robot is watching backwards

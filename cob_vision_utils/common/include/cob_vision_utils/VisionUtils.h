@@ -8,7 +8,7 @@
 * +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 *
 * Project name: care-o-bot
-* ROS stack name: cob_common
+* ROS stack name: cob_perception_common
 * ROS package name: cob_vision_utils
 * Description: Utility functions for Fraunhofer IPA vision library.
 *
@@ -59,12 +59,10 @@
 #ifndef __IPA_VISIONUTILS_H__
 #define __IPA_VISIONUTILS_H__
 
-#include "StdAfx.h"
-
 #ifdef __LINUX__
 	#include "cob_vision_utils/GlobalDefines.h"
 #else
-	#include "cob_common/cob_vision_utils/common/include/cob_vision_utils/GlobalDefines.h"
+	#include "cob_perception_common/cob_vision_utils/common/include/cob_vision_utils/GlobalDefines.h"
 #endif
 
 #include <opencv/cv.h>
@@ -159,13 +157,85 @@ cv::Mat GetColorcoded(const cv::Mat& img_32F, double min, double max);
 /// @param mat The OpenCV mat data structure
 /// @param filename The filename
 /// @return Return code
-unsigned long SaveMat(cv::Mat& mat, std::string filename);
+unsigned long SaveMat(cv::Mat& mat, std::string filename, int type=CV_32F);
 
 /// Load OpenCV matrix in binary format.
 /// @param mat The OpenCV mat data structure
 /// @param filename The filename
 /// @return Return code
-unsigned long LoadMat(cv::Mat& mat, std::string filename);
+unsigned long LoadMat(cv::Mat& mat, std::string filename, int type=CV_32F);
+
+
+/// Original implementation from OpenCV, hierarchical_clustering_index.h
+/// Chooses the initial centers in the k-means using the algorithm
+/// proposed in the KMeans++ paper:
+/// Arthur, David; Vassilvitskii, Sergei - k-means++: The Advantages of Careful Seeding
+template <typename Distance>
+void ClusteringKMeanspp(int k, cv::Mat& dataset, int* indices, int indices_length, int* centers, int& centers_length, int numLocalTries=1)
+{
+	typedef typename Distance::ElementType ElementType;
+    typedef typename Distance::ResultType DistanceType;
+
+	Distance distance = Distance();
+
+    int n = indices_length;
+
+    double currentPot = 0;
+    DistanceType* closestDistSq = new DistanceType[n];
+
+    // Choose one random center and set the closestDistSq values
+    int index = cvflann::rand_int(n);
+    assert(index >=0 && index < n);
+    centers[0] = indices[index];
+
+    for (int i = 0; i < n; i++) {
+        closestDistSq[i] = distance(dataset.ptr(indices[i]), 
+			dataset.ptr(indices[index]), dataset.cols);
+        currentPot += closestDistSq[i];
+    }
+
+    // Choose each center
+    int centerCount;
+    for (centerCount = 1; centerCount < k; centerCount++) {
+
+        // Repeat several trials
+        double bestNewPot = -1;
+        int bestNewIndex = 0;
+        for (int localTrial = 0; localTrial < numLocalTries; localTrial++) {
+
+            // Choose our center - have to be slightly careful to return a valid answer even accounting
+            // for possible rounding errors
+            double randVal = cvflann::rand_double(currentPot);
+            for (index = 0; index < n-1; index++) {
+                if (randVal <= closestDistSq[index]) break;
+                else randVal -= closestDistSq[index];
+            }
+
+            // Compute the new potential
+            double newPot = 0;
+            for (int i = 0; i < n; i++) 
+				newPot += std::min( distance(dataset.ptr(indices[i]), 
+					dataset.ptr(indices[index]), dataset.cols), closestDistSq[i] );
+
+            // Store the best result
+            if ((bestNewPot < 0)||(newPot < bestNewPot)) {
+                bestNewPot = newPot;
+                bestNewIndex = index;
+            }
+        }
+
+        // Add the appropriate center
+        centers[centerCount] = indices[bestNewIndex];
+        currentPot = bestNewPot;
+        for (int i = 0; i < n; i++) 
+			closestDistSq[i] = std::min( distance(dataset.ptr(indices[i]),
+				dataset.ptr(indices[bestNewIndex]), dataset.cols), closestDistSq[i] );
+    }
+
+    centers_length = centerCount;
+
+    delete[] closestDistSq;
+}
 
 // Generator that yields an increasing sequence of integers
 class UniqueNumber {

@@ -60,14 +60,14 @@
 #ifndef __IPA_CAMERASENSORTOOLBOX_H__
 #define __IPA_CAMERASENSORTOOLBOX_H__
 
-#include "StdAfx.h"
+//#include "../../../../../cob_object_perception_intern/windows/src/PreCompiledHeaders/StdAfx.h"
 
 #ifdef __LINUX__
 	#include "cob_vision_utils/CameraSensorDefines.h"
 	#include "cob_vision_utils/CameraSensorTypes.h"
 #else
-	#include "cob_common/cob_vision_utils/common/include/cob_vision_utils/CameraSensorDefines.h"
-	#include "cob_common/cob_vision_utils/common/include/cob_vision_utils/CameraSensorTypes.h"
+	#include "cob_perception_common/cob_vision_utils/common/include/cob_vision_utils/CameraSensorDefines.h"
+	#include "cob_perception_common/cob_vision_utils/common/include/cob_vision_utils/CameraSensorTypes.h"
 #endif
 
 #include <opencv/cv.h>

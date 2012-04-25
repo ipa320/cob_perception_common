@@ -50,13 +50,11 @@
 * If not, see <http://www.gnu.org/licenses/>.
 *
 ****************************************************************/
- 
-#include "../include/cob_vision_utils/StdAfx.h"
 
 #ifdef __LINUX__
 #include "cob_vision_utils/VisionUtils.h"
 #else
-#include "cob_common/cob_vision_utils/common/include/cob_vision_utils/VisionUtils.h"
+#include "cob_perception_common/cob_vision_utils/common/include/cob_vision_utils/VisionUtils.h"
 #endif
 
 #include <fstream>
@@ -654,7 +652,7 @@ unsigned long ipa_Utils::FilterTearOffEdges(cv::Mat& xyzImage, cv::Mat* mask, fl
 				dot = (float)vDiff.ddot(vLeft);
 				//dot = vDiff.Dot(vLeft);
 				angle = (float)std::acos(dot);
-				//angle = Wm4::Math<float>::ACos( dot );
+				//angle = IPA_WM_VERSION::Math<float>::ACos( dot );
 				if (angle > t_upper || angle < t_lower)
 				{
 					score++;
@@ -688,7 +686,7 @@ unsigned long ipa_Utils::FilterTearOffEdges(cv::Mat& xyzImage, cv::Mat* mask, fl
 				dot = (float)vDiff.ddot(vLeft);
 				//dot = vDiff.Dot(vLeft);
 				angle = (float)std::acos(dot);
-				//angle = Wm4::Math<float>::ACos( dot );
+				//angle = IPA_WM_VERSION::Math<float>::ACos( dot );
 				if (angle > t_upper || angle < t_lower)
 				{
 					score++;
@@ -722,7 +720,7 @@ unsigned long ipa_Utils::FilterTearOffEdges(cv::Mat& xyzImage, cv::Mat* mask, fl
 				dot = (float)vDiff.ddot(vLeft);
 				//dot = vDiff.Dot(vLeft);
 				angle = (float)std::acos(dot);
-				//angle = Wm4::Math<float>::ACos( dot );
+				//angle = IPA_WM_VERSION::Math<float>::ACos( dot );
 				if (angle > t_upper || angle < t_lower)
 				{
 					score++;
@@ -755,7 +753,7 @@ unsigned long ipa_Utils::FilterTearOffEdges(cv::Mat& xyzImage, cv::Mat* mask, fl
 				dot = (float)vDiff.ddot(vLeft);
 				//dot = vDiff.Dot(vLeft);
 				angle = (float)std::acos(dot);
-				//angle = Wm4::Math<float>::ACos( dot );
+				//angle = IPA_WM_VERSION::Math<float>::ACos( dot );
 				if (angle > t_upper || angle < t_lower)
 				{
 					score++;
@@ -785,11 +783,11 @@ unsigned long ipa_Utils::FilterTearOffEdges(cv::Mat& xyzImage, cv::Mat* mask, fl
 	return ipa_Utils::RET_OK;
 }
 
-unsigned long ipa_Utils::FilterSpeckles(cv::Mat& img, int maxSpeckleSize, double maxDiff, cv::Mat& _buf )
+unsigned long ipa_Utils::FilterSpeckles(cv::Mat& img, int maxSpeckleSize, 
+	double maxDiff, cv::Mat& _buf)
 {
     CV_Assert( img.type() == CV_32FC3 );
 
- 
     float newVal = 0;
     int width = img.cols, height = img.rows, npixels = width*height;
     size_t bufSize = npixels*(int)(sizeof(cv::Point_<short>) + sizeof(int) + sizeof(uchar));
@@ -968,9 +966,9 @@ cv::Mat ipa_Utils::GetColorcoded(const cv::Mat& img_32F, double min, double max)
     return hsvImage;
 }
 
-unsigned long ipa_Utils::SaveMat(cv::Mat& mat, std::string filename)
+unsigned long ipa_Utils::SaveMat(cv::Mat& mat, std::string filename, int type)
 {
-	float* ptr = 0;
+	
 
 	std::ofstream f(filename.c_str(), std::ios_base::binary);
 	if(!f.is_open())
@@ -993,17 +991,30 @@ unsigned long ipa_Utils::SaveMat(cv::Mat& mat, std::string filename)
 	f.write((char const*)header, 3 * sizeof(int));
 #endif
 
-	for(unsigned int row=0; row<(unsigned int)mat.rows; row++)
+	if (type == CV_32F)
 	{
-		ptr = mat.ptr<float>(row);
-		f.write((char*)ptr, channels * mat.cols * sizeof(float));
+		float* ptr = 0;
+		for(unsigned int row=0; row<(unsigned int)mat.rows; row++)
+		{
+			ptr = mat.ptr<float>(row);
+			f.write((char*)ptr, channels * mat.cols * sizeof(float));
+		}
+	}
+	if (type == CV_8U)
+	{
+		unsigned char* ptr = 0;
+		for(unsigned int row=0; row<(unsigned int)mat.rows; row++)
+		{
+			ptr = mat.ptr<unsigned char>(row);
+			f.write((char*)ptr, channels * mat.cols * sizeof(unsigned char));
+		}
 	}
 
 	f.close();
 	return ipa_Utils::RET_OK;
 }
 
-unsigned long ipa_Utils::LoadMat(cv::Mat& mat, std::string filename)
+unsigned long ipa_Utils::LoadMat(cv::Mat& mat, std::string filename, int type)
 {
 	size_t file_length = 0;
 	char *c_string = 0;
@@ -1029,14 +1040,26 @@ unsigned long ipa_Utils::LoadMat(cv::Mat& mat, std::string filename)
 	cols = ((int*)c_string)[1];
 	channels = ((int*)c_string)[2];
 
-	mat.create(rows, cols, CV_32FC(channels));
-	float* f_ptr;
 	char* c_ptr;
 
-	f_ptr = mat.ptr<float>(0);
-	c_ptr = &c_string[3 * sizeof(int)];
-
-	memcpy(f_ptr, c_ptr,  channels * mat.cols * mat.rows * sizeof(float));
+	if (type == CV_32F)
+	{
+		float* f_ptr;
+		mat.create(rows, cols, CV_32FC(channels));
+		f_ptr = mat.ptr<float>(0);
+		c_ptr = &c_string[3 * sizeof(int)];
+	
+		memcpy(f_ptr, c_ptr,  channels * mat.cols * mat.rows * sizeof(float));
+	}
+	if (type == CV_8U)
+	{
+		unsigned char* f_ptr;
+		mat.create(rows, cols, CV_32FC(channels));
+		f_ptr = mat.ptr<unsigned char>(0);
+		c_ptr = &c_string[3 * sizeof(int)];
+	
+		memcpy(f_ptr, c_ptr,  channels * mat.cols * mat.rows * sizeof(unsigned char));
+	}
 
 	file.close();
 

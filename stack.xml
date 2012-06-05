@@ -5,7 +5,7 @@
 
   </description>
   <author>Maintained by Richard Bormann</author>
-  <license>BSD,LGPL</license>  
+  <license>LGPL</license>  
   <review status="unreviewed" notes=""/>
   <url>http://ros.org/wiki/cob_perception_common</url>
   <depend stack="common_msgs" /> <!-- sensor_msgs -->

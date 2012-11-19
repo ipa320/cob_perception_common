@@ -30,6 +30,7 @@ set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 #target_link_libraries(example ${PROJECT_NAME})
 
 # add project libraries
-rosbuild_add_library(cob_kinect_image_flip ros/src/kinect_image_flip.cpp)
+#rosbuild_add_library(cob_kinect_image_flip ros/src/kinect_image_flip.cpp)
+rosbuild_add_executable(cob_kinect_image_flip ros/src/kinect_image_flip.cpp)
 
-rosbuild_add_compile_flags(cob_kinect_image_flip -D__LINUX__ -D__COB_ROS__)
+#rosbuild_add_compile_flags(kinect_image_flip -D__LINUX__ -D__COB_ROS__)

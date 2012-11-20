@@ -58,7 +58,7 @@
 //#include <nodelet/nodelet.h>
 
 // ROS message includes
-//#include <sensor_msgs/Image.h>
+#include <sensor_msgs/Image.h>
 #include <sensor_msgs/PointCloud2.h>
 #include <tf/transform_listener.h>
 
@@ -66,8 +66,8 @@
 //#include <message_filters/subscriber.h>
 //#include <message_filters/synchronizer.h>
 //#include <message_filters/sync_policies/approximate_time.h>
-//#include <image_transport/image_transport.h>
-//#include <image_transport/subscriber_filter.h>
+#include <image_transport/image_transport.h>
+#include <image_transport/subscriber_filter.h>
 
 // opencv
 #include <opencv/cv.h>
@@ -92,12 +92,14 @@
 class CobKinectImageFlip
 {
 protected:
+	int cob3Number_;
+
 	ros::Subscriber point_cloud_sub_;
 	ros::Publisher point_cloud_pub_; ///< Point cloud output topic
 	//message_filters::Subscriber<sensor_msgs::PointCloud2> point_cloud_sub_;	///< Point cloud input topic
-	//image_transport::ImageTransport* it_;
-	//image_transport::SubscriberFilter color_camera_image_sub_;	///< Color camera image input topic
-	//image_transport::Publisher color_camera_image_pub_;		///< Color camera image output topic
+	image_transport::ImageTransport* it_;
+	image_transport::SubscriberFilter color_camera_image_sub_;	///< Color camera image input topic
+	image_transport::Publisher color_camera_image_pub_;		///< Color camera image output topic
 	//message_filters::Synchronizer<message_filters::sync_policies::ApproximateTime<sensor_msgs::PointCloud2, sensor_msgs::Image> >* sync_pointcloud_;	///< synchronizer for input data
 	//message_filters::Connection sync_pointcloud_callback_connection_;
 
@@ -111,29 +113,36 @@ public:
 	{
 		node_handle_ = nh;
 
+		cob3Number_ = 0;
+		std::string value;
+		ros::get_environment_variable(value, "ROBOT");
+		std::stringstream ss;
+		ss << value.substr(value.find("cob3-")+5);
+		ss >> cob3Number_;
+		std::cout << "CobKinectImageFlip: Robot number is cob3-" << cob3Number_ << "." << std::endl;
+
 		//ros::get_environment_variable();
 		//it_ = 0;
 		//sync_pointcloud_ = 0;
 		transform_listener_ = 0;
 
 //		it_ = new image_transport::ImageTransport(node_handle_);
-//		sync_pointcloud_ = new message_filters::Synchronizer<message_filters::sync_policies::ApproximateTime<sensor_msgs::PointCloud2, sensor_msgs::Image>>(3);//(2);  //this parameter is the queue size for comparing time stanps of messages (might work badly if set to 1)
-//		color_camera_image_pub_ = it_->advertise("rgb/upright/image_color", 1);
+//		color_camera_image_sub_.subscribe(*it_, "colorimage_in", 1);
+//		color_camera_image_sub_.registerCallback(boost::bind(&CobKinectImageFlip::imageCallback, this, _1));
+//		color_camera_image_pub_ = it_->advertise("colorimage_out", 1);
+
 		point_cloud_sub_ = node_handle_.subscribe<sensor_msgs::PointCloud2>("pointcloud_in", 1, &CobKinectImageFlip::inputCallback, this);
 		point_cloud_pub_ = node_handle_.advertise<sensor_msgs::PointCloud2>("pointcloud_out", 1);
 
 		transform_listener_ = new tf::TransformListener(node_handle_);
-
-		// initializations
-		init();
 
 		std::cout << "CobKinectImageFlip initilized.\n";
 	}
 
 	~CobKinectImageFlip()
 	{
-//		if (it_ != 0)
-//			delete it_;
+		if (it_ != 0)
+			delete it_;
 //		if (sync_pointcloud_ != 0)
 //			delete sync_pointcloud_;
 		if (transform_listener_ != 0)
@@ -151,25 +160,24 @@ public:
 		return ipa_Utils::RET_OK;
 	}
 
-//	unsigned long convertColorImageMessageToMat(const sensor_msgs::Image::ConstPtr& color_image_msg, cv_bridge::CvImageConstPtr& color_image_ptr, cv::Mat& color_image)
-//	{
-//		try
-//		{
-//			color_image_ptr = cv_bridge::toCvShare(color_image_msg, sensor_msgs::image_encodings::BGR8);
-//		} catch (cv_bridge::Exception& e)
-//		{
-//			ROS_ERROR("PeopleDetection: cv_bridge exception: %s", e.what());
-//			return ipa_Utils::RET_FAILED;
-//		}
-//		color_image = color_image_ptr->image;
-//
-//		return ipa_Utils::RET_OK;
-//	}
+	unsigned long convertColorImageMessageToMat(const sensor_msgs::Image::ConstPtr& color_image_msg, cv_bridge::CvImageConstPtr& color_image_ptr, cv::Mat& color_image)
+	{
+		try
+		{
+			color_image_ptr = cv_bridge::toCvShare(color_image_msg, sensor_msgs::image_encodings::BGR8);
+		} catch (cv_bridge::Exception& e)
+		{
+			ROS_ERROR("PeopleDetection: cv_bridge exception: %s", e.what());
+			return ipa_Utils::RET_FAILED;
+		}
+		color_image = color_image_ptr->image;
+
+		return ipa_Utils::RET_OK;
+	}
 
 	void inputCallback(const sensor_msgs::PointCloud2::ConstPtr& point_cloud_msg)
 	{
 		// check camera link orientation and decide whether image must be turned around
-
 		bool turnAround = false;
 		tf::StampedTransform transform;
 		try
@@ -177,6 +185,8 @@ public:
 			transform_listener_->lookupTransform("/base_link", "/head_cam3d_link", ros::Time(0), transform);
 			btScalar roll, pitch, yaw;
 			transform.getBasis().getRPY(roll, pitch, yaw, 1);
+			if (cob3Number_ == 2)
+				roll *= -1.;
 			if (roll > 0.0)
 				turnAround = true;
 			//      std::cout << "xyz: " << transform.getOrigin().getX() << " " << transform.getOrigin().getY() << " " << transform.getOrigin().getZ() << "\n";
@@ -230,6 +240,68 @@ public:
 			//      cv::namedWindow("test");
 			//      cv::imshow("test", color_image_turned);
 			//      cv::waitKey(10);
+		}
+	}
+
+	void imageCallback(const sensor_msgs::ImageConstPtr& color_image_msg)
+	{
+		// check camera link orientation and decide whether image must be turned around
+		bool turnAround = false;
+		tf::StampedTransform transform;
+		try
+		{
+			transform_listener_->lookupTransform("/base_link", "/head_cam3d_link", ros::Time(0), transform);
+			btScalar roll, pitch, yaw;
+			transform.getBasis().getRPY(roll, pitch, yaw, 1);
+			if (cob3Number_ == 2)
+				roll *= -1.;
+			if (roll > 0.0)
+				turnAround = true;
+			//      std::cout << "xyz: " << transform.getOrigin().getX() << " " << transform.getOrigin().getY() << " " << transform.getOrigin().getZ() << "\n";
+			//      std::cout << "abcw: " << transform.getRotation().getX() << " " << transform.getRotation().getY() << " " << transform.getRotation().getZ() << " " << transform.getRotation().getW() << "\n";
+			//      std::cout << "rpy: " << roll << " " << pitch << " " << yaw << "\n";
+		} catch (tf::TransformException ex)
+		{
+			ROS_WARN("%s",ex.what());
+		}
+
+		// now turn if necessary
+		if (turnAround == false)
+		{
+			// image upright
+			sensor_msgs::Image color_image_turned_msg = *color_image_msg;
+			color_camera_image_pub_.publish(color_image_turned_msg);
+		}
+		else
+		{
+			// image upside down
+			cv_bridge::CvImageConstPtr color_image_ptr;
+			cv::Mat color_image;
+			convertColorImageMessageToMat(color_image_msg, color_image_ptr, color_image);
+
+			// rotate images by 180 degrees
+			cv::Mat color_image_turned(color_image.rows, color_image.cols, color_image.type());
+			if (color_image.type() != CV_8UC3)
+			{
+				std::cout << "CobKinectImageFlipNodelet::inputCallback: Error: The image format of the color image is not CV_8UC3.\n";
+				return;
+			}
+			for (int v = 0; v < color_image.rows; v++)
+			{
+				uchar* src = color_image.ptr(v);
+				uchar* dst = color_image_turned.ptr(color_image.rows - v - 1);
+				dst += 3 * (color_image.cols - 1);
+				for (int u = 0; u < color_image.cols; u++)
+				{
+					for (int k = 0; k < 3; k++)
+					{
+						*dst = *src;
+						src++;
+						dst++;
+					}
+					dst -= 6;
+				}
+			}
 		}
 	}
 };

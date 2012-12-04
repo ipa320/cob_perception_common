@@ -93,6 +93,9 @@ class CobKinectImageFlip
 {
 protected:
 	int cob3Number_;
+	bool flipColorImage_;
+	bool flipPointcloud_;
+	std::string pointcloudDataFormat_;
 
 	ros::Subscriber point_cloud_sub_;
 	ros::Publisher point_cloud_pub_; ///< Point cloud output topic
@@ -113,6 +116,7 @@ public:
 	{
 		node_handle_ = nh;
 
+		// determine robot number
 		cob3Number_ = 0;
 		std::string value;
 		ros::get_environment_variable(value, "ROBOT");
@@ -121,18 +125,48 @@ public:
 		ss >> cob3Number_;
 		std::cout << "CobKinectImageFlip: Robot number is cob3-" << cob3Number_ << "." << std::endl;
 
+		// set parameters
+		flipColorImage_ = false;
+		flipPointcloud_ = false;
+		pointcloudDataFormat_ = "xyz";
+		std::cout << "\n--------------------------\nKinect Image Flip Parameters:\n--------------------------\n";
+		node_handle_.param("flip_color_image", flipColorImage_, false);
+		std::cout << "flip_color_image = " << flipColorImage_ << "\n";
+		node_handle_.param("flip_pointcloud", flipPointcloud_, false);
+		std::cout << "flip_pointcloud = " << flipPointcloud_ << "\n";
+		node_handle_.param<std::string>("pointcloud_data_format", pointcloudDataFormat_, "xyz");
+		std::cout << "pointcloud_data_format = " << pointcloudDataFormat_ << "\n";
+
+
 		//ros::get_environment_variable();
-		//it_ = 0;
 		//sync_pointcloud_ = 0;
+
 		transform_listener_ = 0;
 
-//		it_ = new image_transport::ImageTransport(node_handle_);
-//		color_camera_image_sub_.subscribe(*it_, "colorimage_in", 1);
-//		color_camera_image_sub_.registerCallback(boost::bind(&CobKinectImageFlip::imageCallback, this, _1));
-//		color_camera_image_pub_ = it_->advertise("colorimage_out", 1);
+		// color image flip callback
+		if (flipColorImage_ == true)
+		{
+			it_ = new image_transport::ImageTransport(node_handle_);
+			color_camera_image_sub_.subscribe(*it_, "colorimage_in", 1);
+			color_camera_image_sub_.registerCallback(boost::bind(&CobKinectImageFlip::imageCallback, this, _1));
+			color_camera_image_pub_ = it_->advertise("colorimage_out", 1);
+		}
+		else
+		{
+			it_ = 0;
+		}
 
-		point_cloud_sub_ = node_handle_.subscribe<sensor_msgs::PointCloud2>("pointcloud_in", 1, &CobKinectImageFlip::inputCallback, this);
-		point_cloud_pub_ = node_handle_.advertise<sensor_msgs::PointCloud2>("pointcloud_out", 1);
+		// point cloud flip
+		if (flipPointcloud_ == true)
+		{
+			if (pointcloudDataFormat_.compare("xyz") == 0)
+				point_cloud_sub_ = node_handle_.subscribe<sensor_msgs::PointCloud2>("pointcloud_in", 1, &CobKinectImageFlip::inputCallback<pcl::PointXYZ>, this);
+			else if (pointcloudDataFormat_.compare("xyzrgb") == 0)
+				point_cloud_sub_ = node_handle_.subscribe<sensor_msgs::PointCloud2>("pointcloud_in", 1, &CobKinectImageFlip::inputCallback<pcl::PointXYZRGB>, this);
+			else
+				ROS_ERROR("Unknown pointcloud format specified in the paramter file.");
+			point_cloud_pub_ = node_handle_.advertise<sensor_msgs::PointCloud2>("pointcloud_out", 1);
+		}
 
 		transform_listener_ = new tf::TransformListener(node_handle_);
 
@@ -175,6 +209,7 @@ public:
 		return ipa_Utils::RET_OK;
 	}
 
+	template <typename T>
 	void inputCallback(const sensor_msgs::PointCloud2::ConstPtr& point_cloud_msg)
 	{
 		// check camera link orientation and decide whether image must be turned around
@@ -210,10 +245,10 @@ public:
 		{
 			// image upside down
 			// point cloud
-			pcl::PointCloud<pcl::PointXYZRGB> point_cloud_src;
+			pcl::PointCloud<T> point_cloud_src;
 			pcl::fromROSMsg(*point_cloud_msg, point_cloud_src);
 
-			pcl::PointCloud<pcl::PointXYZRGB>::Ptr point_cloud_turned(new pcl::PointCloud<pcl::PointXYZRGB>);
+			boost::shared_ptr<pcl::PointCloud<T> > point_cloud_turned(new pcl::PointCloud<T>);
 			point_cloud_turned->resize(point_cloud_src.height*point_cloud_src.width);
 			int point_cloud_turned_counter = 0;
 			for (int v = (int)point_cloud_src.height - 1; v >= 0; v--)
@@ -245,6 +280,8 @@ public:
 
 	void imageCallback(const sensor_msgs::ImageConstPtr& color_image_msg)
 	{
+		ROS_INFO("imageCallback");
+
 		// check camera link orientation and decide whether image must be turned around
 		bool turnAround = false;
 		tf::StampedTransform transform;

@@ -249,24 +249,22 @@ public:
 			pcl::fromROSMsg(*point_cloud_msg, point_cloud_src);
 
 			boost::shared_ptr<pcl::PointCloud<T> > point_cloud_turned(new pcl::PointCloud<T>);
-			point_cloud_turned->resize(point_cloud_src.height*point_cloud_src.width);
-			int point_cloud_turned_counter = 0;
-			for (int v = (int)point_cloud_src.height - 1; v >= 0; v--)
-			{
-				for (int u = (int)point_cloud_src.width - 1; u >= 0; u--)
-				{
-					point_cloud_turned->at(point_cloud_turned_counter) = point_cloud_src(u, v);
-					point_cloud_turned_counter++;
-				}
-			}
-
-			// publish turned data
 			point_cloud_turned->header = point_cloud_msg->header;
 			point_cloud_turned->height = point_cloud_msg->height;
 			point_cloud_turned->width = point_cloud_msg->width;
 			//point_cloud_turned->sensor_orientation_ = point_cloud_msg->sensor_orientation_;
 			//point_cloud_turned->sensor_origin_ = point_cloud_msg->sensor_origin_;
-			point_cloud_turned->is_dense = point_cloud_msg->is_dense;
+			point_cloud_turned->is_dense = true;	//point_cloud_msg->is_dense;
+			point_cloud_turned->resize(point_cloud_src.height*point_cloud_src.width);
+			for (int v = (int)point_cloud_src.height - 1; v >= 0; v--)
+			{
+				for (int u = (int)point_cloud_src.width - 1; u >= 0; u--)
+				{
+					(*point_cloud_turned)(point_cloud_src.width-1 - u, point_cloud_src.height-1 - v) = point_cloud_src(u, v);
+				}
+			}
+
+			// publish turned data
 			sensor_msgs::PointCloud2::Ptr point_cloud_turned_msg(new sensor_msgs::PointCloud2);
 			pcl::toROSMsg(*point_cloud_turned, *point_cloud_turned_msg);
 			//point_cloud_turned_msg->header.stamp = ros::Time::now();
@@ -280,8 +278,6 @@ public:
 
 	void imageCallback(const sensor_msgs::ImageConstPtr& color_image_msg)
 	{
-		ROS_INFO("imageCallback");
-
 		// check camera link orientation and decide whether image must be turned around
 		bool turnAround = false;
 		tf::StampedTransform transform;
@@ -339,6 +335,12 @@ public:
 					dst -= 6;
 				}
 			}
+	        cv_bridge::CvImage cv_ptr;
+	        cv_ptr.image = color_image_turned;
+	        cv_ptr.encoding = "bgr8";
+	        sensor_msgs::Image::Ptr color_image_turned_msg = cv_ptr.toImageMsg();
+	        color_image_turned_msg->header = color_image_msg->header;
+	        color_camera_image_pub_.publish(color_image_turned_msg);
 		}
 	}
 };

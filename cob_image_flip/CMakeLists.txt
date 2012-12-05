@@ -16,6 +16,10 @@ set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 #set the default path for built libraries to the "lib" directory
 set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 
+# add include search paths
+INCLUDE_DIRECTORIES(${PROJECT_SOURCE_DIR}/ros/include
+                    ${PROJECT_SOURCE_DIR}/common/include)
+
 #uncomment if you have defined messages
 #rosbuild_genmsg()
 #uncomment if you have defined services
@@ -33,4 +37,4 @@ set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 #rosbuild_add_library(libkinect_image_flip ros/src/kinect_image_flip.cpp)
 rosbuild_add_executable(kinect_image_flip ros/src/kinect_image_flip.cpp)
 
-#rosbuild_add_compile_flags(kinect_image_flip -D__LINUX__ -D__COB_ROS__)
+rosbuild_add_compile_flags(kinect_image_flip -D__LINUX__)

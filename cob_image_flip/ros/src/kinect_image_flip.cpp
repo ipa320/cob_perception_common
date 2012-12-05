@@ -79,6 +79,9 @@
 #include <pcl/point_types.h>
 #include <pcl_ros/point_cloud.h>
 
+// timer
+#include <cob_image_flip/timer.h>
+
 // Plugins
 //#include <pluginlib/class_list_macros.h>
 
@@ -212,6 +215,9 @@ public:
 	template <typename T>
 	void inputCallback(const sensor_msgs::PointCloud2::ConstPtr& point_cloud_msg)
 	{
+		Timer tim;
+		tim.start();
+
 		// check camera link orientation and decide whether image must be turned around
 		bool turnAround = false;
 		tf::StampedTransform transform;
@@ -274,10 +280,15 @@ public:
 			//      cv::imshow("test", color_image_turned);
 			//      cv::waitKey(10);
 		}
+
+		ROS_INFO("Pointcloud callback in image flip took %f ms.", tim.getElapsedTimeInMilliSec());
 	}
 
 	void imageCallback(const sensor_msgs::ImageConstPtr& color_image_msg)
 	{
+		Timer tim;
+		tim.start();
+
 		// check camera link orientation and decide whether image must be turned around
 		bool turnAround = false;
 		tf::StampedTransform transform;
@@ -342,6 +353,8 @@ public:
 	        color_image_turned_msg->header = color_image_msg->header;
 	        color_camera_image_pub_.publish(color_image_turned_msg);
 		}
+
+		ROS_INFO("Image callback in image flip took %f ms.", tim.getElapsedTimeInMilliSec());
 	}
 };
 

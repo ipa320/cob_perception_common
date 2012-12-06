@@ -215,8 +215,8 @@ public:
 	template <typename T>
 	void inputCallback(const sensor_msgs::PointCloud2::ConstPtr& point_cloud_msg)
 	{
-		Timer tim;
-		tim.start();
+//		Timer tim;
+//		tim.start();
 
 		// check camera link orientation and decide whether image must be turned around
 		bool turnAround = false;
@@ -281,13 +281,14 @@ public:
 			//      cv::waitKey(10);
 		}
 
-		ROS_INFO("Pointcloud callback in image flip took %f ms.", tim.getElapsedTimeInMilliSec());
+		ROS_INFO("%d ImageFlip: Time stamp of pointcloud message: %f. Delay: %f.", point_cloud_msg->header.seq, point_cloud_msg->header.stamp.toSec(), ros::Time::now().toSec()-point_cloud_msg->header.stamp.toSec());
+//		ROS_INFO("Pointcloud callback in image flip took %f ms.", tim.getElapsedTimeInMilliSec());
 	}
 
 	void imageCallback(const sensor_msgs::ImageConstPtr& color_image_msg)
 	{
-		Timer tim;
-		tim.start();
+//		Timer tim;
+//		tim.start();
 
 		// check camera link orientation and decide whether image must be turned around
 		bool turnAround = false;
@@ -354,7 +355,7 @@ public:
 	        color_camera_image_pub_.publish(color_image_turned_msg);
 		}
 
-		ROS_INFO("Image callback in image flip took %f ms.", tim.getElapsedTimeInMilliSec());
+		//ROS_INFO("Image callback in image flip took %f ms.", tim.getElapsedTimeInMilliSec());
 	}
 };
 

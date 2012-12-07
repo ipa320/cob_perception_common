@@ -20,9 +20,9 @@
 	<depend package="pcl_ros"/>
 	<depend package="cob_vision_utils"/>
 
-	<!--export>
+	<export>
 		<nodelet plugin="${prefix}/nodelet_plugins.xml" />
-	</export-->
+	</export>
 
 </package>
 

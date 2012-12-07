@@ -70,26 +70,28 @@ CobKinectImageFlip::CobKinectImageFlip(ros::NodeHandle nh)
 	ss >> cob3Number_;
 
 	// set parameters
-	flipColorImage_ = false;
-	flipPointcloud_ = false;
-	pointcloudDataFormat_ = "xyz";
+	flip_color_image_ = false;
+	flip_pointcloud_ = false;
+	pointcloud_data_format_ = "xyz";
 	std::cout << "\n--------------------------\nKinect Image Flip Parameters:\n--------------------------" << std::endl;
 	std::cout << "CobKinectImageFlip: Robot number is cob3-" << cob3Number_ << "." << std::endl;
-	node_handle_.param("flip_color_image", flipColorImage_, false);
-	std::cout << "flip_color_image = " << flipColorImage_ << std::endl;
-	node_handle_.param("flip_pointcloud", flipPointcloud_, false);
-	std::cout << "flip_pointcloud = " << flipPointcloud_ << std::endl;
-	node_handle_.param<std::string>("pointcloud_data_format", pointcloudDataFormat_, "xyz");
-	std::cout << "pointcloud_data_format = " << pointcloudDataFormat_ << std::endl;
+	node_handle_.param("flip_color_image", flip_color_image_, false);
+	std::cout << "flip_color_image = " << flip_color_image_ << std::endl;
+	node_handle_.param("flip_pointcloud", flip_pointcloud_, false);
+	std::cout << "flip_pointcloud = " << flip_pointcloud_ << std::endl;
+	node_handle_.param<std::string>("pointcloud_data_format", pointcloud_data_format_, "xyz");
+	std::cout << "pointcloud_data_format = " << pointcloud_data_format_ << std::endl;
+	node_handle_.param("display_warnings", display_warnings_, false);
+	std::cout << "display_warnings = " << display_warnings_ << std::endl;
+	node_handle_.param("display_timing", display_timing_, false);
+	std::cout << "display_timing = " << display_timing_ << std::endl;
 
-
-	//ros::get_environment_variable();
 	//sync_pointcloud_ = 0;
 
 	transform_listener_ = 0;
 
 	// color image flip callback
-	if (flipColorImage_ == true)
+	if (flip_color_image_ == true)
 	{
 		it_ = new image_transport::ImageTransport(node_handle_);
 		color_camera_image_sub_.subscribe(*it_, "colorimage_in", 1);
@@ -102,11 +104,11 @@ CobKinectImageFlip::CobKinectImageFlip(ros::NodeHandle nh)
 	}
 
 	// point cloud flip
-	if (flipPointcloud_ == true)
+	if (flip_pointcloud_ == true)
 	{
-		if (pointcloudDataFormat_.compare("xyz") == 0)
+		if (pointcloud_data_format_.compare("xyz") == 0)
 			point_cloud_sub_ = node_handle_.subscribe<sensor_msgs::PointCloud2>("pointcloud_in", 1, &CobKinectImageFlip::inputCallback<pcl::PointXYZ>, this);
-		else if (pointcloudDataFormat_.compare("xyzrgb") == 0)
+		else if (pointcloud_data_format_.compare("xyzrgb") == 0)
 			point_cloud_sub_ = node_handle_.subscribe<sensor_msgs::PointCloud2>("pointcloud_in", 1, &CobKinectImageFlip::inputCallback<pcl::PointXYZRGB>, this);
 		else
 			ROS_ERROR("Unknown pointcloud format specified in the paramter file.");
@@ -177,7 +179,8 @@ void CobKinectImageFlip::inputCallback(const sensor_msgs::PointCloud2::ConstPtr&
 		//      std::cout << "rpy: " << roll << " " << pitch << " " << yaw << "\n";
 	} catch (tf::TransformException ex)
 	{
-		ROS_WARN("%s",ex.what());
+		if (display_warnings_ == true)
+			ROS_WARN("%s",ex.what());
 	}
 
 	if (turnAround == false)
@@ -223,7 +226,8 @@ void CobKinectImageFlip::inputCallback(const sensor_msgs::PointCloud2::ConstPtr&
 		//      cv::waitKey(10);
 	}
 
-	ROS_INFO("%d ImageFlip: Time stamp of pointcloud message: %f. Delay: %f.", point_cloud_msg->header.seq, point_cloud_msg->header.stamp.toSec(), ros::Time::now().toSec()-point_cloud_msg->header.stamp.toSec());
+	if (display_timing_ == true)
+		ROS_INFO("%d ImageFlip: Time stamp of pointcloud message: %f. Delay: %f.", point_cloud_msg->header.seq, point_cloud_msg->header.stamp.toSec(), ros::Time::now().toSec()-point_cloud_msg->header.stamp.toSec());
 //		ROS_INFO("Pointcloud callback in image flip took %f ms.", tim.getElapsedTimeInMilliSec());
 }
 
@@ -249,7 +253,8 @@ void CobKinectImageFlip::imageCallback(const sensor_msgs::ImageConstPtr& color_i
 		//      std::cout << "rpy: " << roll << " " << pitch << " " << yaw << "\n";
 	} catch (tf::TransformException ex)
 	{
-		ROS_WARN("%s",ex.what());
+		if (display_warnings_ == true)
+			ROS_WARN("%s",ex.what());
 	}
 
 	// now turn if necessary

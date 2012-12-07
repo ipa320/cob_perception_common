@@ -92,9 +92,11 @@ class CobKinectImageFlip
 {
 protected:
 	int cob3Number_;
-	bool flipColorImage_;
-	bool flipPointcloud_;
-	std::string pointcloudDataFormat_;
+	bool flip_color_image_;
+	bool flip_pointcloud_;
+	std::string pointcloud_data_format_;
+	bool display_warnings_;
+	bool display_timing_;
 
 	ros::Subscriber point_cloud_sub_;
 	ros::Publisher point_cloud_pub_; ///< Point cloud output topic

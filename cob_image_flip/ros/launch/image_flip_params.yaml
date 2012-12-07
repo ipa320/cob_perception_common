@@ -9,3 +9,11 @@ flip_pointcloud: true
 # point cloud data format
 # string (xyz or xyzrgb)
 pointcloud_data_format: xyzrgb
+
+# display warning if transformation not available
+# bool
+display_warnings: false
+
+# display timing information
+# bool
+display_timing: false

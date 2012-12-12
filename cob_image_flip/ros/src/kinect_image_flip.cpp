@@ -90,18 +90,30 @@ CobKinectImageFlip::CobKinectImageFlip(ros::NodeHandle nh)
 
 	transform_listener_ = 0;
 
-	// color image flip callback
+//	std::cout << "a" << std::endl;
+
 	if (flip_color_image_ == true)
 	{
 		it_ = new image_transport::ImageTransport(node_handle_);
+
+//		std::cout << "a1" << std::endl;
+
 		color_camera_image_sub_.subscribe(*it_, "colorimage_in", 1);
+
+//		std::cout << "a2" << std::endl;
+
 		color_camera_image_sub_.registerCallback(boost::bind(&CobKinectImageFlip::imageCallback, this, _1));
+
+//		std::cout << "a3" << std::endl;
+
 		color_camera_image_pub_ = it_->advertise("colorimage_out", 1);
 	}
 	else
 	{
 		it_ = 0;
 	}
+
+//	std::cout << "b" << std::endl;
 
 	// point cloud flip
 	if (flip_pointcloud_ == true)
@@ -115,9 +127,11 @@ CobKinectImageFlip::CobKinectImageFlip(ros::NodeHandle nh)
 		point_cloud_pub_ = node_handle_.advertise<sensor_msgs::PointCloud2>("pointcloud_out", 1);
 	}
 
+//	std::cout << "c" << std::endl;
+
 	transform_listener_ = new tf::TransformListener(node_handle_);
 
-	std::cout << "CobKinectImageFlip initilized.\n";
+	std::cout << "CobKinectImageFlip initilized." << std::endl;
 }
 
 CobKinectImageFlip::~CobKinectImageFlip()

@@ -1,10 +1,13 @@
 <?xml version="1.0"?>
 
 <launch>
-<!--node pkg="nodelet" type="nodelet" name="cam3d_nodelet_manager" args="manager" output="screen"/-->
+  	<arg name="start_manager" default="true"/>
+  	<arg name="nodelet_manager" default="image_flip_nodelet_manager"/>
 	<arg name="robot" default="$(env ROBOT)"/>
-  <!-- sensor message gateway node (forwards sensor messages in a desired rate) -->
-  <node pkg="nodelet" type="nodelet" name="CobKinectImageFlipNodelet" ns="/cob_image_flip" args="load cob_image_flip/CobKinectImageFlipNodelet /cam3d_nodelet_manager" output="screen">
+
+	<node if="$(arg start_manager)" pkg="nodelet" type="nodelet" name="$(arg nodelet_manager)"  args="manager" output="screen"/>
+
+  <node pkg="nodelet" type="nodelet" name="CobKinectImageFlipNodelet" ns="/cob_image_flip" args="load cob_image_flip/CobKinectImageFlipNodelet /$(arg nodelet_manager)" output="screen">
 	<rosparam command="load" file="$(find cob_image_flip)/ros/launch/image_flip_params.yaml"/>
 	<param name="robot" type="string" value="$(arg robot)"/>
     <remap from="~pointcloud_in" to="/cam3d/rgb/points"/>

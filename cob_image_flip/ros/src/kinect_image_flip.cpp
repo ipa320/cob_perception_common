@@ -61,20 +61,12 @@ CobKinectImageFlip::CobKinectImageFlip(ros::NodeHandle nh)
 {
 	node_handle_ = nh;
 
-	// determine robot number
-	cob3Number_ = 0;
-	std::string value;
-	ros::get_environment_variable(value, "ROBOT");
-	std::stringstream ss;
-	ss << value.substr(value.find("cob3-")+5);
-	ss >> cob3Number_;
-
 	// set parameters
+	std::string robot;
 	flip_color_image_ = false;
 	flip_pointcloud_ = false;
 	pointcloud_data_format_ = "xyz";
 	std::cout << "\n--------------------------\nKinect Image Flip Parameters:\n--------------------------" << std::endl;
-	std::cout << "CobKinectImageFlip: Robot number is cob3-" << cob3Number_ << "." << std::endl;
 	node_handle_.param("flip_color_image", flip_color_image_, false);
 	std::cout << "flip_color_image = " << flip_color_image_ << std::endl;
 	node_handle_.param("flip_pointcloud", flip_pointcloud_, false);
@@ -85,6 +77,16 @@ CobKinectImageFlip::CobKinectImageFlip(ros::NodeHandle nh)
 	std::cout << "display_warnings = " << display_warnings_ << std::endl;
 	node_handle_.param("display_timing", display_timing_, false);
 	std::cout << "display_timing = " << display_timing_ << std::endl;
+	node_handle_.param<std::string>("robot", robot, "cob3-3");
+	std::cout << "robot = " << robot << std::endl;
+
+	// determine robot number
+	cob3Number_ = 0;
+	//ros::get_environment_variable(value, "ROBOT");
+	std::stringstream ss;
+	ss << robot.substr(robot.find("cob3-")+5);
+	ss >> cob3Number_;
+	std::cout << "CobKinectImageFlip: Robot number is cob3-" << cob3Number_ << "." << std::endl;
 
 	//sync_pointcloud_ = 0;
 

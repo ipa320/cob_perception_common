@@ -61,20 +61,16 @@ CobKinectImageFlip::CobKinectImageFlip(ros::NodeHandle nh)
 {
 	node_handle_ = nh;
 
-	// determine robot number
-	cob3Number_ = 0;
-	std::string value;
-	ros::get_environment_variable(value, "ROBOT");
-	std::stringstream ss;
-	ss << value.substr(value.find("cob3-")+5);
-	ss >> cob3Number_;
-
 	// set parameters
+	std::string robot;
 	flip_color_image_ = false;
 	flip_pointcloud_ = false;
 	pointcloud_data_format_ = "xyz";
+
+	img_sub_counter_ = 0;
+	pc_sub_counter_ = 0;
+
 	std::cout << "\n--------------------------\nKinect Image Flip Parameters:\n--------------------------" << std::endl;
-	std::cout << "CobKinectImageFlip: Robot number is cob3-" << cob3Number_ << "." << std::endl;
 	node_handle_.param("flip_color_image", flip_color_image_, false);
 	std::cout << "flip_color_image = " << flip_color_image_ << std::endl;
 	node_handle_.param("flip_pointcloud", flip_pointcloud_, false);
@@ -85,6 +81,16 @@ CobKinectImageFlip::CobKinectImageFlip(ros::NodeHandle nh)
 	std::cout << "display_warnings = " << display_warnings_ << std::endl;
 	node_handle_.param("display_timing", display_timing_, false);
 	std::cout << "display_timing = " << display_timing_ << std::endl;
+	node_handle_.param<std::string>("robot", robot, "cob3-3");
+	std::cout << "robot = " << robot << std::endl;
+
+	// determine robot number
+	cob3Number_ = 0;
+	//ros::get_environment_variable(value, "ROBOT");
+	std::stringstream ss;
+	ss << robot.substr(robot.find("cob3-")+5);
+	ss >> cob3Number_;
+	std::cout << "CobKinectImageFlip: Robot number is cob3-" << cob3Number_ << "." << std::endl;
 
 	//sync_pointcloud_ = 0;
 
@@ -98,7 +104,6 @@ CobKinectImageFlip::CobKinectImageFlip(ros::NodeHandle nh)
 
 //		std::cout << "a1" << std::endl;
 
-		color_camera_image_sub_.subscribe(*it_, "colorimage_in", 1);
 
 //		std::cout << "a2" << std::endl;
 
@@ -106,7 +111,7 @@ CobKinectImageFlip::CobKinectImageFlip(ros::NodeHandle nh)
 
 //		std::cout << "a3" << std::endl;
 
-		color_camera_image_pub_ = it_->advertise("colorimage_out", 1);
+		color_camera_image_pub_ = it_->advertise("colorimage_out", 1, boost::bind(&CobKinectImageFlip::imgConnectCB, this, _1), boost::bind(&CobKinectImageFlip::imgDisconnectCB, this, _1));
 	}
 	else
 	{
@@ -118,13 +123,7 @@ CobKinectImageFlip::CobKinectImageFlip(ros::NodeHandle nh)
 	// point cloud flip
 	if (flip_pointcloud_ == true)
 	{
-		if (pointcloud_data_format_.compare("xyz") == 0)
-			point_cloud_sub_ = node_handle_.subscribe<sensor_msgs::PointCloud2>("pointcloud_in", 1, &CobKinectImageFlip::inputCallback<pcl::PointXYZ>, this);
-		else if (pointcloud_data_format_.compare("xyzrgb") == 0)
-			point_cloud_sub_ = node_handle_.subscribe<sensor_msgs::PointCloud2>("pointcloud_in", 1, &CobKinectImageFlip::inputCallback<pcl::PointXYZRGB>, this);
-		else
-			ROS_ERROR("Unknown pointcloud format specified in the paramter file.");
-		point_cloud_pub_ = node_handle_.advertise<sensor_msgs::PointCloud2>("pointcloud_out", 1);
+		point_cloud_pub_ = node_handle_.advertise<sensor_msgs::PointCloud2>("pointcloud_out", 1,  boost::bind(&CobKinectImageFlip::pcConnectCB, this, _1), boost::bind(&CobKinectImageFlip::pcDisconnectCB, this, _1));
 	}
 
 //	std::cout << "c" << std::endl;
@@ -318,5 +317,53 @@ void CobKinectImageFlip::imageCallback(const sensor_msgs::ImageConstPtr& color_i
 
 	//ROS_INFO("Image callback in image flip took %f ms.", tim.getElapsedTimeInMilliSec());
 }
+
+void CobKinectImageFlip::imgConnectCB(const image_transport::SingleSubscriberPublisher& pub)
+  {
+    img_sub_counter_++;
+    if(img_sub_counter_ == 1)
+    {
+      ROS_DEBUG("connecting");
+      color_camera_image_sub_.subscribe(*it_, "colorimage_in", 1);
+    }
+  }
+
+void CobKinectImageFlip::imgDisconnectCB(const image_transport::SingleSubscriberPublisher& pub)
+  {
+    img_sub_counter_--;
+    if(img_sub_counter_ == 0)
+    {
+      ROS_DEBUG("disconnecting");
+      color_camera_image_sub_.unsubscribe();
+    }
+  }
+
+void CobKinectImageFlip::pcConnectCB(const ros::SingleSubscriberPublisher& pub)
+  {
+    pc_sub_counter_++;
+    if(pc_sub_counter_ == 1)
+    {
+      ROS_DEBUG("connecting");
+      if (pointcloud_data_format_.compare("xyz") == 0)
+	point_cloud_sub_ = node_handle_.subscribe<sensor_msgs::PointCloud2>("pointcloud_in", 1, &CobKinectImageFlip::inputCallback<pcl::PointXYZ>, this);
+      else if (pointcloud_data_format_.compare("xyzrgb") == 0)
+	point_cloud_sub_ = node_handle_.subscribe<sensor_msgs::PointCloud2>("pointcloud_in", 1, &CobKinectImageFlip::inputCallback<pcl::PointXYZRGB>, this);
+      else
+      {
+	ROS_ERROR("Unknown pointcloud format specified in the paramter file.");
+	pc_sub_counter_ = 0;
+      }
+    }
+  }
+
+void CobKinectImageFlip::pcDisconnectCB(const ros::SingleSubscriberPublisher& pub)
+  {
+    pc_sub_counter_--;
+    if(pc_sub_counter_ == 0)
+    {
+      ROS_DEBUG("disconnecting");
+      point_cloud_sub_.shutdown();
+    }
+  }
 
 }

@@ -63,7 +63,7 @@ int main(int argc, char** argv)
 	ros::init(argc, argv, "cob_image_flip");
 
 	// Create a handle for this node, initialize node
-	ros::NodeHandle nh;
+	ros::NodeHandle nh("~");
 
 	// Create CobKinectImageFlip class instance
 	cob_image_flip::CobKinectImageFlip cobKinectImageFlip(nh);

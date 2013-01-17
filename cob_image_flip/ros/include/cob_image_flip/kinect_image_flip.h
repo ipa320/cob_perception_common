@@ -98,6 +98,9 @@ protected:
 	bool display_warnings_;
 	bool display_timing_;
 
+	unsigned int img_sub_counter_;
+	unsigned int pc_sub_counter_;
+
 	ros::Subscriber point_cloud_sub_;
 	ros::Publisher point_cloud_pub_; ///< Point cloud output topic
 	//message_filters::Subscriber<sensor_msgs::PointCloud2> point_cloud_sub_;	///< Point cloud input topic
@@ -125,6 +128,14 @@ public:
 	void inputCallback(const sensor_msgs::PointCloud2::ConstPtr& point_cloud_msg);
 
 	void imageCallback(const sensor_msgs::ImageConstPtr& color_image_msg);
+
+        void imgConnectCB(const image_transport::SingleSubscriberPublisher& pub);
+        
+	void imgDisconnectCB(const image_transport::SingleSubscriberPublisher& pub);
+
+        void pcConnectCB(const ros::SingleSubscriberPublisher& pub);
+        
+	void pcDisconnectCB(const ros::SingleSubscriberPublisher& pub);
 };
 
 }

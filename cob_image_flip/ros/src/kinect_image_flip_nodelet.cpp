@@ -118,7 +118,7 @@ public:
 	virtual void onInit()
 	{
 		// Create a handle for this node, initialize node
-		node_handle_ = getNodeHandle();
+		node_handle_ = getPrivateNodeHandle();
 
 		// Create CobKinectImageFlip class instance
 		cob_kinect_image_flip_ = new CobKinectImageFlip(node_handle_);

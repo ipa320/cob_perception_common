@@ -78,7 +78,7 @@ cv::Mat vstack(const std::vector<cv::Mat> &mats);
 
 /// Function to replace the buggy OpenCV 1.1 function.
 void InitUndistortMap( const cv::Mat& A, const cv::Mat& dist_coeffs,
-                    cv::Mat& mapxarr, cv::Mat& mapyarr );
+					cv::Mat& mapxarr, cv::Mat& mapyarr );
 
 /// Function to convert a 32 bit, n channel image into a eight bit, 1 channel image.
 /// @param source The 32 bit, n channel source image
@@ -174,67 +174,67 @@ template <typename Distance>
 void ClusteringKMeanspp(int k, cv::Mat& dataset, int* indices, int indices_length, int* centers, int& centers_length, int numLocalTries=1)
 {
 	typedef typename Distance::ElementType ElementType;
-    typedef typename Distance::ResultType DistanceType;
+	typedef typename Distance::ResultType DistanceType;
 
 	Distance distance = Distance();
 
-    int n = indices_length;
+	int n = indices_length;
 
-    double currentPot = 0;
-    DistanceType* closestDistSq = new DistanceType[n];
+	double currentPot = 0;
+	DistanceType* closestDistSq = new DistanceType[n];
 
-    // Choose one random center and set the closestDistSq values
-    int index = cvflann::rand_int(n);
-    assert(index >=0 && index < n);
-    centers[0] = indices[index];
+	// Choose one random center and set the closestDistSq values
+	int index = cvflann::rand_int(n);
+	assert(index >=0 && index < n);
+	centers[0] = indices[index];
 
-    for (int i = 0; i < n; i++) {
-        closestDistSq[i] = distance(dataset.ptr(indices[i]), 
+	for (int i = 0; i < n; i++) {
+		closestDistSq[i] = distance(dataset.ptr(indices[i]), 
 			dataset.ptr(indices[index]), dataset.cols);
-        currentPot += closestDistSq[i];
-    }
+		currentPot += closestDistSq[i];
+	}
 
-    // Choose each center
-    int centerCount;
-    for (centerCount = 1; centerCount < k; centerCount++) {
+	// Choose each center
+	int centerCount;
+	for (centerCount = 1; centerCount < k; centerCount++) {
 
-        // Repeat several trials
-        double bestNewPot = -1;
-        int bestNewIndex = 0;
-        for (int localTrial = 0; localTrial < numLocalTries; localTrial++) {
+		// Repeat several trials
+		double bestNewPot = -1;
+		int bestNewIndex = 0;
+		for (int localTrial = 0; localTrial < numLocalTries; localTrial++) {
 
-            // Choose our center - have to be slightly careful to return a valid answer even accounting
-            // for possible rounding errors
-            double randVal = cvflann::rand_double(currentPot);
-            for (index = 0; index < n-1; index++) {
-                if (randVal <= closestDistSq[index]) break;
-                else randVal -= closestDistSq[index];
-            }
+			// Choose our center - have to be slightly careful to return a valid answer even accounting
+			// for possible rounding errors
+			double randVal = cvflann::rand_double(currentPot);
+			for (index = 0; index < n-1; index++) {
+				if (randVal <= closestDistSq[index]) break;
+				else randVal -= closestDistSq[index];
+			}
 
-            // Compute the new potential
-            double newPot = 0;
-            for (int i = 0; i < n; i++) 
+			// Compute the new potential
+			double newPot = 0;
+			for (int i = 0; i < n; i++) 
 				newPot += std::min( distance(dataset.ptr(indices[i]), 
 					dataset.ptr(indices[index]), dataset.cols), closestDistSq[i] );
 
-            // Store the best result
-            if ((bestNewPot < 0)||(newPot < bestNewPot)) {
-                bestNewPot = newPot;
-                bestNewIndex = index;
-            }
-        }
+			// Store the best result
+			if ((bestNewPot < 0)||(newPot < bestNewPot)) {
+				bestNewPot = newPot;
+				bestNewIndex = index;
+			}
+		}
 
-        // Add the appropriate center
-        centers[centerCount] = indices[bestNewIndex];
-        currentPot = bestNewPot;
-        for (int i = 0; i < n; i++) 
+		// Add the appropriate center
+		centers[centerCount] = indices[bestNewIndex];
+		currentPot = bestNewPot;
+		for (int i = 0; i < n; i++) 
 			closestDistSq[i] = std::min( distance(dataset.ptr(indices[i]),
 				dataset.ptr(indices[bestNewIndex]), dataset.cols), closestDistSq[i] );
-    }
+	}
 
-    centers_length = centerCount;
+	centers_length = centerCount;
 
-    delete[] closestDistSq;
+	delete[] closestDistSq;
 }
 
 // Generator that yields an increasing sequence of integers
@@ -251,18 +251,18 @@ public:
 // @return Vector of same type as input vector (length n)
 template<class T> std::vector<T> takeRandomN(const std::vector<T> &v, int n)
 {
-    int current = 0;
-    std::vector<int> indices(v.size());
-    std::generate(indices.begin(), indices.end(), UniqueNumber());
-    std::random_shuffle(indices.begin(), indices.end());
-    
-    std::vector<T> ret;
-    for (int i = 0; i < n; i++)
-    {
-        ret.push_back(v[indices[i]]);
-    }
+	int current = 0;
+	std::vector<int> indices(v.size());
+	std::generate(indices.begin(), indices.end(), UniqueNumber());
+	std::random_shuffle(indices.begin(), indices.end());
+	
+	std::vector<T> ret;
+	for (int i = 0; i < n; i++)
+	{
+		ret.push_back(v[indices[i]]);
+	}
 
-    return ret;
+	return ret;
 }
 
 } // end namespace __IPA_VISIONUTILS_H__

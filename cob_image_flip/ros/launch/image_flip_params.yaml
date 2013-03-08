@@ -4,7 +4,7 @@ flip_color_image: true
 
 # flip point cloud
 # bool
-flip_pointcloud: true
+flip_pointcloud: false
 
 # point cloud data format
 # string (xyz or xyzrgb)

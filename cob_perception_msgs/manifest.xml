@@ -1,0 +1,17 @@
+<package>
+  <description brief="cob_perception_msgs">
+
+     cob_perception_msgs
+
+  </description>
+  <author>Richard Bormann</author>
+  <license>LGPL, Fraunhofer IPA</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/cob_perception_msgs</url>
+
+  <depend package="roscpp"/>
+  <depend package="sensor_msgs"/>
+
+</package>
+
+

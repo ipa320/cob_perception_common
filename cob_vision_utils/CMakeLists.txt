@@ -30,13 +30,15 @@ set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/common/lib)
 #target_link_libraries(example ${PROJECT_NAME})
 
 # add project libraries
-rosbuild_add_library(cob_vision_utils	common/src/VisionUtils.cpp
-					common/src/CameraSensorToolbox.cpp)	
-					
+rosbuild_add_library(cob_vision_utils
+	common/src/VisionUtils.cpp
+	common/src/CameraSensorToolbox.cpp)
+
 target_link_libraries(cob_vision_utils tinyxml)
-					
+
 # add include search paths
-INCLUDE_DIRECTORIES(${PROJECT_SOURCE_DIR}/common/include)
+INCLUDE_DIRECTORIES(${PROJECT_SOURCE_DIR}/common/include
+                    ${PROJECT_SOURCE_DIR}/ros/include)
 
 # add compile flag
 rosbuild_add_compile_flags(cob_vision_utils -D__LINUX__ -D__COB_ROS__)

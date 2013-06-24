@@ -181,7 +181,7 @@ void CobKinectImageFlip::inputCallback(const sensor_msgs::PointCloud2::ConstPtr&
 	try
 	{
 		transform_listener_->lookupTransform("/base_link", "/head_cam3d_link", ros::Time(0), transform);
-		btScalar roll, pitch, yaw;
+		tfScalar roll, pitch, yaw;
 		transform.getBasis().getRPY(roll, pitch, yaw, 1);
 		if (cob3Number_ == 2)
 			roll *= -1.;
@@ -255,7 +255,7 @@ void CobKinectImageFlip::imageCallback(const sensor_msgs::ImageConstPtr& color_i
 	try
 	{
 		transform_listener_->lookupTransform("/base_link", "/head_cam3d_link", ros::Time(0), transform);
-		btScalar roll, pitch, yaw;
+		tfScalar roll, pitch, yaw;
 		transform.getBasis().getRPY(roll, pitch, yaw, 1);
 		if (cob3Number_ == 2)
 			roll *= -1.;

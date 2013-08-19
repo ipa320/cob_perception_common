@@ -1,0 +1,7 @@
+# this service stops the object data recording procedure
+
+# request message
+bool stop_although_model_is_incomplete		# if this parameter is False, the recording is not stopped if the recorded data does not cover all desired perspectives
+---
+# response message
+bool recording_stopped				# feedback whether the recording has been stopped in the recording module

@@ -36,6 +36,7 @@ INCLUDE_DIRECTORIES(${PROJECT_SOURCE_DIR}/ros/include
 # add project libraries
 rosbuild_add_library(kinect_image_flip_nodelet ros/src/kinect_image_flip_nodelet.cpp
                                                ros/src/kinect_image_flip.cpp)
+rosbuild_link_boost(kinect_image_flip_nodelet signals)
 rosbuild_add_executable(kinect_image_flip ros/src/kinect_image_flip_main.cpp
                                           ros/src/kinect_image_flip.cpp)
 rosbuild_link_boost(kinect_image_flip signals)

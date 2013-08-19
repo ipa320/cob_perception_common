@@ -1,0 +1,7 @@
+# this service initiates saving the recorded object data
+
+# request message
+string storage_location		# [optional] path to the desired storage folder; if not provided, the standard folder specified in the program will be used
+---
+# response message
+

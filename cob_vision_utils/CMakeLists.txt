@@ -23,8 +23,8 @@ find_package(TinyXML REQUIRED)
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
   INCLUDE_DIRS
-    ${PROJECT_SOURCE_DIR}/common/include
-    ${PROJECT_SOURCE_DIR}/ros/include
+    common/include
+    ros/include
   LIBRARIES
     cob_vision_utils
   CATKIN_DEPENDS
@@ -42,9 +42,8 @@ catkin_package(
 ## Your package locations should be listed before other locations
 # include_directories(include ${catkin_INCLUDE_DIRS} ${Boost_INCLUDE_DIRS})
 include_directories(
-  ${PROJECT_SOURCE_DIR}/common/include
-  ${PROJECT_SOURCE_DIR}/ros/include
-  ${CATKIN_INCLUDE_DIRS}
+  common/include
+  ros/include
   ${TinyXML_INCLUDE_DIRS}
 )
 
@@ -56,7 +55,6 @@ add_library(cob_vision_utils
 
 ## Specify libraries to link a library or executable target against
 target_link_libraries(cob_vision_utils
-  ${catkin_LIBRARIES}
   ${TinyXML_LIBRARIES}
 )
 

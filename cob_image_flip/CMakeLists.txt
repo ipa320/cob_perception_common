@@ -31,8 +31,8 @@ find_package(OpenCV REQUIRED)
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
   INCLUDE_DIRS
-    ${PROJECT_SOURCE_DIR}/ros/include
-    ${PROJECT_SOURCE_DIR}/common/include
+    ros/include
+    common/include
   LIBRARIES
     kinect_image_flip_nodelet
   CATKIN_DEPENDS
@@ -40,7 +40,7 @@ catkin_package(
     cv_bridge
     image_transport
     nodelet
-    pcl
+    pcl    
     pcl_ros
     roscpp
     sensor_msgs
@@ -58,9 +58,9 @@ catkin_package(
 ## Your package locations should be listed before other locations
 # include_directories(include ${catkin_INCLUDE_DIRS} ${Boost_INCLUDE_DIRS})
 include_directories(
-  ${PROJECT_SOURCE_DIR}/ros/include
-  ${PROJECT_SOURCE_DIR}/common/include
-  ${CATKIN_INCLUDE_DIRS}
+  ros/include
+  common/include
+  ${catkin_INCLUDE_DIRS}
   ${Boost_INCLUDE_DIRS}
 )
 
@@ -78,13 +78,13 @@ add_executable(kinect_image_flip
 
 ## Specify libraries to link a library or executable target against
 target_link_libraries(kinect_image_flip_nodelet
-  ${CATKIN_LIBRARIES}
+  ${catkin_LIBRARIES}
   ${Boost_LIBRARIES}
   ${OpenCV_LIBS}
 )
 
 target_link_libraries(kinect_image_flip
-  ${CATKIN_LIBRARIES}
+  ${catkin_LIBRARIES}
   ${Boost_LIBRARIES}
   ${OpenCV_LIBS}
 )

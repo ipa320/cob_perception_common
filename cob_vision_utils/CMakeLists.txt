@@ -1,44 +1,66 @@
-cmake_minimum_required(VERSION 2.4.6)
-include($ENV{ROS_ROOT}/core/rosbuild/rosbuild.cmake)
+cmake_minimum_required(VERSION 2.8.3)
+project(cob_vision_utils)
 
-# Set the build type.  Options are:
-#  Coverage       : w/ debug symbols, w/o optimization, w/ code-coverage
-#  Debug          : w/ debug symbols, w/o optimization
-#  Release        : w/o debug symbols, w/ optimization
-#  RelWithDebInfo : w/ debug symbols, w/ optimization
-#  MinSizeRel     : w/o debug symbols, w/ optimization, stripped binaries
-#set(ROS_BUILD_TYPE RelWithDebInfo)
+## Find catkin macros and libraries
+## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
+## is used, also find other catkin packages
+find_package(catkin REQUIRED COMPONENTS
+  cmake_modules
+  roscpp
+  visualization_msgs
+)
 
-rosbuild_init()
+find_package(TinyXML REQUIRED)
 
-#set the default path for built executables to the "bin" directory
-set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/ros/bin)
-#set the default path for built libraries to the "lib" directory
-set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/common/lib)
+###################################
+## catkin specific configuration ##
+###################################
+## The catkin_package macro generates cmake config files for your package
+## Declare things to be passed to dependent projects
+## INCLUDE_DIRS: uncomment this if you package contains header files
+## LIBRARIES: libraries you create in this project that dependent projects also need
+## CATKIN_DEPENDS: catkin_packages dependent projects also need
+## DEPENDS: system dependencies of this project that dependent projects also need
+catkin_package(
+  INCLUDE_DIRS
+    ${PROJECT_SOURCE_DIR}/common/include
+    ${PROJECT_SOURCE_DIR}/ros/include
+  LIBRARIES
+    cob_vision_utils
+  CATKIN_DEPENDS
+    roscpp
+    visualization_msgs
+  DEPENDS
+    TinyXML
+)
 
-#uncomment if you have defined messages
-#genmsg()
-#uncomment if you have defined services
-#gensrv()
+###########
+## Build ##
+###########
 
-#common commands for building c++ executables and libraries
-#rospack_add_library(${PROJECT_NAME} src/example.cpp)
-#target_link_libraries(${PROJECT_NAME} another_library)
-#rospack_add_boost_directories()
-#rospack_link_boost(${PROJECT_NAME} thread)
-#rospack_add_executable(example examples/example.cpp)
-#target_link_libraries(example ${PROJECT_NAME})
+## Specify additional locations of header files
+## Your package locations should be listed before other locations
+# include_directories(include ${catkin_INCLUDE_DIRS} ${Boost_INCLUDE_DIRS})
+include_directories(
+  ${PROJECT_SOURCE_DIR}/common/include
+  ${PROJECT_SOURCE_DIR}/ros/include
+  ${CATKIN_INCLUDE_DIRS}
+  ${TinyXML_INCLUDE_DIRS}
+)
 
-# add project libraries
-rosbuild_add_library(cob_vision_utils
-	common/src/VisionUtils.cpp
-	common/src/CameraSensorToolbox.cpp)
+## Declare a cpp library
+add_library(cob_vision_utils
+  common/src/VisionUtils.cpp
+  common/src/CameraSensorToolbox.cpp
+)
 
-target_link_libraries(cob_vision_utils tinyxml)
+## Specify libraries to link a library or executable target against
+target_link_libraries(cob_vision_utils
+  ${catkin_LIBRARIES}
+  ${TinyXML_LIBRARIES}
+)
 
-# add include search paths
-INCLUDE_DIRECTORIES(${PROJECT_SOURCE_DIR}/common/include
-                    ${PROJECT_SOURCE_DIR}/ros/include)
 
-# add compile flag
-rosbuild_add_compile_flags(cob_vision_utils -D__LINUX__ -D__COB_ROS__)
+# set build flags for targets
+set_target_properties(cob_vision_utils PROPERTIES COMPILE_FLAGS "-D__LINUX__ -D__COB_ROS__")
+

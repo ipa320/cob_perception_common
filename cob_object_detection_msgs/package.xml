@@ -8,10 +8,10 @@
   
   <license>LGPL</license>
   
-  <maintainer email="Richard.Bormann@ipa.fraunhofer.de">Richard Bormann</maintainer>
+  <maintainer email="rmb@ipa.fhg.de">Richard Bormann</maintainer>
   <author>Florian Weisshardt</author>
   
-  <url>http://wiki.ros.org/ob_object_detection_msgs</url>
+  <url>http://wiki.ros.org/cob_object_detection_msgs</url>
 
   <buildtool_depend>catkin</buildtool_depend>
   

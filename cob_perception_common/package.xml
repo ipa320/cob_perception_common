@@ -10,7 +10,7 @@
   <version>0.0.0</version>
   <license>LGPL</license>
 
-  <maintainer email="Richard.Bormann@ipa.fraunhofer.de">Richard Bormann</maintainer>
+  <maintainer email="rmb@ipa.fhg.de">Richard Bormann</maintainer>
   
   <url>http://wiki.ros.org/cob_perception_common</url>
   

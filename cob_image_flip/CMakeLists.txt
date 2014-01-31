@@ -1,45 +1,96 @@
-cmake_minimum_required(VERSION 2.4.6)
-include($ENV{ROS_ROOT}/core/rosbuild/rosbuild.cmake)
+cmake_minimum_required(VERSION 2.8.3)
+project(cob_image_flip)
 
-# Set the build type.  Options are:
-#  Coverage       : w/ debug symbols, w/o optimization, w/ code-coverage
-#  Debug          : w/ debug symbols, w/o optimization
-#  Release        : w/o debug symbols, w/ optimization
-#  RelWithDebInfo : w/ debug symbols, w/ optimization
-#  MinSizeRel     : w/o debug symbols, w/ optimization, stripped binaries
-#set(ROS_BUILD_TYPE RelWithDebInfo)
+## Find catkin macros and libraries
+## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
+## is used, also find other catkin packages
+find_package(catkin REQUIRED COMPONENTS
+  cob_vision_utils
+  cv_bridge
+  image_transport
+  nodelet
+  pcl
+  pcl_ros
+  roscpp
+  sensor_msgs
+  tf
+)
 
-rosbuild_init()
+find_package(Boost REQUIRED COMPONENTS signals)
 
-#set the default path for built executables to the "bin" directory
-set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
-#set the default path for built libraries to the "lib" directory
-set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
+find_package(OpenCV REQUIRED)
 
-# add include search paths
-INCLUDE_DIRECTORIES(${PROJECT_SOURCE_DIR}/ros/include
-                    ${PROJECT_SOURCE_DIR}/common/include)
+###################################
+## catkin specific configuration ##
+###################################
+## The catkin_package macro generates cmake config files for your package
+## Declare things to be passed to dependent projects
+## INCLUDE_DIRS: uncomment this if you package contains header files
+## LIBRARIES: libraries you create in this project that dependent projects also need
+## CATKIN_DEPENDS: catkin_packages dependent projects also need
+## DEPENDS: system dependencies of this project that dependent projects also need
+catkin_package(
+  INCLUDE_DIRS
+    ros/include
+    common/include
+  LIBRARIES
+    kinect_image_flip_nodelet
+  CATKIN_DEPENDS
+    cob_vision_utils
+    cv_bridge
+    image_transport
+    nodelet
+    pcl    
+    pcl_ros
+    roscpp
+    sensor_msgs
+    tf
+  DEPENDS
+    OpenCV
+    Boost
+)
 
-#uncomment if you have defined messages
-#rosbuild_genmsg()
-#uncomment if you have defined services
-#rosbuild_gensrv()
+###########
+## Build ##
+###########
 
-#common commands for building c++ executables and libraries
-#rosbuild_add_library(${PROJECT_NAME} src/example.cpp)
-#target_link_libraries(${PROJECT_NAME} another_library)
-#rosbuild_add_boost_directories()
-#rosbuild_link_boost(${PROJECT_NAME} thread)
-#rosbuild_add_executable(example examples/example.cpp)
-#target_link_libraries(example ${PROJECT_NAME})
+## Specify additional locations of header files
+## Your package locations should be listed before other locations
+# include_directories(include ${catkin_INCLUDE_DIRS} ${Boost_INCLUDE_DIRS})
+include_directories(
+  ros/include
+  common/include
+  ${catkin_INCLUDE_DIRS}
+  ${Boost_INCLUDE_DIRS}
+)
 
-# add project libraries
-rosbuild_add_library(kinect_image_flip_nodelet ros/src/kinect_image_flip_nodelet.cpp
-                                               ros/src/kinect_image_flip.cpp)
-rosbuild_link_boost(kinect_image_flip_nodelet signals)
-rosbuild_add_executable(kinect_image_flip ros/src/kinect_image_flip_main.cpp
-                                          ros/src/kinect_image_flip.cpp)
-rosbuild_link_boost(kinect_image_flip signals)
+## Declare a cpp library
+add_library(kinect_image_flip_nodelet
+  ros/src/kinect_image_flip_nodelet.cpp
+  ros/src/kinect_image_flip.cpp
+)
 
-rosbuild_add_compile_flags(kinect_image_flip_nodelet -D__LINUX__)
-rosbuild_add_compile_flags(kinect_image_flip -D__LINUX__)
+## Declare a cpp executable
+add_executable(kinect_image_flip
+  ros/src/kinect_image_flip_main.cpp
+  ros/src/kinect_image_flip.cpp
+)
+
+## Specify libraries to link a library or executable target against
+target_link_libraries(kinect_image_flip_nodelet
+  ${catkin_LIBRARIES}
+  ${Boost_LIBRARIES}
+  ${OpenCV_LIBS}
+)
+
+target_link_libraries(kinect_image_flip
+  ${catkin_LIBRARIES}
+  ${Boost_LIBRARIES}
+  ${OpenCV_LIBS}
+)
+
+# set build flags for targets
+set_target_properties(kinect_image_flip_nodelet PROPERTIES COMPILE_FLAGS -D__LINUX__)
+set_target_properties(kinect_image_flip PROPERTIES COMPILE_FLAGS -D__LINUX__)
+
+

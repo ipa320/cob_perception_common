@@ -10,6 +10,7 @@ find_package(catkin REQUIRED COMPONENTS
   visualization_msgs
 )
 
+find_package(OpenCV REQUIRED)
 find_package(TinyXML REQUIRED)
 
 ###################################
@@ -31,6 +32,7 @@ catkin_package(
     roscpp
     visualization_msgs
   DEPENDS
+    OpenCV
     TinyXML
 )
 
@@ -44,6 +46,7 @@ catkin_package(
 include_directories(
   common/include
   ros/include
+  ${OpenCV_INCLUDE_DIRS}
   ${TinyXML_INCLUDE_DIRS}
 )
 
@@ -55,6 +58,7 @@ add_library(cob_vision_utils
 
 ## Specify libraries to link a library or executable target against
 target_link_libraries(cob_vision_utils
+  ${OpenCV_LIBS}
   ${TinyXML_LIBRARIES}
 )
 

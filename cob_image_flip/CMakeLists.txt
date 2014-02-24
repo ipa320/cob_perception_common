@@ -82,12 +82,14 @@ target_link_libraries(kinect_image_flip_nodelet
   ${catkin_LIBRARIES}
   ${Boost_LIBRARIES}
   ${OpenCV_LIBS}
+  ${PCL_LIBRARIES}
 )
 
 target_link_libraries(kinect_image_flip
   ${catkin_LIBRARIES}
   ${Boost_LIBRARIES}
   ${OpenCV_LIBS}
+  ${PCL_LIBRARIES}
 )
 
 # set build flags for targets

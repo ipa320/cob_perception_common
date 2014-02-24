@@ -9,7 +9,6 @@ find_package(catkin REQUIRED COMPONENTS
   cv_bridge
   image_transport
   nodelet
-  pcl
   pcl_ros
   roscpp
   sensor_msgs
@@ -39,8 +38,7 @@ catkin_package(
     cob_vision_utils
     cv_bridge
     image_transport
-    nodelet
-    pcl    
+    nodelet    
     pcl_ros
     roscpp
     sensor_msgs

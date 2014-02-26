@@ -9,7 +9,6 @@ find_package(catkin REQUIRED COMPONENTS
   cv_bridge
   image_transport
   nodelet
-  pcl
   pcl_ros
   roscpp
   sensor_msgs
@@ -19,6 +18,8 @@ find_package(catkin REQUIRED COMPONENTS
 find_package(Boost REQUIRED COMPONENTS signals)
 
 find_package(OpenCV REQUIRED)
+
+find_package(PCL REQUIRED)
 
 ###################################
 ## catkin specific configuration ##
@@ -40,12 +41,12 @@ catkin_package(
     cv_bridge
     image_transport
     nodelet
-    pcl    
     pcl_ros
     roscpp
     sensor_msgs
     tf
   DEPENDS
+    PCL
     OpenCV
     Boost
 )
@@ -81,12 +82,14 @@ target_link_libraries(kinect_image_flip_nodelet
   ${catkin_LIBRARIES}
   ${Boost_LIBRARIES}
   ${OpenCV_LIBS}
+  ${PCL_LIBRARIES}
 )
 
 target_link_libraries(kinect_image_flip
   ${catkin_LIBRARIES}
   ${Boost_LIBRARIES}
   ${OpenCV_LIBS}
+  ${PCL_LIBRARIES}
 )
 
 # set build flags for targets

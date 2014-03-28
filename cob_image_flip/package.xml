@@ -23,6 +23,7 @@
   <build_depend>opencv2</build_depend>
   <!--build_depend>pcl</build_depend-->
   <build_depend>pcl_ros</build_depend>
+  <build_depend>pcl_conversions</build_depend>
   <build_depend>roscpp</build_depend>
   <build_depend>sensor_msgs</build_depend>
   <build_depend>tf</build_depend>
@@ -38,6 +39,7 @@
   <run_depend>roscpp</run_depend>
   <run_depend>sensor_msgs</run_depend>
   <run_depend>tf</run_depend>
+  <run_depend>pcl_conversions</run_depend>
 
   <export>
     <nodelet plugin="${prefix}/nodelet_plugins.xml" />

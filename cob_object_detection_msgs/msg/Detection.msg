@@ -1,4 +1,5 @@
 Header header
+uint8 id
 string label
 string detector
 float32 score

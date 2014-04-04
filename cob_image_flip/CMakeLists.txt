@@ -19,6 +19,8 @@ find_package(Boost REQUIRED COMPONENTS signals)
 
 find_package(OpenCV REQUIRED)
 
+find_package(PCL REQUIRED)
+
 ###################################
 ## catkin specific configuration ##
 ###################################
@@ -44,6 +46,7 @@ catkin_package(
     sensor_msgs
     tf
   DEPENDS
+    PCL
     OpenCV
     Boost
 )
@@ -60,6 +63,7 @@ include_directories(
   common/include
   ${catkin_INCLUDE_DIRS}
   ${Boost_INCLUDE_DIRS}
+  ${PCL_INCLUDE_DIRS}
 )
 
 ## Declare a cpp library
@@ -79,12 +83,14 @@ target_link_libraries(kinect_image_flip_nodelet
   ${catkin_LIBRARIES}
   ${Boost_LIBRARIES}
   ${OpenCV_LIBS}
+  ${PCL_LIBRARIES}
 )
 
 target_link_libraries(kinect_image_flip
   ${catkin_LIBRARIES}
   ${Boost_LIBRARIES}
   ${OpenCV_LIBS}
+  ${PCL_LIBRARIES}
 )
 
 # set build flags for targets

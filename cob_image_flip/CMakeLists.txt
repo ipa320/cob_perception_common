@@ -40,11 +40,7 @@ catkin_package(
     cob_vision_utils
     cv_bridge
     image_transport
-<<<<<<< HEAD
     nodelet
-=======
-    nodelet    
->>>>>>> af7277b215ca9be550bed7bc5a341db36c353cb5
     pcl_ros
     roscpp
     sensor_msgs

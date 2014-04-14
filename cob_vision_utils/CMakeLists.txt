@@ -5,13 +5,13 @@ project(cob_vision_utils)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-  cmake_modules
+ # cmake_modules
   roscpp
   visualization_msgs
 )
 
 find_package(OpenCV REQUIRED)
-find_package(TinyXML REQUIRED)
+#find_package(TinyXML REQUIRED)
 
 ###################################
 ## catkin specific configuration ##
@@ -33,7 +33,7 @@ catkin_package(
     visualization_msgs
   DEPENDS
     OpenCV
-    TinyXML
+ #   TinyXML
 )
 
 ###########
@@ -47,7 +47,7 @@ include_directories(
   common/include
   ros/include
   ${OpenCV_INCLUDE_DIRS}
-  ${TinyXML_INCLUDE_DIRS}
+  #${TinyXML_INCLUDE_DIRS}
 )
 
 ## Declare a cpp library
@@ -59,7 +59,7 @@ add_library(cob_vision_utils
 ## Specify libraries to link a library or executable target against
 target_link_libraries(cob_vision_utils
   ${OpenCV_LIBS}
-  ${TinyXML_LIBRARIES}
+  #${TinyXML_LIBRARIES}
 )
 
 

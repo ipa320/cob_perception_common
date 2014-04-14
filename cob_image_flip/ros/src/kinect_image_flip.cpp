@@ -213,7 +213,8 @@ void CobKinectImageFlip::inputCallback(const sensor_msgs::PointCloud2::ConstPtr&
 		pcl::fromROSMsg(*point_cloud_msg, point_cloud_src);
 
 		boost::shared_ptr<pcl::PointCloud<T> > point_cloud_turned(new pcl::PointCloud<T>);
-		point_cloud_turned->header = point_cloud_msg->header;
+		//point_cloud_turned->header = point_cloud_msg->header;
+		point_cloud_turned->header = pcl_conversions::toPCL(point_cloud_msg->header);
 		point_cloud_turned->height = point_cloud_msg->height;
 		point_cloud_turned->width = point_cloud_msg->width;
 		//point_cloud_turned->sensor_orientation_ = point_cloud_msg->sensor_orientation_;

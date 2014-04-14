@@ -8,7 +8,7 @@
   
   <license>LGPL</license>
   
-  <maintainer email="rmb@ipa.fhg.de">Richard Bormann</maintainer>
+  <maintainer email="richard.bormann@ipa.fraunhofer.de">Richard Bormann</maintainer>
   <author>Richard Bormann</author>
   
   <url>http://wiki.ros.org/cob_image_flip</url>

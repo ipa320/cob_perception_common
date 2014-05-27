@@ -1,0 +1,32 @@
+<package>
+  <name>cob_vision_utils</name>
+  <version>0.0.0</version>
+  
+  <description>
+     This package contains utilities used within the cob_object_detection toolchain.
+  </description>
+  
+  <license>LGPL</license>
+  
+  <maintainer email="jsf@ipa.fhg.de">Jan Fischer</maintainer>
+  <author>Jan Fischer</author>
+  
+  <url>http://wiki.ros.org/cob_vision_utils</url>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  
+  <build_depend>opencv2</build_depend>
+  <build_depend>roscpp</build_depend>
+  <build_depend>visualization_msgs</build_depend>
+  <build_depend>cmake_modules</build_depend>
+
+  <run_depend>opencv2</run_depend>
+  <run_depend>roscpp</run_depend>
+  <run_depend>visualization_msgs</run_depend>
+
+  <export>
+        <!--cpp cflags="-I${prefix}/common/include -I${prefix}/ros/include" lflags="-Wl,-rpath,${prefix}/common/lib -L${prefix}/common/lib -lcob_vision_utils"/-->
+  </export>
+	
+</package>
+

@@ -1,0 +1,10 @@
+<library path="lib/libkinect_image_flip_nodelet">
+  <class name="cob_image_flip/CobKinectImageFlipNodelet"
+         type="cob_image_flip::CobKinectImageFlipNodelet"
+         base_class_type="nodelet::Nodelet">
+    <description> 
+      The nodelet for the automatic kinect image flip mechanism when the robot head is looking backwards.
+    </description>
+  </class>
+</library>
+

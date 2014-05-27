@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<package>
+
+  <name>cob_perception_common</name>
+
+  <description>
+    The cob_perception_common stack provides utilities commonly needed for a variety of computer vision tasks.
+  </description>
+
+  <version>0.0.0</version>
+  <license>LGPL</license>
+
+  <maintainer email="rmb@ipa.fhg.de">Richard Bormann</maintainer>
+  
+  <url>http://wiki.ros.org/cob_perception_common</url>
+  
+  <buildtool_depend>catkin</buildtool_depend>
+    
+  <run_depend>cob_image_flip</run_depend>
+  <run_depend>cob_object_detection_msgs</run_depend>
+  <run_depend>cob_perception_msgs</run_depend>
+  <run_depend>cob_vision_utils</run_depend>
+
+  <export>
+    <metapackage/>
+  </export>
+
+
+</package>

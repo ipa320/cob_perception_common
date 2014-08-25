@@ -1,6 +1,6 @@
 <package>
   <name>cob_image_flip</name>
-  <version>0.5.3</version>
+  <version>0.5.4</version>
   
   <description>
      Flips the image of Care-O-bots kinect in dependence of the viewving direction of the cameras to receive an upright image all the time.

@@ -2,8 +2,8 @@
 Changelog for package cob_vision_utils
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.5.4 (2014-08-25)
+------------------
 * unify version number
 * add version number
 * update changelog

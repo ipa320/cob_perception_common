@@ -2,8 +2,8 @@
 Changelog for package cob_perception_msgs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.5.4 (2014-08-25)
+------------------
 * unify version number
 * update changelog
 * catkinize cob_perception_msgs

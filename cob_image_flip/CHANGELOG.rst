@@ -2,8 +2,8 @@
 Changelog for package cob_image_flip
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.5.4 (2014-08-25)
+------------------
 * unify version number
 * update changelog
 * merge conflict, undo changes

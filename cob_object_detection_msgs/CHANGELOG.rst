@@ -2,8 +2,8 @@
 Changelog for package cob_object_detection_msgs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.5.4 (2014-08-25)
+------------------
 * unify version number
 * update changelog
 * adjust url and provide short form of email

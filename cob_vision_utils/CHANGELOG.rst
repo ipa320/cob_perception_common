@@ -4,6 +4,9 @@ Changelog for package cob_vision_utils
 
 Forthcoming
 -----------
+* unify version number
+* add version number
+* update changelog
 * merge conflict, undo changes
 * Missing dependencies and fixed error image_flip.launch
 * merge from rmb
@@ -18,4 +21,4 @@ Forthcoming
 * Tabifying of file
 * Merge of cob_vision_utils
 * moved cob_vision_utils to cob_perception_common
-* Contributors: Jan Fischer, Richard Bormann, ipa-goa, ipa-goa-sf, ipa-mig, ipa-nhg
+* Contributors: Florian Weisshardt, Jan Fischer, Richard Bormann, ipa-goa, ipa-goa-sf, ipa-mig, ipa-nhg

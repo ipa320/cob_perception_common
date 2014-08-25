@@ -4,6 +4,8 @@ Changelog for package cob_image_flip
 
 Forthcoming
 -----------
+* unify version number
+* update changelog
 * merge conflict, undo changes
 * Missing dependencies and fixed error image_flip.launch
 * merge from rmb
@@ -39,4 +41,4 @@ Forthcoming
 * changed license
 * fixed problems, function tested
 * moved kinect image flip from cob_camera_sensors to cob_image_flip
-* Contributors: Martin Günther, Richard Bormann, Srinivas Kerekare, ipa-fmw, ipa-goa, ipa-mig, ipa-nhg, rmb
+* Contributors: Florian Weisshardt, Martin Günther, Richard Bormann, Srinivas Kerekare, ipa-fmw, ipa-goa, ipa-mig, ipa-nhg, rmb

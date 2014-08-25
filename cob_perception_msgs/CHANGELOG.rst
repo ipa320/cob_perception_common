@@ -4,8 +4,9 @@ Changelog for package cob_perception_msgs
 
 Forthcoming
 -----------
+* unify version number
+* update changelog
 * catkinize cob_perception_msgs
 * convert stack to metapackge, ignore all pacakges within for now
 * added cob_perception_msgs package
-* Contributors: Richard Bormann, ipa-mig
-
+* Contributors: Florian Weisshardt, Richard Bormann, ipa-mig

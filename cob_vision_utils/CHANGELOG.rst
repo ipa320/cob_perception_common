@@ -2,8 +2,8 @@
 Changelog for package cob_vision_utils
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.5.5 (2014-08-26)
+------------------
 * Merge pull request `#26 <https://github.com/ipa320/cob_perception_common/issues/26>`_ from ipa320/hydro_dev
   updates from hydro_dev
 * Merge branch 'hydro_dev' of github.com:ipa320/cob_perception_common into indigo_dev

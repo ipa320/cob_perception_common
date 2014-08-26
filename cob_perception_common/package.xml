@@ -11,6 +11,7 @@
   <license>LGPL</license>
 
   <maintainer email="rmb@ipa.fhg.de">Richard Bormann</maintainer>
+  <maintainer email="fmw@ipa.fhg.de">Florian Weisshardt</maintainer>
   
   <url>http://wiki.ros.org/cob_perception_common</url>
   

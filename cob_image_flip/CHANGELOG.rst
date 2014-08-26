@@ -2,6 +2,13 @@
 Changelog for package cob_image_flip
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.5.5 (2014-08-26)
+------------------
+* Merge pull request `#26 <https://github.com/ipa320/cob_perception_common/issues/26>`_ from ipa320/hydro_dev
+  updates from hydro_dev
+* fix wrong opencv dep
+* Contributors: Alexander Bubeck, Florian Weisshardt
+
 0.5.4 (2014-08-25)
 ------------------
 * unify version number

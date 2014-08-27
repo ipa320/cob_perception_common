@@ -100,3 +100,38 @@ set_target_properties(kinect_image_flip_nodelet PROPERTIES COMPILE_FLAGS -D__LIN
 set_target_properties(kinect_image_flip PROPERTIES COMPILE_FLAGS -D__LINUX__)
 
 
+
+#############
+## Install ##
+#############
+
+## Mark executables and/or libraries for installation
+install(TARGETS kinect_image_flip_nodelet kinect_image_flip
+ ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+ LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+ RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
+
+## Mark cpp header files for installation
+install(DIRECTORY common/include/${PROJECT_NAME}/
+ DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
+ FILES_MATCHING PATTERN "*.h"
+ PATTERN ".svn" EXCLUDE
+)
+install(DIRECTORY ros/include/${PROJECT_NAME}/
+ DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
+ FILES_MATCHING PATTERN "*.h"
+ PATTERN ".svn" EXCLUDE
+)
+
+## Mark other files for installation (e.g. launch and bag files, etc.)
+install(DIRECTORY ros/launch
+    DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+)
+
+install(FILES
+    nodelet_plugins.xml
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+)
+
+

@@ -46,6 +46,7 @@ catkin_package(
 include_directories(
   common/include
   ros/include
+  ${catkin_INCLUDE_DIRS}
   ${OpenCV_INCLUDE_DIRS}
   ${TinyXML_INCLUDE_DIRS}
 )

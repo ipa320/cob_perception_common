@@ -1,5 +1,6 @@
 Header header
 string label
+int32 id
 string detector
 float32 score
 Mask mask

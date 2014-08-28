@@ -2,8 +2,8 @@
 Changelog for package cob_image_flip
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.5.5 (2014-08-28)
+------------------
 * missing install tags
 * Contributors: ipa-fxm
 

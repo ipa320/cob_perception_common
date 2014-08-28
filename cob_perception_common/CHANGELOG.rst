@@ -2,8 +2,8 @@
 Changelog for package cob_perception_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.6.0 (2014-08-28)
+------------------
 * merge
 * 0.5.6
 * 0.5.5

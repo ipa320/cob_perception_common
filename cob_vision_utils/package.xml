@@ -1,6 +1,6 @@
 <package>
   <name>cob_vision_utils</name>
-  <version>0.5.6</version>
+  <version>0.6.0</version>
   
   <description>
      This package contains utilities used within the cob_object_detection toolchain.

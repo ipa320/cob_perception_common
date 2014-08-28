@@ -2,6 +2,12 @@
 Changelog for package cob_image_flip
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Merge branch 'indigo_dev' into indigo_release_candidate
+* fix wrong opencv dep - again
+* Contributors: Florian Weisshardt
+
 0.6.0 (2014-08-28)
 ------------------
 * 0.5.6

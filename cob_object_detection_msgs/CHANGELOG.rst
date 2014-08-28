@@ -2,6 +2,12 @@
 Changelog for package cob_object_detection_msgs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.5.5 (2014-08-28)
+------------------
+* Added field ID
+  In order to fit to latest update of cob_fiducials an id field is necessary
+* Contributors: Jan Fischer
+
 0.5.4 (2014-08-25)
 ------------------
 * unify version number

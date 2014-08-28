@@ -2,6 +2,11 @@
 Changelog for package cob_vision_utils
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.5.5 (2014-08-28)
+------------------
+* missing install tags
+* Contributors: ipa-fxm
+
 0.5.4 (2014-08-25)
 ------------------
 * unify version number

@@ -19,12 +19,10 @@
   <build_depend>roscpp</build_depend>
   <build_depend>visualization_msgs</build_depend>
   <build_depend>cmake_modules</build_depend>
-  <build_depend>tinyxml</build_depend>
 
   <run_depend>libopencv-dev</run_depend>
   <run_depend>roscpp</run_depend>
   <run_depend>visualization_msgs</run_depend>
-  <run_depend>tinyxml</run_depend>
 
   <export>
         <!--cpp cflags="-I${prefix}/common/include -I${prefix}/ros/include" lflags="-Wl,-rpath,${prefix}/common/lib -L${prefix}/common/lib -lcob_vision_utils"/-->

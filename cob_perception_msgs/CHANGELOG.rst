@@ -2,6 +2,15 @@
 Changelog for package cob_perception_msgs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* 0.5.6
+* 0.5.5
+* update changelog
+* 0.5.5
+* update changelog
+* Contributors: Florian Weisshardt
+
 0.5.5 (2014-08-28)
 ------------------
 

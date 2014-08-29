@@ -25,8 +25,8 @@ Changelog for package cob_vision_utils
 * added install tags
 * Contributors: Alexander Bubeck, Florian Weisshardt, ipa-fxm
 
-Forthcoming
------------
+0.5.10 (2014-08-29)
+-------------------
 * downgrade version for hydro
 * using opencv2 instead of libopencv-dev for hydro version (should not be merged into indigo)
 * 0.6.1

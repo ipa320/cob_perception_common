@@ -14,8 +14,8 @@ Changelog for package cob_perception_msgs
 * update changelog
 * Contributors: Florian Weisshardt
 
-Forthcoming
------------
+0.5.10 (2014-08-29)
+-------------------
 * downgrade version for hydro
 * 0.6.1
 * update changelog

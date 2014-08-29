@@ -16,6 +16,19 @@ Changelog for package cob_perception_common
 * update changelog
 * Contributors: Florian Weisshardt
 
+Forthcoming
+-----------
+* downgrade version for hydro
+* 0.6.1
+* update changelog
+* 0.6.0
+* update changelog
+* merge
+* 0.5.5
+* change maintainer
+* update changelog
+* Contributors: Florian Weisshardt
+
 0.5.5 (2014-08-28)
 ------------------
 

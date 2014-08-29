@@ -15,12 +15,12 @@
 
   <buildtool_depend>catkin</buildtool_depend>
   
-  <build_depend>libopencv-dev</build_depend>
+  <build_depend>opencv2</build_depend>
   <build_depend>roscpp</build_depend>
   <build_depend>visualization_msgs</build_depend>
   <build_depend>cmake_modules</build_depend>
 
-  <run_depend>libopencv-dev</run_depend>
+  <run_depend>opencv2</run_depend>
   <run_depend>roscpp</run_depend>
   <run_depend>visualization_msgs</run_depend>
 

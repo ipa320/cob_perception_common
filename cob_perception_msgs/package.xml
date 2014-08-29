@@ -1,6 +1,6 @@
 <package>
   <name>cob_perception_msgs</name>
-  <version>0.6.0</version>
+  <version>0.5.10</version>
   
   <description>
      This package contains the cob_perception_msgs.

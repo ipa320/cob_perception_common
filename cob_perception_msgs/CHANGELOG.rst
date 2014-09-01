@@ -2,6 +2,14 @@
 Changelog for package cob_perception_msgs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* increase version number for indigo
+* 0.5.10
+* update changelog
+* downgrade version for hydro
+* Contributors: Florian Weisshardt
+
 0.6.1 (2014-08-28)
 ------------------
 

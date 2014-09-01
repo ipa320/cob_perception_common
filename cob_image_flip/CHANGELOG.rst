@@ -2,6 +2,16 @@
 Changelog for package cob_image_flip
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Update package.xml
+* increase version number for indigo
+* 0.5.10
+* update changelog
+* downgrade version for hydro
+* using opencv2 instead of libopencv-dev for hydro version (should not be merged into indigo)
+* Contributors: Florian Weisshardt
+
 0.6.1 (2014-08-28)
 ------------------
 * Merge branch 'indigo_dev' into indigo_release_candidate

@@ -2,6 +2,11 @@
 Changelog for package cob_vision_utils
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* add tinyxml to package.xml
+* Contributors: Florian Weisshardt
+
 0.6.1 (2014-08-28)
 ------------------
 * Merge branch 'indigo_dev' into indigo_release_candidate

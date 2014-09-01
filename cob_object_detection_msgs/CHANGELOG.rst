@@ -2,8 +2,8 @@
 Changelog for package cob_object_detection_msgs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.6.2 (2014-09-01)
+------------------
 * increase version number for indigo
 * 0.5.10
 * update changelog

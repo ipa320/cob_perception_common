@@ -2,8 +2,8 @@
 Changelog for package cob_vision_utils
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.6.2 (2014-09-01)
+------------------
 * add tinyxml to package.xml
 * Update package.xml
 * increase version number for indigo

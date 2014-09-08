@@ -7,7 +7,7 @@
     The cob_perception_common stack provides utilities commonly needed for a variety of computer vision tasks.
   </description>
 
-  <version>0.5.11</version>
+  <version>0.5.12</version>
   <license>LGPL</license>
 
   <maintainer email="rmb@ipa.fhg.de">Richard Bormann</maintainer>

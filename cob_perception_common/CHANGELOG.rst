@@ -2,8 +2,8 @@
 Changelog for package cob_perception_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.5.12 (2014-09-08)
+-------------------
 * cleanup changelog
 * Contributors: Florian Weisshardt
 

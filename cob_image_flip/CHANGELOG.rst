@@ -5,25 +5,6 @@ Changelog for package cob_image_flip
 0.5.11 (2014-09-01)
 -------------------
 
-0.6.1 (2014-08-28)
-------------------
-* Merge branch 'indigo_dev' into indigo_release_candidate
-* fix wrong opencv dep - again
-* Contributors: Florian Weisshardt
-
-0.6.0 (2014-08-28)
-------------------
-* 0.5.6
-* 0.5.5
-* update changelog
-* missing install tags
-* 0.5.5
-* Merge pull request `#26 <https://github.com/ipa320/cob_perception_common/issues/26>`_ from ipa320/hydro_dev
-  updates from hydro_dev
-* update changelog
-* fix wrong opencv dep
-* Contributors: Alexander Bubeck, Florian Weisshardt, ipa-fxm
-
 0.5.10 (2014-08-29)
 -------------------
 * downgrade version for hydro

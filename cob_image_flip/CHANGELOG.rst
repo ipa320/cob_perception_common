@@ -2,6 +2,11 @@
 Changelog for package cob_image_flip
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* cleanup changelog
+* Contributors: Florian Weisshardt
+
 0.5.11 (2014-09-01)
 -------------------
 

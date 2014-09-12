@@ -20,6 +20,12 @@ add_message_files(
     msg
   FILES
     PointCloud2Array.msg
+    ColorDepthImage.msg
+    ColorDepthImageArray.msg
+    Detection.msg
+    DetectionArray.msg
+    Mask.msg
+    Rect.msg
 )
 
 ## Generate added messages and services with any dependencies listed here

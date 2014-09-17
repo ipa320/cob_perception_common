@@ -2,8 +2,8 @@
 Changelog for package cob_perception_msgs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.6.4 (2014-09-17)
+------------------
 * 0.5.12
 * update changelog
 * cleanup changelog

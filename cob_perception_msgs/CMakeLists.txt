@@ -18,12 +18,17 @@ find_package(catkin REQUIRED COMPONENTS
 add_message_files(
   DIRECTORY
     msg
-  FILES
+  FILES 
     PointCloud2Array.msg
     ColorDepthImage.msg
     ColorDepthImageArray.msg
     Detection.msg
     DetectionArray.msg
+    PositionMeasurement.msg 
+    PositionMeasurementArray.msg 
+    PersonStamped.msg
+    Person.msg
+    People.msg
     Mask.msg
     Rect.msg
 )

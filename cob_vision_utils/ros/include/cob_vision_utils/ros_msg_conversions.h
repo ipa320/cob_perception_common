@@ -152,7 +152,7 @@ namespace cob_perception_common
 
     marker.pose = bb.pose.pose;
 
-    marker.scale.x = 0.001;
+    marker.scale.x = 0.01;
     marker.color.r = 0;
     marker.color.g = 1;
     marker.color.b = 0;

@@ -50,7 +50,7 @@
 * If not, see <http://www.gnu.org/licenses/>.
 *
 ****************************************************************/
-//#include "../../../../cob_object_perception_intern/windows/src/PreCompiledHeaders/StdAfx.h"
+#include "../../../../cob_object_perception_intern/windows/src/PreCompiledHeaders/StdAfx.h"
 #ifdef __LINUX__
 	#include "cob_vision_utils/CameraSensorToolbox.h"
 
@@ -60,7 +60,6 @@
 	#include "cob_perception_common/cob_vision_utils/common/include/cob_vision_utils/CameraSensorToolbox.h"
 
 	#include "cob_perception_common/cob_vision_utils/common/include/cob_vision_utils/VisionUtils.h"
-	#include "cob_object_perception_intern/windows/src/extern/TinyXml/tinyxml.h"
 #endif
 
 using namespace ipa_CameraSensors;

@@ -65,7 +65,7 @@
 	#include "cob_perception_common/cob_vision_utils/common/include/cob_vision_utils/GlobalDefines.h"
 #endif
 
-#include <opencv/cv.h>
+#include <opencv2/core/core.hpp>
 #include <iostream>
 
 namespace ipa_Utils {

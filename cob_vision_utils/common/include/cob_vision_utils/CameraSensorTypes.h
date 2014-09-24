@@ -60,7 +60,6 @@
 #ifndef __IPA_CAMERASENSORTYPES_H__
 #define __IPA_CAMERASENSORTYPES_H__
 
-//#include "../../../../../cob_object_perception_intern/windows/src/PreCompiledHeaders/StdAfx.h"
 #include <string>
 
 namespace ipa_CameraSensors {

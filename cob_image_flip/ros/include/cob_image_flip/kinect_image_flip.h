@@ -77,6 +77,7 @@
 // point cloud
 #include <pcl/point_types.h>
 #include <pcl_ros/point_cloud.h>
+#include <pcl_conversions/pcl_conversions.h>
 
 // timer
 #include <cob_image_flip/timer.h>
@@ -94,6 +95,7 @@ protected:
 	int cob3Number_;
 	bool flip_color_image_;
 	bool flip_pointcloud_;
+	int rotation_;
 	std::string pointcloud_data_format_;
 	bool display_warnings_;
 	bool display_timing_;

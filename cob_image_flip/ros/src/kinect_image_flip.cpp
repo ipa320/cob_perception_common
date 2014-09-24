@@ -73,6 +73,8 @@ CobKinectImageFlip::CobKinectImageFlip(ros::NodeHandle nh)
 	std::cout << "\n--------------------------\nKinect Image Flip Parameters:\n--------------------------" << std::endl;
 	node_handle_.param("flip_color_image", flip_color_image_, false);
 	std::cout << "flip_color_image = " << flip_color_image_ << std::endl;
+	node_handle_.param("rotation", rotation_, 180);
+		std::cout << "rotation = " << rotation_ << std::endl;
 	node_handle_.param("flip_pointcloud", flip_pointcloud_, false);
 	std::cout << "flip_pointcloud = " << flip_pointcloud_ << std::endl;
 	node_handle_.param<std::string>("pointcloud_data_format", pointcloud_data_format_, "xyz");
@@ -213,7 +215,8 @@ void CobKinectImageFlip::inputCallback(const sensor_msgs::PointCloud2::ConstPtr&
 		pcl::fromROSMsg(*point_cloud_msg, point_cloud_src);
 
 		boost::shared_ptr<pcl::PointCloud<T> > point_cloud_turned(new pcl::PointCloud<T>);
-		point_cloud_turned->header = point_cloud_msg->header;
+		//point_cloud_turned->header = point_cloud_msg->header;
+		point_cloud_turned->header = pcl_conversions::toPCL(point_cloud_msg->header);
 		point_cloud_turned->height = point_cloud_msg->height;
 		point_cloud_turned->width = point_cloud_msg->width;
 		//point_cloud_turned->sensor_orientation_ = point_cloud_msg->sensor_orientation_;
@@ -248,6 +251,115 @@ void CobKinectImageFlip::imageCallback(const sensor_msgs::ImageConstPtr& color_i
 {
 //		Timer tim;
 //		tim.start();
+
+	// hard coded rotations (quick hack for cob4)
+	if (rotation_==90)
+	{
+		// read image
+		cv_bridge::CvImageConstPtr color_image_ptr;
+		cv::Mat color_image;
+		convertColorImageMessageToMat(color_image_msg, color_image_ptr, color_image);
+
+		// rotate images by 90 degrees
+		cv::Mat color_image_turned(color_image.cols, color_image.rows, color_image.type());
+		if (color_image.type() != CV_8UC3)
+		{
+			std::cout << "CobKinectImageFlipNodelet::inputCallback: Error: The image format of the color image is not CV_8UC3.\n";
+			return;
+		}
+		for (int v = 0; v < color_image_turned.rows; v++)
+		{
+			for (int u = 0; u < color_image_turned.cols; u++)
+			{
+				color_image_turned.at<cv::Vec3b>(v,u) = color_image.at<cv::Vec3b>(color_image.rows-1-u,v);
+			}
+		}
+
+		// publish turned image
+		cv_bridge::CvImage cv_ptr;
+		cv_ptr.image = color_image_turned;
+		cv_ptr.encoding = "bgr8";
+		sensor_msgs::Image::Ptr color_image_turned_msg = cv_ptr.toImageMsg();
+		color_image_turned_msg->header = color_image_msg->header;
+		color_camera_image_pub_.publish(color_image_turned_msg);
+
+		return;
+	}
+	else if (rotation_==270)
+	{
+		// read image
+		cv_bridge::CvImageConstPtr color_image_ptr;
+		cv::Mat color_image;
+		convertColorImageMessageToMat(color_image_msg, color_image_ptr, color_image);
+
+		// rotate images by 270 degrees
+		cv::Mat color_image_turned(color_image.cols, color_image.rows, color_image.type());
+		if (color_image.type() != CV_8UC3)
+		{
+			std::cout << "CobKinectImageFlipNodelet::inputCallback: Error: The image format of the color image is not CV_8UC3.\n";
+			return;
+		}
+		for (int v = 0; v < color_image_turned.rows; v++)
+		{
+			for (int u = 0; u < color_image_turned.cols; u++)
+			{
+				color_image_turned.at<cv::Vec3b>(v,u) = color_image.at<cv::Vec3b>(u,color_image.cols-1-v);
+			}
+		}
+
+		// publish turned image
+		cv_bridge::CvImage cv_ptr;
+		cv_ptr.image = color_image_turned;
+		cv_ptr.encoding = "bgr8";
+		sensor_msgs::Image::Ptr color_image_turned_msg = cv_ptr.toImageMsg();
+		color_image_turned_msg->header = color_image_msg->header;
+		color_camera_image_pub_.publish(color_image_turned_msg);
+
+		return;
+	}
+	else if (rotation_==180)
+	{
+		// image upside down
+
+		// read image
+		cv_bridge::CvImageConstPtr color_image_ptr;
+		cv::Mat color_image;
+		convertColorImageMessageToMat(color_image_msg, color_image_ptr, color_image);
+
+		// rotate images by 180 degrees
+		cv::Mat color_image_turned(color_image.rows, color_image.cols, color_image.type());
+		if (color_image.type() != CV_8UC3)
+		{
+			std::cout << "CobKinectImageFlipNodelet::inputCallback: Error: The image format of the color image is not CV_8UC3.\n";
+			return;
+		}
+		for (int v = 0; v < color_image.rows; v++)
+		{
+			uchar* src = color_image.ptr(v);
+			uchar* dst = color_image_turned.ptr(color_image.rows - v - 1);
+			dst += 3 * (color_image.cols - 1);
+			for (int u = 0; u < color_image.cols; u++)
+			{
+				for (int k = 0; k < 3; k++)
+				{
+					*dst = *src;
+					src++;
+					dst++;
+				}
+				dst -= 6;
+			}
+		}
+
+		// publish turned image
+		cv_bridge::CvImage cv_ptr;
+		cv_ptr.image = color_image_turned;
+		cv_ptr.encoding = "bgr8";
+		sensor_msgs::Image::Ptr color_image_turned_msg = cv_ptr.toImageMsg();
+		color_image_turned_msg->header = color_image_msg->header;
+		color_camera_image_pub_.publish(color_image_turned_msg);
+
+		return;
+	}
 
 	// check camera link orientation and decide whether image must be turned around
 	bool turnAround = false;

@@ -3,7 +3,7 @@
   <version>0.6.1</version>
   
   <description>
-     This package contains the cob_object_detection_msgs.
+     This package contains message type definitions for object detection
   </description>
   
   <license>LGPL</license>

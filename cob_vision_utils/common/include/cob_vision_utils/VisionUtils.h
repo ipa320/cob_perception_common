@@ -184,7 +184,8 @@ void ClusteringKMeanspp(int k, cv::Mat& dataset, int* indices, int indices_lengt
 	DistanceType* closestDistSq = new DistanceType[n];
 
 	// Choose one random center and set the closestDistSq values
-	int index = cvflann::rand_int(n);
+	//int index = cv::flann::rand_int(n);
+	int index = rand() % n;
 	assert(index >=0 && index < n);
 	centers[0] = indices[index];
 
@@ -205,7 +206,11 @@ void ClusteringKMeanspp(int k, cv::Mat& dataset, int* indices, int indices_lengt
 
 			// Choose our center - have to be slightly careful to return a valid answer even accounting
 			// for possible rounding errors
-			double randVal = cvflann::rand_double(currentPot);
+			//double randVal = cv::flann::rand_double(currentPot);
+			double randVal = (double)rand() / RAND_MAX;
+			double fMin = 0;
+			double fMax = currentPot;
+			randVal = fMin + randVal * (fMax - fMin);
 			for (index = 0; index < n-1; index++) {
 				if (randVal <= closestDistSq[index]) break;
 				else randVal -= closestDistSq[index];

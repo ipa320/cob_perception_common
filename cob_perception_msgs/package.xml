@@ -3,7 +3,7 @@
   <version>0.6.1</version>
   
   <description>
-     This package contains the cob_perception_msgs.
+     This package contains common message type definitions for perception tasks.
   </description>
   
   <license>LGPL</license>

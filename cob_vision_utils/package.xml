@@ -3,7 +3,7 @@
   <version>0.6.1</version>
   
   <description>
-     This package contains utilities used within the cob_object_detection toolchain.
+     This package contains utilities used within the object detection toolchain.
   </description>
   
   <license>LGPL</license>

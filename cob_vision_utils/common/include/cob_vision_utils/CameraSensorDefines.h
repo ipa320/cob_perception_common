@@ -57,6 +57,9 @@
 /// @author Jan Fischer
 /// @date June 2010.
 
+// The following defines are used to determine which camera driver have been compiled 
+// and are therefore available
+
 #ifndef __IPA_CAMERASENSORDEFINES_H__
 #define __IPA_CAMERASENSORDEFINES_H__
 

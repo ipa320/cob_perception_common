@@ -51,13 +51,17 @@
 *
 ****************************************************************/
 
+// Relevant, just for windows
+#include <cob_vision_utils/StdAfx.h>
 #ifdef __LINUX__
 #include "cob_vision_utils/VisionUtils.h"
+#include <opencv2/core/core.hpp>
+#include <opencv2/imgproc/imgproc.hpp>
+#include <fstream>
 #else
 #include "cob_perception_common/cob_vision_utils/common/include/cob_vision_utils/VisionUtils.h"
 #endif
 
-#include <fstream>
 
 using namespace ipa_Utils;
 
@@ -427,7 +431,7 @@ unsigned long ipa_Utils::ConvertToShowImage(const cv::Mat& source, cv::Mat& dest
 				{
 					int iTimes3 = i*3;
 		
-					double z = (double)i_source_ptr[i*source.channels() + channel - 1];
+					double z = (double)i_source_ptr[i*source.channels() + (channel - 1)];
 				
 					if (z < min) z = min;
 					if (z > max) z = max;		
@@ -451,7 +455,31 @@ unsigned long ipa_Utils::ConvertToShowImage(const cv::Mat& source, cv::Mat& dest
 				{
 					int iTimes3 = i*3;
 		
-					double z = (double)c_source_ptr[i*source.channels() + channel - 1];
+					double z = (double)c_source_ptr[i*source.channels() + (channel - 1)];
+	
+					if (z < min) z = min;
+					if (z > max) z = max;
+
+					int V= (int)(255.0 * ((z-min)/w));
+
+					c_dest_ptr[iTimes3] = V;
+					c_dest_ptr[iTimes3 + 1] = V;
+					c_dest_ptr[iTimes3 + 2] = V;
+				}
+			}
+		}
+		else if (source.depth() == CV_16U)
+		{
+			for(int j=0; j<source.rows; j++)
+			{
+				const unsigned short* c_source_ptr = source.ptr<unsigned short>(j);
+				unsigned char* c_dest_ptr = dest.ptr<unsigned char>(j);
+
+				for(int i=0; i<source.cols; i++)
+				{
+					int iTimes3 = i*3;
+		
+					double z = (double)c_source_ptr[i*source.channels() + (channel - 1)];
 	
 					if (z < min) z = min;
 					if (z > max) z = max;

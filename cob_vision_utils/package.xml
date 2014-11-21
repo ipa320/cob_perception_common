@@ -1,9 +1,9 @@
 <package>
   <name>cob_vision_utils</name>
-  <version>0.5.12</version>
+  <version>0.6.1</version>
   
   <description>
-     This package contains utilities used within the cob_object_detection toolchain.
+     This package contains utilities used within the object detection toolchain.
   </description>
   
   <license>LGPL</license>
@@ -15,13 +15,13 @@
 
   <buildtool_depend>catkin</buildtool_depend>
   
-  <build_depend>opencv2</build_depend>
+  <build_depend>libopencv-dev</build_depend>
   <build_depend>roscpp</build_depend>
   <build_depend>visualization_msgs</build_depend>
   <build_depend>cmake_modules</build_depend>
   <build_depend>tinyxml</build_depend>
 
-  <run_depend>opencv2</run_depend>
+  <run_depend>libopencv-dev</run_depend>
   <run_depend>roscpp</run_depend>
   <run_depend>visualization_msgs</run_depend>
   <run_depend>tinyxml</run_depend>

@@ -7,6 +7,7 @@ project(cob_perception_msgs)
 find_package(catkin REQUIRED COMPONENTS
   message_generation
   sensor_msgs
+  std_msgs
 )
 
 #######################################
@@ -31,12 +32,14 @@ add_message_files(
     People.msg
     Mask.msg
     Rect.msg
+    Skeleton.msg
 )
 
 ## Generate added messages and services with any dependencies listed here
 generate_messages(
   DEPENDENCIES
-    sensor_msgs
+	sensor_msgs
+	std_msgs
 )
 
 ###################################
@@ -52,5 +55,6 @@ catkin_package(
   CATKIN_DEPENDS
     message_runtime
     sensor_msgs
+    std_msgs
 )
 

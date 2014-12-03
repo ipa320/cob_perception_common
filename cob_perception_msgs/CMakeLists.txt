@@ -61,3 +61,6 @@ catkin_package(
     std_msgs
 )
 
+include_directories(
+	${catkin_INCLUDE_DIRS}
+)

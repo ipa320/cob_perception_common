@@ -6,6 +6,7 @@ project(cob_perception_msgs)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   message_generation
+  geometry_msgs
   sensor_msgs
   std_msgs
 )
@@ -39,6 +40,7 @@ add_message_files(
 generate_messages(
   DEPENDENCIES
 	sensor_msgs
+	geometry_msgs
 	std_msgs
 )
 
@@ -55,6 +57,7 @@ catkin_package(
   CATKIN_DEPENDS
     message_runtime
     sensor_msgs
+    geometry_msgs
     std_msgs
 )
 

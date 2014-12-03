@@ -1,6 +1,6 @@
 # origin from  url =
 
-std_msgs/Header header
+Header header
 int32 user_id
 string[] name
 float32[] confidence

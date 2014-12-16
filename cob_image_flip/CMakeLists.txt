@@ -4,6 +4,9 @@ project(cob_image_flip)
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
+find_package(catkin REQUIRED COMPONENTS  pcl_ros pcl_conversions)
+
+
 find_package(catkin REQUIRED COMPONENTS
   cob_vision_utils
   cv_bridge
@@ -20,7 +23,7 @@ find_package(Boost REQUIRED COMPONENTS signals)
 
 find_package(OpenCV REQUIRED)
 
-find_package(PCL REQUIRED)
+#find_package(PCL REQUIRED)
 
 ###################################
 ## catkin specific configuration ##
@@ -48,7 +51,7 @@ catkin_package(
     sensor_msgs
     tf
   DEPENDS
-    PCL
+    #PCL
     OpenCV
     Boost
 )
@@ -65,7 +68,7 @@ include_directories(
   common/include
   ${catkin_INCLUDE_DIRS}
   ${Boost_INCLUDE_DIRS}
-  ${PCL_INCLUDE_DIRS}
+  #${PCL_INCLUDE_DIRS}
 )
 
 ## Declare a cpp library
@@ -85,14 +88,14 @@ target_link_libraries(kinect_image_flip_nodelet
   ${catkin_LIBRARIES}
   ${Boost_LIBRARIES}
   ${OpenCV_LIBS}
-  ${PCL_LIBRARIES}
+  #${PCL_LIBRARIES}
 )
 
 target_link_libraries(kinect_image_flip
   ${catkin_LIBRARIES}
   ${Boost_LIBRARIES}
   ${OpenCV_LIBS}
-  ${PCL_LIBRARIES}
+  #${PCL_LIBRARIES}
 )
 
 # set build flags for targets
@@ -133,5 +136,3 @@ install(FILES
     nodelet_plugins.xml
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
-
-

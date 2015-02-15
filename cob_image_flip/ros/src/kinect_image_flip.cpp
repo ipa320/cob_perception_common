@@ -73,7 +73,7 @@ CobKinectImageFlip::CobKinectImageFlip(ros::NodeHandle nh)
 	std::cout << "\n--------------------------\nKinect Image Flip Parameters:\n--------------------------" << std::endl;
 	node_handle_.param("flip_color_image", flip_color_image_, false);
 	std::cout << "flip_color_image = " << flip_color_image_ << std::endl;
-	node_handle_.param("rotation", rotation_, 180);
+	node_handle_.param("rotation", rotation_, 0);
 		std::cout << "rotation = " << rotation_ << std::endl;
 	node_handle_.param("flip_pointcloud", flip_pointcloud_, false);
 	std::cout << "flip_pointcloud = " << flip_pointcloud_ << std::endl;
@@ -83,7 +83,7 @@ CobKinectImageFlip::CobKinectImageFlip(ros::NodeHandle nh)
 	std::cout << "display_warnings = " << display_warnings_ << std::endl;
 	node_handle_.param("display_timing", display_timing_, false);
 	std::cout << "display_timing = " << display_timing_ << std::endl;
-	node_handle_.param<std::string>("robot", robot, "cob3-3");
+	node_handle_.param<std::string>("robot", robot, "cob3-6");
 	std::cout << "robot = " << robot << std::endl;
 
 	// determine robot number

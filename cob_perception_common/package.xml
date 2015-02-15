@@ -22,6 +22,7 @@
   <run_depend>cob_object_detection_msgs</run_depend>
   <run_depend>cob_perception_msgs</run_depend>
   <run_depend>cob_vision_utils</run_depend>
+  <run_depend>cob_object_detection_visualizer</run_depend>
 
   <export>
     <metapackage/>

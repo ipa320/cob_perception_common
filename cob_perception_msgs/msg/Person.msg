@@ -1,9 +1,8 @@
-# origin from  url = https://github.com/wg-perception/people/tree/hydro-devel/people_msgs
+#This message is used to describe a person
+ 
+string              name				#id of a person
+string              detector			#used device for detection (scan, camera)
+geometry_msgs/Pose  position			#position in space
+geometry_msgs/Point velocity			#speed
 
-string              name
-geometry_msgs/Point position
-geometry_msgs/Point velocity
-float64             reliability
-string[]            tagnames
-string[]            tags
-
+cob_perception_msgs/Skeleton skeleton	#assigned skeleton to a tracked person

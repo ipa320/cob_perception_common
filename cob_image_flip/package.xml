@@ -3,7 +3,7 @@
   <version>0.6.1</version>
   
   <description>
-     Flips the image of Care-O-bots kinect in dependence of the viewving direction of the cameras to receive an upright image all the time.
+     Flips the image of Care-O-bots kinect in dependence of the viewing direction of the cameras to receive an upright image all the time.
   </description>
   
   <license>LGPL</license>

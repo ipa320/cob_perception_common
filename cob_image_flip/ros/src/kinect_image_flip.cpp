@@ -70,21 +70,22 @@ CobKinectImageFlip::CobKinectImageFlip(ros::NodeHandle nh)
 	img_sub_counter_ = 0;
 	pc_sub_counter_ = 0;
 
-	std::cout << "\n--------------------------\nKinect Image Flip Parameters:\n--------------------------" << std::endl;
 	node_handle_.param("flip_color_image", flip_color_image_, false);
-	std::cout << "flip_color_image = " << flip_color_image_ << std::endl;
 	node_handle_.param("rotation", rotation_, 180);
-		std::cout << "rotation = " << rotation_ << std::endl;
 	node_handle_.param("flip_pointcloud", flip_pointcloud_, false);
-	std::cout << "flip_pointcloud = " << flip_pointcloud_ << std::endl;
 	node_handle_.param<std::string>("pointcloud_data_format", pointcloud_data_format_, "xyz");
-	std::cout << "pointcloud_data_format = " << pointcloud_data_format_ << std::endl;
 	node_handle_.param("display_warnings", display_warnings_, false);
-	std::cout << "display_warnings = " << display_warnings_ << std::endl;
 	node_handle_.param("display_timing", display_timing_, false);
-	std::cout << "display_timing = " << display_timing_ << std::endl;
 	node_handle_.param<std::string>("robot", robot, "cob3-3");
-	std::cout << "robot = " << robot << std::endl;
+
+	ROS_DEBUG_STREAM("\n--------------------------\nKinect Image Flip Parameters:\n--------------------------");
+	ROS_DEBUG_STREAM("flip_color_image = " << flip_color_image_);
+	ROS_DEBUG_STREAM("rotation = " << rotation_);
+	ROS_DEBUG_STREAM("flip_pointcloud = " << flip_pointcloud_);
+	ROS_DEBUG_STREAM("pointcloud_data_format = " << pointcloud_data_format_);
+	ROS_DEBUG_STREAM("display_warnings = " << display_warnings_);
+	ROS_DEBUG_STREAM("display_timing = " << display_timing_);
+	ROS_DEBUG_STREAM("robot = " << robot);
 
 	// determine robot number
 	cob3Number_ = 0;

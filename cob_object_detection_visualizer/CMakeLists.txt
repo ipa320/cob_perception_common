@@ -9,6 +9,7 @@ ENDIF(NOT CMAKE_BUILD_TYPE)
 set(catkin_RUN_PACKAGES # all ROS packages from package.xml (libopencv-dev is system dependency --> sudo apt-get install)
   roscpp
   cob_object_detection_msgs
+  visualization_msgs
 )
 
 set(catkin_BUILD_PACKAGES 

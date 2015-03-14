@@ -13,8 +13,8 @@
  *								
  * +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  *			
- * Author: Richard Bormann, email:richard.bormann@ipa.fhg.de
- * Supervised by: Richard Bormann, email:richard.bormann@ipa.fhg.de
+ * Author: Richard Bormann, email:richard.bormann@ipa.fraunhofer.de
+ * Supervised by: Richard Bormann, email:richard.bormann@ipa.fraunhofer.de
  *
  * Date of creation: May 2011
  * ToDo:
@@ -53,22 +53,47 @@
 //##################
 //#### includes ####
 
-#include <cob_image_flip/kinect_image_flip.h>
+// ROS includes
+#include <ros/ros.h>
+#include <nodelet/nodelet.h>
 
-//#######################
-//#### main programm ####
-int main(int argc, char** argv)
+// image flip code
+#include <cob_image_flip/image_flip.h>
+
+// this should really be in the implementation (.cpp file)
+#include <pluginlib/class_list_macros.h>
+
+namespace cob_image_flip
 {
-	// Initialize ROS, specify name of node
-	ros::init(argc, argv, "cob_image_flip");
+class ImageFlipNodelet : public nodelet::Nodelet
+{
+protected:
+	ros::NodeHandle node_handle_;
+	ImageFlip* image_flip_;
 
-	// Create a handle for this node, initialize node
-	ros::NodeHandle nh("~");
+public:
 
-	// Create CobKinectImageFlip class instance
-	cob_image_flip::CobKinectImageFlip cobKinectImageFlip(nh);
+	ImageFlipNodelet()
+	{
+		image_flip_ = 0;
+	};
 
-	ros::spin();
+	~ImageFlipNodelet()
+	{
+		if (image_flip_ != 0)
+			delete image_flip_;
+	};
 
-	return 0;
+	virtual void onInit()
+	{
+		// Create a handle for this node, initialize node
+		node_handle_ = getPrivateNodeHandle();
+
+		// Create ImageFlip class instance
+		image_flip_ = new ImageFlip(node_handle_);
+	}
+};
 }
+
+// watch the capitalization carefully
+PLUGINLIB_DECLARE_CLASS(cob_image_flip, ImageFlipNodelet, cob_image_flip::ImageFlipNodelet, nodelet::Nodelet)

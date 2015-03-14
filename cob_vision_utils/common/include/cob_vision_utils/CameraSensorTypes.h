@@ -60,7 +60,6 @@
 #ifndef __IPA_CAMERASENSORTYPES_H__
 #define __IPA_CAMERASENSORTYPES_H__
 
-//#include "../../../../../cob_object_perception_intern/windows/src/PreCompiledHeaders/StdAfx.h"
 #include <string>
 
 namespace ipa_CameraSensors {
@@ -286,9 +285,9 @@ namespace ipa_CameraSensors {
 
 	enum t_ToFGrayImageType
 	{
-		INTENSITY_32F1 = 0,
-		AMPLITUDE,
-		INTENSITY_8U3
+		INTENSITY = 0,
+		IR,
+		AMPLITUDE
 	};
 
 	/// Enum to encode the different camera roles

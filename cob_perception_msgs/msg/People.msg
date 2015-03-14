@@ -1,4 +1,4 @@
-# origin from  url = https://github.com/wg-perception/people/tree/hydro-devel/people_msgs
+#This message is used to describe a crowd of people.
 
 Header header
 cob_perception_msgs/Person[] people

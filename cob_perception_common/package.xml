@@ -4,10 +4,10 @@
   <name>cob_perception_common</name>
 
   <description>
-    The cob_perception_common stack provides utilities commonly needed for a variety of computer vision tasks.
+    This stack provides utilities commonly needed for a variety of computer vision tasks.
   </description>
 
-  <version>0.5.12</version>
+  <version>0.6.4</version>
   <license>LGPL</license>
 
   <maintainer email="rmb@ipa.fhg.de">Richard Bormann</maintainer>
@@ -22,6 +22,7 @@
   <run_depend>cob_object_detection_msgs</run_depend>
   <run_depend>cob_perception_msgs</run_depend>
   <run_depend>cob_vision_utils</run_depend>
+  <run_depend>cob_object_detection_visualizer</run_depend>
 
   <export>
     <metapackage/>

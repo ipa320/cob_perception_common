@@ -127,7 +127,7 @@ add_executable(cob_object_detection_visualizer ros/src/object_detection_visualiz
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
-# add_dependencies(cob_object_detection_visualizer_node cob_object_detection_visualizer_generate_messages_cpp)
+add_dependencies(cob_object_detection_visualizer cob_object_detection_msgs_generate_messages_cpp)
 
 ## Specify libraries to link a library or executable target against
 target_link_libraries(cob_object_detection_visualizer

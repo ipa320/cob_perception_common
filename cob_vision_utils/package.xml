@@ -3,7 +3,7 @@
   <version>0.6.4</version>
   
   <description>
-     This package contains utilities used within the object detection toolchain.
+     Contains utilities used within the object detection tool chain.
   </description>
   
   <license>LGPL</license>

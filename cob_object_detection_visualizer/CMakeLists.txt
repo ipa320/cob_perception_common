@@ -116,20 +116,9 @@ include_directories(
 	${catkin_INCLUDE_DIRS} # same name as find_package
 )
 
-## Declare a cpp library
-# add_library(cob_object_detection_visualizer
-#   src/${PROJECT_NAME}/cob_object_detection_visualizer.cpp
-# )
-
 ## Declare a cpp executable
-# add_executable(cob_object_detection_visualizer_node src/cob_object_detection_visualizer_node.cpp)
 add_executable(cob_object_detection_visualizer ros/src/object_detection_visualizer_node.cpp)
-
-## Add cmake target dependencies of the executable/library
-## as an example, message headers may need to be generated before nodes
-add_dependencies(cob_object_detection_visualizer cob_object_detection_msgs_generate_messages_cpp)
-
-## Specify libraries to link a library or executable target against
+add_dependencies(cob_object_detection_visualizer ${catkin_EXPORTED_TARGETS} ${PROJECT_NAME}_generate_messages_cpp)
 target_link_libraries(cob_object_detection_visualizer
   ${catkin_LIBRARIES}
 )

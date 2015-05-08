@@ -56,16 +56,17 @@ add_library(cob_vision_utils
   common/src/VisionUtils.cpp
   common/src/CameraSensorToolbox.cpp
 )
-
-## Specify libraries to link a library or executable target against
 target_link_libraries(cob_vision_utils
   ${OpenCV_LIBS}
   ${TinyXML_LIBRARIES}
 )
-
-
-# set build flags for targets
 set_target_properties(cob_vision_utils PROPERTIES COMPILE_FLAGS "-D__LINUX__ -D__COB_ROS__")
+add_dependencies(cob_vision_utils ${catkin_EXPORTED_TARGETS} ${PROJECT_NAME}_generate_messages_cpp)
+
+
+#############
+## Install ##
+#############
 
 install(TARGETS ${PROJECT_NAME}
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}

@@ -2,6 +2,11 @@
 Changelog for package cob_object_detection_visualizer
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* fix maintainer
+* Contributors: Florian Weisshardt
+
 0.6.5 (2015-06-17)
 ------------------
 * missing dependencies to message generation

@@ -2,6 +2,9 @@
 Changelog for package cob_vision_utils
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+
 0.6.5 (2015-06-17)
 ------------------
 * Merge branch 'indigo_dev' of github.com:ipa320/cob_perception_common into 320-indigo_dev

@@ -2,13 +2,18 @@
 Changelog for package cob_image_flip
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-0.7.0 (2015-03-14)
-------------------
-* complete revision of cob_image_flip
-* simple configuration of all operation modi from yaml file
-* rotation modi: fixed angle and automatic angle determination from tf given a camera and a reference coordinate system
-* automatic rotation angle determination with option to round rotation in 90 deg steps for better performance
-* Contributors: Richard Bormann
+Forthcoming
+-----------
+* unify version number
+* changed version number
+* updated changelog
+* complete revision of cob_image_flip, simple configuration from yaml file, rotaation modi: fixed angle and automatic angle determination from tf with option to round rotation in 90 deg steps
+* Merge branch 'indigo_dev' of github.com:ipa320/cob_perception_common into 320-indigo_dev
+* cleaning up
+* added a visualization program for cob_object_detection_msgs::DetectionArray messages, displays as a MarkerArray in Rviz
+* catkinizing
+* catkinizing
+* Contributors: Florian Weisshardt, Richard Bormann, rmb-om
 
 0.6.4 (2014-09-17)
 ------------------

@@ -4,6 +4,7 @@ Changelog for package cob_perception_msgs
 
 Forthcoming
 -----------
+* update changelog
 * Merge branch 'indigo_dev' of github.com:ipa320/cob_perception_common into 320-indigo_dev
 * added message description
 * Merge pull request `#43 <https://github.com/ipa320/cob_perception_common/issues/43>`_ from ipa320/indigo_release_candidate

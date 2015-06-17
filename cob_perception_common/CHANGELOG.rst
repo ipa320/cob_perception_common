@@ -4,6 +4,8 @@ Changelog for package cob_perception_common
 
 Forthcoming
 -----------
+* increase version number
+* update changelog
 * Merge branch 'indigo_dev' of github.com:ipa320/cob_perception_common into 320-indigo_dev
 * added a visualization program for cob_object_detection_msgs::DetectionArray messages, displays as a MarkerArray in Rviz
 * Merge pull request `#43 <https://github.com/ipa320/cob_perception_common/issues/43>`_ from ipa320/indigo_release_candidate

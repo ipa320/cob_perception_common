@@ -2,8 +2,8 @@
 Changelog for package cob_object_detection_visualizer
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.6.5 (2015-06-17)
+------------------
 * missing dependencies to message generation
 * fix dependencies
 * added a visualization program for cob_object_detection_msgs::DetectionArray messages, displays as a MarkerArray in Rviz

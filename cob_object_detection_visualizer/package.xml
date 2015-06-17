@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package>
   <name>cob_object_detection_visualizer</name>
-  <version>0.6.4</version>
+  <version>0.6.5</version>
   <description>The cob_object_detection_visualizer package</description>
 
   <maintainer email="richard.bormann@ipa.fraunhofer.de">rbormann</maintainer>

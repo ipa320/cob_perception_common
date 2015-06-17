@@ -2,8 +2,8 @@
 Changelog for package cob_object_detection_visualizer
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.6.6 (2015-06-17)
+------------------
 * fix maintainer
 * Contributors: Florian Weisshardt
 

@@ -2,6 +2,25 @@
 Changelog for package cob_vision_utils
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.6.6 (2015-06-17)
+------------------
+
+0.6.5 (2015-06-17)
+------------------
+* Merge branch 'indigo_dev' of github.com:ipa320/cob_perception_common into 320-indigo_dev
+* Merge pull request `#43 <https://github.com/ipa320/cob_perception_common/issues/43>`_ from ipa320/indigo_release_candidate
+  Indigo release candidate
+* Adapted precompiled header settings
+* catkinizing
+* Adapted precompiled header filepath to ROS specs
+* Using standard random number generator, replaced precompiled headers with references to a file within this metapackage. Adapted package description.
+* Adapting optimizatino settings
+* Cleaning up header files
+* Added 16U as possible matrix type for image visualization
+* Adapted project filestructure
+* JSF: Adapted Kinect/Asus Xtion integration
+* Contributors: Florian Weisshardt, Jan Fischer, Richard Bormann, ipa-jsf
+
 0.6.4 (2014-09-17)
 ------------------
 * 0.5.12

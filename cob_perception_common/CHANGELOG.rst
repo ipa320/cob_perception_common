@@ -2,6 +2,22 @@
 Changelog for package cob_perception_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.6.6 (2015-06-17)
+------------------
+
+0.6.5 (2015-06-17)
+------------------
+* increase version number
+* update changelog
+* Merge branch 'indigo_dev' of github.com:ipa320/cob_perception_common into 320-indigo_dev
+* added a visualization program for cob_object_detection_msgs::DetectionArray messages, displays as a MarkerArray in Rviz
+* Merge pull request `#43 <https://github.com/ipa320/cob_perception_common/issues/43>`_ from ipa320/indigo_release_candidate
+  Indigo release candidate
+* catkinizing
+* Removed precompiled header file. It is now located in cob_vision_utils. The file is relevant when compiling with visual studio
+* Using standard random number generator, replaced precompiled headers with references to a file within this metapackage. Adapted package description.
+* Contributors: Florian Weisshardt, Richard Bormann, ipa-jsf, rmb-om
+
 0.6.4 (2014-09-17)
 ------------------
 * 0.5.12

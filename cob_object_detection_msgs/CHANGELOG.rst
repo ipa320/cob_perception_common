@@ -2,13 +2,51 @@
 Changelog for package cob_object_detection_msgs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-0.5.12 (2014-09-08)
--------------------
+0.6.6 (2015-06-17)
+------------------
+
+0.6.5 (2015-06-17)
+------------------
+* Merge pull request `#43 <https://github.com/ipa320/cob_perception_common/issues/43>`_ from ipa320/indigo_release_candidate
+  Indigo release candidate
+* Using standard random number generator, replaced precompiled headers with references to a file within this metapackage. Adapted package description.
+* Added field ID
+  In order to fit to the latest update of cob_fiducials
+* Contributors: Florian Weisshardt, Jan Fischer, ipa-jsf
+
+0.6.4 (2014-09-17)
+------------------
+* 0.5.12
+* update changelog
 * cleanup changelog
+* 0.5.11
+* update changelog
 * Contributors: Florian Weisshardt
 
-0.5.11 (2014-09-01)
--------------------
+0.6.3 (2014-09-08)
+------------------
+
+0.6.2 (2014-09-01)
+------------------
+* increase version number for indigo
+* 0.5.10
+* update changelog
+* downgrade version for hydro
+* Contributors: Florian Weisshardt
+
+0.6.1 (2014-08-28)
+------------------
+
+0.6.0 (2014-08-28)
+------------------
+* 0.5.6
+* 0.5.5
+* update changelog
+* Added field ID
+  In order to fit to latest update of cob_fiducials an id field is necessary
+* 0.5.5
+* update changelog
+* Contributors: Florian Weisshardt, Jan Fischer
 
 0.5.10 (2014-08-29)
 -------------------

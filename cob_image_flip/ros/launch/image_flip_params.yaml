@@ -6,13 +6,9 @@ rotation_mode: 1
 # double
 rotation_angle: 0
 
-# reference world coordinate frame with z-axis pointing upwards (= against gravity direction)
+# reference world coordinate frame with z-axis pointing upwards (= against gravity direction)  -  in contrast: camera coordinate frame (image coordinate system with x-axis to the right, y-axis downwards, z-axis into viewing direction of the camera)
 # string
 reference_frame: base_link
-
-# camera coordinate frame (image coordinate system with x-axis to the right, y-axis downwards, z-axis into viewing direction of the camera)
-# string
-camera_frame: cam3d_rgb_optical_frame
 
 # flip color image
 # bool
@@ -28,4 +24,4 @@ pointcloud_data_format: xyzrgb
 
 # display warning if transformation not available
 # bool
-display_warnings: false
+display_warnings: true

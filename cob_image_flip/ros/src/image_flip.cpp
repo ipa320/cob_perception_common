@@ -76,8 +76,6 @@ ImageFlip::ImageFlip(ros::NodeHandle nh)
 		// automatic rotation in gravity direction
 		node_handle_.param("reference_frame", reference_frame_, std::string(""));
 		ROS_DEBUG_STREAM("reference_frame = " << reference_frame_);
-		node_handle_.param("camera_frame", camera_frame_, std::string(""));
-		ROS_DEBUG_STREAM("camera_frame = " << camera_frame_);
 	}
 	else
 	{
@@ -151,8 +149,9 @@ void ImageFlip::imageCallback(const sensor_msgs::ImageConstPtr& color_image_msg)
 		try
 		{
 			// compute angle of camera x-axis against x-y world plane (i.e. in reference coordinates)
-			tf::Stamped<tf::Vector3> x_axis_camera(tf::Vector3(1, 0, 0), ros::Time::now(), camera_frame_), x_axis_ref;
-			tf::Stamped<tf::Vector3> y_axis_camera(tf::Vector3(0, 1, 0), x_axis_camera.stamp_, camera_frame_), y_axis_ref;
+			tf::Stamped<tf::Vector3> x_axis_camera(tf::Vector3(1, 0, 0), color_image_msg->header.stamp /*ros::Time(0)*/, color_image_msg->header.frame_id), x_axis_ref;
+			tf::Stamped<tf::Vector3> y_axis_camera(tf::Vector3(0, 1, 0), x_axis_camera.stamp_, color_image_msg->header.frame_id), y_axis_ref;
+			transform_listener_.waitForTransform(reference_frame_, color_image_msg->header.frame_id, x_axis_camera.stamp_, ros::Duration(0.2));
 			transform_listener_.transformVector(reference_frame_, x_axis_camera, x_axis_ref);
 			transform_listener_.transformVector(reference_frame_, y_axis_camera, y_axis_ref);
  			int factor = (y_axis_ref.z()<0. ? 1 : -1);

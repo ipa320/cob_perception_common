@@ -86,8 +86,6 @@ ImageFlip::ImageFlip(ros::NodeHandle nh)
 	ROS_DEBUG_STREAM("flip_color_image = " << flip_color_image_);
 	node_handle_.param("flip_pointcloud", flip_pointcloud_, false);
 	ROS_DEBUG_STREAM("flip_pointcloud = " << flip_pointcloud_);
-	node_handle_.param<std::string>("pointcloud_data_format", pointcloud_data_format_, "xyz");
-	ROS_DEBUG_STREAM("pointcloud_data_format = " << pointcloud_data_format_);
 	node_handle_.param("display_warnings", display_warnings_, false);
 	ROS_DEBUG_STREAM("display_warnings = " << display_warnings_);
 
@@ -112,32 +110,10 @@ ImageFlip::~ImageFlip()
 	if (it_ != 0)
 		delete it_;
 }
-bool ImageFlip::convertColorImageMessageToMat(const sensor_msgs::Image::ConstPtr& color_image_msg, cv_bridge::CvImageConstPtr& color_image_ptr, cv::Mat& color_image)
+
+
+double ImageFlip::determineRotationAngle(const std::string& camera_frame_id, const ros::Time& time)
 {
-	try
-	{
-		color_image_ptr = cv_bridge::toCvShare(color_image_msg, sensor_msgs::image_encodings::BGR8);
-	}
-	catch (cv_bridge::Exception& e)
-	{
-		ROS_ERROR("ImageFlip::convertColorImageMessageToMat: cv_bridge exception: %s", e.what());
-		return false;
-	}
-	color_image = color_image_ptr->image;
-
-	return true;
-}
-
-
-void ImageFlip::imageCallback(const sensor_msgs::ImageConstPtr& color_image_msg)
-{
-	// read image
-	cv_bridge::CvImageConstPtr color_image_ptr;
-	cv::Mat color_image;
-	if (convertColorImageMessageToMat(color_image_msg, color_image_ptr, color_image) == false)
-		return;
-	cv::Mat color_image_turned;
-
 	double rotation_angle = 0.;
 	if (rotation_mode_ == FIXED_ANGLE)
 	{
@@ -149,9 +125,9 @@ void ImageFlip::imageCallback(const sensor_msgs::ImageConstPtr& color_image_msg)
 		try
 		{
 			// compute angle of camera x-axis against x-y world plane (i.e. in reference coordinates)
-			tf::Stamped<tf::Vector3> x_axis_camera(tf::Vector3(1, 0, 0), color_image_msg->header.stamp /*ros::Time(0)*/, color_image_msg->header.frame_id), x_axis_ref;
-			tf::Stamped<tf::Vector3> y_axis_camera(tf::Vector3(0, 1, 0), x_axis_camera.stamp_, color_image_msg->header.frame_id), y_axis_ref;
-			transform_listener_.waitForTransform(reference_frame_, color_image_msg->header.frame_id, x_axis_camera.stamp_, ros::Duration(0.2));
+			tf::Stamped<tf::Vector3> x_axis_camera(tf::Vector3(1, 0, 0), time /*ros::Time(0)*/, camera_frame_id), x_axis_ref;
+			tf::Stamped<tf::Vector3> y_axis_camera(tf::Vector3(0, 1, 0), x_axis_camera.stamp_, camera_frame_id), y_axis_ref;
+			transform_listener_.waitForTransform(reference_frame_, camera_frame_id, x_axis_camera.stamp_, ros::Duration(0.2));
 			transform_listener_.transformVector(reference_frame_, x_axis_camera, x_axis_ref);
 			transform_listener_.transformVector(reference_frame_, y_axis_camera, y_axis_ref);
  			int factor = (y_axis_ref.z()<0. ? 1 : -1);
@@ -179,6 +155,39 @@ void ImageFlip::imageCallback(const sensor_msgs::ImageConstPtr& color_image_msg)
 		if (display_warnings_)
 			ROS_WARN("ImageFlip::imageCallback: Unsupported rotation mode.");
 	}
+
+	return rotation_angle;
+}
+
+
+bool ImageFlip::convertColorImageMessageToMat(const sensor_msgs::Image::ConstPtr& color_image_msg, cv_bridge::CvImageConstPtr& color_image_ptr, cv::Mat& color_image)
+{
+	try
+	{
+		color_image_ptr = cv_bridge::toCvShare(color_image_msg, sensor_msgs::image_encodings::BGR8);
+	}
+	catch (cv_bridge::Exception& e)
+	{
+		ROS_ERROR("ImageFlip::convertColorImageMessageToMat: cv_bridge exception: %s", e.what());
+		return false;
+	}
+	color_image = color_image_ptr->image;
+
+	return true;
+}
+
+
+void ImageFlip::imageCallback(const sensor_msgs::ImageConstPtr& color_image_msg)
+{
+	// read image
+	cv_bridge::CvImageConstPtr color_image_ptr;
+	cv::Mat color_image;
+	if (convertColorImageMessageToMat(color_image_msg, color_image_ptr, color_image) == false)
+		return;
+	cv::Mat color_image_turned;
+
+	// determine rotation angle
+	double rotation_angle = determineRotationAngle(color_image_msg->header.frame_id, color_image_msg->header.stamp);
 
 	// rotate
 	// fast hard coded rotations
@@ -291,11 +300,125 @@ void ImageFlip::imgDisconnectCB(const image_transport::SingleSubscriberPublisher
 }
 
 
-template <typename T>
 void ImageFlip::pcCallback(const sensor_msgs::PointCloud2::ConstPtr& point_cloud_msg)
 {
-	ROS_WARN("Pointcloud rotation is currently not implemented. Publishing input point cloud as is.");
-	point_cloud_pub_.publish(point_cloud_msg);
+	// determine rotation angle
+	double rotation_angle = determineRotationAngle(point_cloud_msg->header.frame_id, point_cloud_msg->header.stamp);
+
+	// prepare turned point cloud
+	const int element_size = point_cloud_msg->point_step;	// length of point in bytes
+	const int row_size = point_cloud_msg->row_step;		// length of row in bytes
+	sensor_msgs::PointCloud2::Ptr point_cloud_out_msg = boost::shared_ptr<sensor_msgs::PointCloud2>(new sensor_msgs::PointCloud2);
+	point_cloud_out_msg->fields = point_cloud_msg->fields;
+	point_cloud_out_msg->header = point_cloud_msg->header;
+	point_cloud_out_msg->height = point_cloud_msg->height;
+	point_cloud_out_msg->width = point_cloud_msg->width;
+	point_cloud_out_msg->point_step = point_cloud_msg->point_step;
+	point_cloud_out_msg->row_step = point_cloud_msg->row_step;
+	point_cloud_out_msg->is_bigendian = point_cloud_msg->is_bigendian;
+	point_cloud_out_msg->is_dense = point_cloud_msg->is_dense;
+	point_cloud_out_msg->data.resize(point_cloud_out_msg->height * point_cloud_out_msg->width * element_size);
+
+	// rotate
+	// fast hard coded rotations
+	if (rotation_angle==0. || rotation_angle==360. || rotation_angle==-360.)
+	{
+		memcpy(&(point_cloud_out_msg->data[0]), &(point_cloud_msg->data[0]), point_cloud_msg->height*point_cloud_msg->width*element_size);
+	}
+	else if (rotation_angle==90. || rotation_angle==-270.)
+	{
+		// rotate images by 90 degrees
+		point_cloud_out_msg->height = point_cloud_msg->width;
+		point_cloud_out_msg->width = point_cloud_msg->height;
+		const int row_size_out = point_cloud_msg->height*element_size;		// length of row in bytes
+		point_cloud_out_msg->row_step = row_size_out;
+		for (int v = 0; v < point_cloud_out_msg->height; v++)
+			for (int u = 0; u < point_cloud_out_msg->width; u++)
+				memcpy(&(point_cloud_out_msg->data[v*row_size_out+u*element_size]), &(point_cloud_msg->data[(point_cloud_msg->height-1-u)*row_size+v*element_size]), element_size);
+	}
+	else if (rotation_angle==270. || rotation_angle==-90.)
+	{
+		// rotate images by 270 degrees
+		point_cloud_out_msg->height = point_cloud_msg->width;
+		point_cloud_out_msg->width = point_cloud_msg->height;
+		const int row_size_out = point_cloud_msg->height*element_size;		// length of row in bytes
+		point_cloud_out_msg->row_step = row_size_out;
+		for (int v = 0; v < point_cloud_out_msg->height; v++)
+			for (int u = 0; u < point_cloud_out_msg->width; u++)
+				memcpy(&(point_cloud_out_msg->data[v*row_size_out+u*element_size]), &(point_cloud_msg->data[u*row_size+(point_cloud_msg->width-1-v)*element_size]), element_size);
+	}
+	else if (rotation_angle==180 || rotation_angle==-180)
+	{
+		// rotate images by 180 degrees
+		for (int v = 0; v < point_cloud_out_msg->height; v++)
+			for (int u = 0; u < point_cloud_out_msg->width; u++)
+				memcpy(&(point_cloud_out_msg->data[v*row_size+u*element_size]), &(point_cloud_msg->data[(point_cloud_msg->height-1-v)*row_size+(point_cloud_msg->width-1-u)*element_size]), element_size);
+	}
+	else
+	{
+		// arbitrary rotation
+		int row_size_out = row_size;
+		// automatically decide for landscape or portrait orientation of resulting image
+		bool switch_aspect_ratio = !(fabs(sin(rotation_angle*CV_PI/180.)) < 0.707106781);
+		if (switch_aspect_ratio==true)
+		{
+			point_cloud_out_msg->height = point_cloud_msg->width;
+			point_cloud_out_msg->width = point_cloud_msg->height;
+			row_size_out = point_cloud_msg->height*element_size;		// length of row in bytes
+			point_cloud_out_msg->row_step = row_size_out;
+		}
+
+		// compute transform
+		cv::Point center = cv::Point(point_cloud_msg->width/2, point_cloud_msg->height/2);
+		cv::Mat rot_mat = cv::getRotationMatrix2D(center, -rotation_angle, 1.0);
+		if (switch_aspect_ratio==true)
+		{
+			rot_mat.at<double>(0,2) += 0.5*((double)point_cloud_out_msg->width - (double)point_cloud_msg->width);
+			rot_mat.at<double>(1,2) += 0.5*((double)point_cloud_out_msg->height - (double)point_cloud_msg->height);
+		}
+		cv::Mat rot_mat_inv = rot_mat.clone();
+		rot_mat_inv.at<double>(0,1) = rot_mat.at<double>(1,0);
+		rot_mat_inv.at<double>(1,0) = rot_mat.at<double>(0,1);
+		rot_mat_inv.at<double>(0,2) = -rot_mat.at<double>(0,2)*rot_mat.at<double>(0,0) - rot_mat.at<double>(1,2)*rot_mat.at<double>(1,0);
+		rot_mat_inv.at<double>(1,2) = -rot_mat.at<double>(1,2)*rot_mat.at<double>(0,0) + rot_mat.at<double>(0,2)*rot_mat.at<double>(1,0);
+
+		// zero element
+		std::vector<uchar> zero_element(element_size, 0);
+		for (size_t i=0; i<point_cloud_msg->fields.size(); ++i)
+		{
+			if (point_cloud_msg->fields[i].name.compare("x") == 0 || point_cloud_msg->fields[i].name.compare("y") == 0 || point_cloud_msg->fields[i].name.compare("z") == 0)
+			{
+				float* val = (float*)&(zero_element[point_cloud_msg->fields[i].offset]);
+				*val = std::numeric_limits<float>::quiet_NaN();
+			}
+			if (point_cloud_msg->fields[i].name.compare("rgb") == 0)
+			{
+				float* val = (float*)&(zero_element[point_cloud_msg->fields[i].offset]);
+				int vali = 0;
+				*val = *(float*)(&vali);
+			}
+		}
+
+		// warp (nearest neighbor mode, no interpolation)
+		for (int v = 0; v < point_cloud_out_msg->height; v++)
+		{
+			for (int u = 0; u < point_cloud_out_msg->width; u++)
+			{
+				int src_u = rot_mat_inv.at<double>(0,0)*u + rot_mat_inv.at<double>(0,1)*v + rot_mat_inv.at<double>(0,2);
+				int src_v = rot_mat_inv.at<double>(1,0)*u + rot_mat_inv.at<double>(1,1)*v + rot_mat_inv.at<double>(1,2);
+				if (src_u < 0 || src_u > point_cloud_msg->width-1 || src_v < 0 || src_v > point_cloud_msg->height-1)
+					memcpy(&(point_cloud_out_msg->data[v*row_size_out+u*element_size]), &(zero_element[0]), element_size);
+				else
+					memcpy(&(point_cloud_out_msg->data[v*row_size_out+u*element_size]), &(point_cloud_msg->data[src_v*row_size+src_u*element_size]), element_size);
+			}
+		}
+	}
+
+	// publish turned point cloud
+	point_cloud_pub_.publish(point_cloud_out_msg);
+
+
+
 //	// check camera link orientation and decide whether image must be turned around
 //	bool turnAround = false;
 //	tf::StampedTransform transform;
@@ -369,15 +492,7 @@ void ImageFlip::pcConnectCB(const ros::SingleSubscriberPublisher& pub)
 	if (pc_sub_counter_ == 1)
 	{
 		ROS_DEBUG("ImageFlip::pcConnectCB: Connecting point cloud callback.");
-		if (pointcloud_data_format_.compare("xyz") == 0)
-			point_cloud_sub_ = node_handle_.subscribe<sensor_msgs::PointCloud2>("pointcloud_in", 1, &ImageFlip::pcCallback<pcl::PointXYZ>, this);
-		else if (pointcloud_data_format_.compare("xyzrgb") == 0)
-			point_cloud_sub_ = node_handle_.subscribe<sensor_msgs::PointCloud2>("pointcloud_in", 1, &ImageFlip::pcCallback<pcl::PointXYZRGB>, this);
-		else
-		{
-			ROS_ERROR("Unknown pointcloud format specified in the paramter file.");
-			pc_sub_counter_ = 0;
-		}
+		point_cloud_sub_ = node_handle_.subscribe<sensor_msgs::PointCloud2>("pointcloud_in", 1, &ImageFlip::pcCallback, this);
 	}
 }
 

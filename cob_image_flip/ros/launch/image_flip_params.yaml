@@ -16,7 +16,7 @@ flip_color_image: true
 
 # flip point cloud (usually unnecessary because tf takes care of this with original point cloud)
 # bool
-flip_pointcloud: false
+flip_pointcloud: true
 
 # point cloud data format
 # string (xyz or xyzrgb)

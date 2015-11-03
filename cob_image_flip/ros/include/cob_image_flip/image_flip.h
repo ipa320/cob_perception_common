@@ -89,10 +89,9 @@ protected:
 	int rotation_mode_;				// rotation mode (0=fixed angle as defined  by rotation_angle, 1=automatic upright rotation against gravity using reference coordinate frame with upwards directed z-axis, 2=as 1 but image rotation only in 90deg steps -> faster)
 	double rotation_angle_;			// image rotation [in deg] (especially efficient with 0, 90, 180, 270 deg)
 	std::string reference_frame_;	// reference world coordinate frame with z-axis pointing upwards (= against gravity direction)
-	std::string camera_frame_;		// camera coordinate frame (image coordinate system with x-axis to the right, y-axis downwards, z-axis into viewing direction of the camera)
+//	std::string camera_frame_;		// camera coordinate frame (image coordinate system with x-axis to the right, y-axis downwards, z-axis into viewing direction of the camera)
 	bool flip_color_image_;			// flip color image
 	bool flip_pointcloud_;			// flip point cloud (usually unnecessary because tf takes care of this with original point cloud)
-	std::string pointcloud_data_format_;	// point cloud data format (xyz or xyzrgb)
 	bool display_warnings_;			// display warning if transformation not available
 	bool display_timing_;			// display timing information
 
@@ -119,6 +118,8 @@ public:
 
 	~ImageFlip();
 
+	double determineRotationAngle(const std::string& camera_frame_id, const ros::Time& time);
+
 	bool convertColorImageMessageToMat(const sensor_msgs::Image::ConstPtr& color_image_msg, cv_bridge::CvImageConstPtr& color_image_ptr, cv::Mat& color_image);
 
 	void imageCallback(const sensor_msgs::ImageConstPtr& color_image_msg);
@@ -127,7 +128,6 @@ public:
 
 	void imgDisconnectCB(const image_transport::SingleSubscriberPublisher& pub);
 
-	template <typename T>
 	void pcCallback(const sensor_msgs::PointCloud2::ConstPtr& point_cloud_msg);
 
 	void pcConnectCB(const ros::SingleSubscriberPublisher& pub);

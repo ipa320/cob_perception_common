@@ -295,7 +295,8 @@ void ImageFlip::imgDisconnectCB(const image_transport::SingleSubscriberPublisher
 template <typename T>
 void ImageFlip::pcCallback(const sensor_msgs::PointCloud2::ConstPtr& point_cloud_msg)
 {
-	ROS_WARN("Pointcloud rotation is currently not implemented.");
+	ROS_WARN("Pointcloud rotation is currently not implemented. Publishing input point cloud as is.");
+	point_cloud_pub_.publish(point_cloud_msg);
 //	// check camera link orientation and decide whether image must be turned around
 //	bool turnAround = false;
 //	tf::StampedTransform transform;

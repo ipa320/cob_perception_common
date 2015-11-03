@@ -18,10 +18,6 @@ flip_color_image: true
 # bool
 flip_pointcloud: true
 
-# point cloud data format
-# string (xyz or xyzrgb)
-pointcloud_data_format: xyzrgb
-
 # display warning if transformation not available
 # bool
 display_warnings: true

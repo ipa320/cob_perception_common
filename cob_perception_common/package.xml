@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<package>
+<package format="2">
 
   <name>cob_perception_common</name>
 
@@ -17,12 +17,12 @@
   
   <buildtool_depend>catkin</buildtool_depend>
     
-  <run_depend>cob_image_flip</run_depend>
-  <run_depend>cob_cam3d_throttle</run_depend>
-  <run_depend>cob_object_detection_msgs</run_depend>
-  <run_depend>cob_perception_msgs</run_depend>
-  <run_depend>cob_vision_utils</run_depend>
-  <run_depend>cob_object_detection_visualizer</run_depend>
+  <exec_depend>cob_image_flip</exec_depend>
+  <exec_depend>cob_cam3d_throttle</exec_depend>
+  <exec_depend>cob_object_detection_msgs</exec_depend>
+  <exec_depend>cob_perception_msgs</exec_depend>
+  <exec_depend>cob_vision_utils</exec_depend>
+  <exec_depend>cob_object_detection_visualizer</exec_depend>
 
   <export>
     <metapackage/>

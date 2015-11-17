@@ -1,4 +1,5 @@
-<package>
+<?xml version="1.0"?>
+<package format="2">
   <name>cob_image_flip</name>
   <version>0.6.6</version>
   
@@ -15,32 +16,19 @@
 
   <buildtool_depend>catkin</buildtool_depend>
   
-  <build_depend>libopencv-dev</build_depend>
-  <build_depend>pcl_ros</build_depend>
-  <build_depend>cmake_modules</build_depend>
-  <build_depend>roscpp</build_depend>
-  <build_depend>sensor_msgs</build_depend>
-  <build_depend>geometry_msgs</build_depend>
-  <build_depend>tf</build_depend>
-  <build_depend>image_transport</build_depend>
-  <build_depend>cv_bridge</build_depend>
-  <build_depend>nodelet</build_depend>
-  <build_depend>pcl_ros</build_depend>
-  <build_depend>pcl_conversions</build_depend>
+  <depend>libopencv-dev</depend>
+  <depend>pcl_ros</depend>
+  <depend>cmake_modules</depend>
+  <depend>roscpp</depend>
+  <depend>sensor_msgs</depend>
+  <depend>geometry_msgs</depend>
+  <depend>tf</depend>
+  <depend>image_transport</depend>
+  <depend>cv_bridge</depend>
+  <depend>nodelet</depend>
+  <depend>pcl_conversions</depend>
 
-  <build_depend>boost</build_depend>
-
-  <run_depend>roscpp</run_depend>
-  <run_depend>sensor_msgs</run_depend>
-  <run_depend>geometry_msgs</run_depend>
-  <run_depend>tf</run_depend>
-  <run_depend>image_transport</run_depend>
-  <run_depend>cv_bridge</run_depend>
-  <run_depend>nodelet</run_depend>
-  <run_depend>pcl_ros</run_depend>
-  <run_depend>pcl_conversions</run_depend>
-
-  <run_depend>boost</run_depend>
+  <depend>boost</depend>
 
   <export>
     <nodelet plugin="${prefix}/nodelet_plugins.xml" />

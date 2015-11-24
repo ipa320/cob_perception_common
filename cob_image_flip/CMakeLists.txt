@@ -79,7 +79,7 @@ target_link_libraries(image_flip_nodelet
 	${OpenCV_LIBS}
 	#${PCL_LIBRARIES}
 )
-add_dependencies(image_flip_nodelet ${catkin_EXPORTED_TARGETS} ${PROJECT_NAME}_generate_messages_cpp)
+add_dependencies(image_flip_nodelet ${catkin_EXPORTED_TARGETS})
 
 
 ## Declare a cpp executable
@@ -94,7 +94,7 @@ target_link_libraries(image_flip
 	${OpenCV_LIBS}
 	#${PCL_LIBRARIES}
 )
-add_dependencies(image_flip ${catkin_EXPORTED_TARGETS} ${PROJECT_NAME}_generate_messages_cpp)
+add_dependencies(image_flip ${catkin_EXPORTED_TARGETS})
 
 
 #############

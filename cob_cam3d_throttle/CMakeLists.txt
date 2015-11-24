@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(cob_cam3d_throttle)
 
-find_package(catkin REQUIRED COMPONENTS roscpp sensor_msgs pluginlib message_filters nodelet)
+find_package(catkin REQUIRED COMPONENTS message_filters nodelet pluginlib roscpp sensor_msgs)
 
 
 
@@ -11,8 +11,7 @@ find_package(catkin REQUIRED COMPONENTS roscpp sensor_msgs pluginlib message_fil
 ## catkin specific configuration ##
 ###################################
 catkin_package(
-    CATKIN_DEPENDS roscpp sensor_msgs pluginlib message_filters nodelet sensor_msgs
-    INCLUDE_DIRS # TODO include
+    CATKIN_DEPENDS message_filters nodelet pluginlib roscpp sensor_msgs
     LIBRARIES cam3d_throttle
 )
 
@@ -23,7 +22,7 @@ include_directories(${catkin_INCLUDE_DIRS})
 
 add_library(cam3d_throttle src/cam3d_throttle.cpp)
 target_link_libraries(cam3d_throttle ${catkin_LIBRARIES})
-add_dependencies(cam3d_throttle ${catkin_EXPORTED_TARGETS} ${PROJECT_NAME}_generate_messages_cpp)
+add_dependencies(cam3d_throttle ${catkin_EXPORTED_TARGETS})
 
 
 #############

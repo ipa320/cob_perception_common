@@ -5,8 +5,8 @@ project(cob_perception_msgs)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-  message_generation
   geometry_msgs
+  message_generation
   sensor_msgs
   std_msgs
 )
@@ -55,9 +55,9 @@ generate_messages(
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
   CATKIN_DEPENDS
+    geometry_msgs
     message_runtime
     sensor_msgs
-    geometry_msgs
     std_msgs
 )
 

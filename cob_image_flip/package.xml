@@ -15,20 +15,19 @@
   <url>http://wiki.ros.org/cob_image_flip</url>
 
   <buildtool_depend>catkin</buildtool_depend>
-  
-  <depend>libopencv-dev</depend>
-  <depend>pcl_ros</depend>
-  <depend>cmake_modules</depend>
-  <depend>roscpp</depend>
-  <depend>sensor_msgs</depend>
-  <depend>geometry_msgs</depend>
-  <depend>tf</depend>
-  <depend>image_transport</depend>
-  <depend>cv_bridge</depend>
-  <depend>nodelet</depend>
-  <depend>pcl_conversions</depend>
 
   <depend>boost</depend>
+  <depend>cmake_modules</depend>  
+  <depend>cv_bridge</depend>
+  <depend>geometry_msgs</depend>
+  <depend>image_transport</depend>
+  <depend>libopencv-dev</depend>
+  <depend>nodelet</depend>
+  <depend>pcl_conversions</depend>
+  <depend>pcl_ros</depend>
+  <depend>roscpp</depend>
+  <depend>sensor_msgs</depend>
+  <depend>tf</depend>
 
   <export>
     <nodelet plugin="${prefix}/nodelet_plugins.xml" />

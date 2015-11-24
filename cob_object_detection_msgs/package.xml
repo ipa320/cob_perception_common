@@ -15,15 +15,14 @@
   <url>http://wiki.ros.org/cob_object_detection_msgs</url>
 
   <buildtool_depend>catkin</buildtool_depend>
+
+  <build_depend>message_generation</build_depend>
+  <exec_depend>message_runtime</exec_depend>
   
   <depend>actionlib_msgs</depend>
   <depend>geometry_msgs</depend>
-  <depend>message_generation</depend>
   <depend>sensor_msgs</depend>
   <depend>std_msgs</depend>
   <depend>std_srvs</depend>
-  
-  <exec_depend>message_runtime</exec_depend>
-
+ 
 </package>
-

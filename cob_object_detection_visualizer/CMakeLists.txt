@@ -6,9 +6,10 @@ if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release) # RelWithDebInfo)
 endif(NOT CMAKE_BUILD_TYPE)
 
-set(catkin_RUN_PACKAGES # all ROS packages from package.xml (libopencv-dev is system dependency --> sudo apt-get install)
-  roscpp
+# all ROS packages from package.xml (libopencv-dev is system dependency --> sudo apt-get install)
+set(catkin_RUN_PACKAGES 
   cob_object_detection_msgs
+  roscpp
   visualization_msgs
 )
 

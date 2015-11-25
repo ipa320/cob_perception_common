@@ -6,9 +6,11 @@
 	<node name="image_flip" pkg="cob_image_flip" ns="/cob_image_flip" type="image_flip" output="screen">
 		<rosparam command="load" file="$(find cob_image_flip)/ros/launch/image_flip_params.yaml"/>
 		<remap from="~pointcloud_in" to="/$(arg camera)/depth_registered/points"/>
-		<remap from="~pointcloud_out" to="/$(arg camera)_upright/rgb/points"/>
+		<remap from="~pointcloud_out" to="/$(arg camera)_upright/depth_registered/points"/>
 		<remap from="~colorimage_in" to="/$(arg camera)/rgb/image_raw"/>
 		<remap from="~colorimage_out" to="/$(arg camera)_upright/rgb/image_raw"/>
+		<remap from="~disparityimage_in" to="/$(arg camera)/depth_registered/disparity"/>
+		<remap from="~disparityimage_out" to="/$(arg camera)_upright/depth_registered/disparity"/>
 	</node>
 
 </launch>

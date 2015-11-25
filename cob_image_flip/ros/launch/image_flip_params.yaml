@@ -18,6 +18,10 @@ flip_color_image: true
 # bool
 flip_pointcloud: true
 
+# flip disparity image
+# bool
+flip_disparity_image: true
+
 # display warning if transformation not available
 # bool
 display_warnings: true

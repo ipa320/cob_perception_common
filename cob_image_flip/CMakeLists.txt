@@ -11,6 +11,7 @@ set(catkin_RUN_PACKAGES
 	pcl_conversions
 	roscpp
 	sensor_msgs
+	stereo_msgs
 	tf
 )
 

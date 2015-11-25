@@ -2,15 +2,72 @@
 Changelog for package cob_vision_utils
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-0.5.12 (2014-09-08)
--------------------
+0.6.6 (2015-06-17)
+------------------
+
+0.6.5 (2015-06-17)
+------------------
+* Merge branch 'indigo_dev' of github.com:ipa320/cob_perception_common into 320-indigo_dev
+* Merge pull request `#43 <https://github.com/ipa320/cob_perception_common/issues/43>`_ from ipa320/indigo_release_candidate
+  Indigo release candidate
+* Adapted precompiled header settings
+* catkinizing
+* Adapted precompiled header filepath to ROS specs
+* Using standard random number generator, replaced precompiled headers with references to a file within this metapackage. Adapted package description.
+* Adapting optimizatino settings
+* Cleaning up header files
+* Added 16U as possible matrix type for image visualization
+* Adapted project filestructure
+* JSF: Adapted Kinect/Asus Xtion integration
+* Contributors: Florian Weisshardt, Jan Fischer, Richard Bormann, ipa-jsf
+
+0.6.4 (2014-09-17)
+------------------
+* 0.5.12
+* update changelog
 * cleanup changelog
+* 0.5.11
+* update changelog
 * Contributors: Florian Weisshardt
 
-0.5.11 (2014-09-01)
--------------------
+0.6.3 (2014-09-08)
+------------------
 * add tinyxml to package.xml
 * Contributors: Florian Weisshardt
+
+0.6.2 (2014-09-01)
+------------------
+* add tinyxml to package.xml
+* Update package.xml
+* increase version number for indigo
+* 0.5.10
+* update changelog
+* downgrade version for hydro
+* using opencv2 instead of libopencv-dev for hydro version (should not be merged into indigo)
+* Contributors: Florian Weisshardt
+
+0.6.1 (2014-08-28)
+------------------
+* Merge branch 'indigo_dev' into indigo_release_candidate
+* fix wrong opencv dep - again
+* Contributors: Florian Weisshardt
+
+0.6.0 (2014-08-28)
+------------------
+* 0.5.6
+* 0.5.5
+* update changelog
+* merge with hydro
+* missing install tags
+* catkin_lint'ing
+* 0.5.5
+* Merge pull request `#26 <https://github.com/ipa320/cob_perception_common/issues/26>`_ from ipa320/hydro_dev
+  updates from hydro_dev
+* update changelog
+* Merge branch 'hydro_dev' of github.com:ipa320/cob_perception_common into indigo_dev
+* fix wrong opencv dep
+* added install tags
+* Contributors: Alexander Bubeck, Florian Weisshardt, ipa-fxm
 
 0.5.10 (2014-08-29)
 -------------------

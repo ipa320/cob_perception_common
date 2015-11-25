@@ -23,6 +23,8 @@ include_directories(${catkin_INCLUDE_DIRS})
 
 add_library(cam3d_throttle src/cam3d_throttle.cpp)
 target_link_libraries(cam3d_throttle ${catkin_LIBRARIES})
+add_dependencies(cam3d_throttle ${catkin_EXPORTED_TARGETS} ${PROJECT_NAME}_generate_messages_cpp)
+
 
 #############
 ## Install ##

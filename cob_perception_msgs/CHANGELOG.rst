@@ -2,13 +2,59 @@
 Changelog for package cob_perception_msgs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-0.5.12 (2014-09-08)
--------------------
+0.6.6 (2015-06-17)
+------------------
+
+0.6.5 (2015-06-17)
+------------------
+* update changelog
+* Merge branch 'indigo_dev' of github.com:ipa320/cob_perception_common into 320-indigo_dev
+* added message description
+* Merge pull request `#43 <https://github.com/ipa320/cob_perception_common/issues/43>`_ from ipa320/indigo_release_candidate
+  Indigo release candidate
+* Merge branch 'indigo_dev' into hydro_dev
+* catkinizing
+* eliminating catkin warnings
+* Merge branch 'hydro_dev' of github.com:rmb-om/cob_perception_common into rmb-om-hydro_dev
+* Merge branch 'indigo_dev' of https://github.com/ipa-rmb/cob_perception_common into hydro_dev
+* added skeleton msg
+* Using standard random number generator, replaced precompiled headers with references to a file within this metapackage. Adapted package description.
+* Added new messages for people detection
+* Added new messages for people detection
+* moved the cob_people_detections_msgs package to cob_perception_common/cob_perception_msgs
+* Contributors: Florian Weisshardt, Richard Bormann, ipa-jsf, rmb-om
+
+0.6.4 (2014-09-17)
+------------------
+* 0.5.12
+* update changelog
 * cleanup changelog
+* 0.5.11
+* update changelog
 * Contributors: Florian Weisshardt
 
-0.5.11 (2014-09-01)
--------------------
+0.6.3 (2014-09-08)
+------------------
+
+0.6.2 (2014-09-01)
+------------------
+* increase version number for indigo
+* 0.5.10
+* update changelog
+* downgrade version for hydro
+* Contributors: Florian Weisshardt
+
+0.6.1 (2014-08-28)
+------------------
+
+0.6.0 (2014-08-28)
+------------------
+* 0.5.6
+* 0.5.5
+* update changelog
+* 0.5.5
+* update changelog
+* Contributors: Florian Weisshardt
 
 0.5.10 (2014-08-29)
 -------------------

@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+
+<launch>
+	<!-- visualizer for object detection results publishes data for RViz visualization -->
+	<node name="object_detection_visualizer" pkg="cob_object_detection_visualizer" ns="/cob_object_detection_visualizer" type="cob_object_detection_visualizer" output="screen"> <!--launch-prefix="valgrind"-->
+	<!--rosparam command="load" file="$(find cob_object_detection_visualizer)/ros/launch/object_detection_visualizer_params.yaml"/-->
+	<!--remap from="detection_array_topic" to="/surface_classification/object_detections"/-->
+	<remap from="detection_array_topic" to="/label_reading/read_label/text_tag_detections"/>
+	<!--remap from="pointcloud_out" to="/cam3d/upright/rgb/points"/-->
+</node>
+
+</launch>

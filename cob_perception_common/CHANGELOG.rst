@@ -2,13 +2,55 @@
 Changelog for package cob_perception_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-0.5.12 (2014-09-08)
--------------------
+0.6.6 (2015-06-17)
+------------------
+
+0.6.5 (2015-06-17)
+------------------
+* increase version number
+* update changelog
+* Merge branch 'indigo_dev' of github.com:ipa320/cob_perception_common into 320-indigo_dev
+* added a visualization program for cob_object_detection_msgs::DetectionArray messages, displays as a MarkerArray in Rviz
+* Merge pull request `#43 <https://github.com/ipa320/cob_perception_common/issues/43>`_ from ipa320/indigo_release_candidate
+  Indigo release candidate
+* catkinizing
+* Removed precompiled header file. It is now located in cob_vision_utils. The file is relevant when compiling with visual studio
+* Using standard random number generator, replaced precompiled headers with references to a file within this metapackage. Adapted package description.
+* Contributors: Florian Weisshardt, Richard Bormann, ipa-jsf, rmb-om
+
+0.6.4 (2014-09-17)
+------------------
+* 0.5.12
+* update changelog
 * cleanup changelog
+* 0.5.11
+* update changelog
 * Contributors: Florian Weisshardt
 
-0.5.11 (2014-09-01)
--------------------
+0.6.3 (2014-09-08)
+------------------
+
+0.6.2 (2014-09-01)
+------------------
+* increase version number for indigo
+* 0.5.10
+* update changelog
+* downgrade version for hydro
+* Contributors: Florian Weisshardt
+
+0.6.1 (2014-08-28)
+------------------
+
+0.6.0 (2014-08-28)
+------------------
+* merge
+* 0.5.6
+* 0.5.5
+* update changelog
+* 0.5.5
+* change maintainer
+* update changelog
+* Contributors: Florian Weisshardt
 
 0.5.10 (2014-08-29)
 -------------------

@@ -2,13 +2,62 @@
 Changelog for package cob_image_flip
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-0.5.12 (2014-09-08)
--------------------
+0.6.6 (2015-06-17)
+------------------
+
+0.6.5 (2015-06-17)
+------------------
+* unify version number
+* changed version number
+* updated changelog
+* complete revision of cob_image_flip, simple configuration from yaml file, rotaation modi: fixed angle and automatic angle determination from tf with option to round rotation in 90 deg steps
+* Merge branch 'indigo_dev' of github.com:ipa320/cob_perception_common into 320-indigo_dev
+* cleaning up
+* added a visualization program for cob_object_detection_msgs::DetectionArray messages, displays as a MarkerArray in Rviz
+* catkinizing
+* catkinizing
+* Contributors: Florian Weisshardt, Richard Bormann, rmb-om
+
+0.6.4 (2014-09-17)
+------------------
+* 0.5.12
+* update changelog
 * cleanup changelog
+* 0.5.11
+* update changelog
 * Contributors: Florian Weisshardt
 
-0.5.11 (2014-09-01)
--------------------
+0.6.3 (2014-09-08)
+------------------
+
+0.6.2 (2014-09-01)
+------------------
+* Update package.xml
+* increase version number for indigo
+* 0.5.10
+* update changelog
+* downgrade version for hydro
+* using opencv2 instead of libopencv-dev for hydro version (should not be merged into indigo)
+* Contributors: Florian Weisshardt
+
+0.6.1 (2014-08-28)
+------------------
+* Merge branch 'indigo_dev' into indigo_release_candidate
+* fix wrong opencv dep - again
+* Contributors: Florian Weisshardt
+
+0.6.0 (2014-08-28)
+------------------
+* 0.5.6
+* 0.5.5
+* update changelog
+* missing install tags
+* 0.5.5
+* Merge pull request `#26 <https://github.com/ipa320/cob_perception_common/issues/26>`_ from ipa320/hydro_dev
+  updates from hydro_dev
+* update changelog
+* fix wrong opencv dep
+* Contributors: Alexander Bubeck, Florian Weisshardt, ipa-fxm
 
 0.5.10 (2014-08-29)
 -------------------

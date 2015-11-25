@@ -1,6 +1,7 @@
-<package>
+<?xml version="1.0"?>
+<package format="2">
   <name>cob_vision_utils</name>
-  <version>0.6.1</version>
+  <version>0.6.6</version>
   
   <description>
      Contains utilities used within the object detection tool chain.
@@ -15,16 +16,11 @@
 
   <buildtool_depend>catkin</buildtool_depend>
   
-  <build_depend>libopencv-dev</build_depend>
-  <build_depend>roscpp</build_depend>
-  <build_depend>visualization_msgs</build_depend>
-  <build_depend>cmake_modules</build_depend>
-  <build_depend>tinyxml</build_depend>
-
-  <run_depend>libopencv-dev</run_depend>
-  <run_depend>roscpp</run_depend>
-  <run_depend>visualization_msgs</run_depend>
-  <run_depend>tinyxml</run_depend>
+  <depend>libopencv-dev</depend>
+  <depend>roscpp</depend>
+  <depend>visualization_msgs</depend>
+  <depend>cmake_modules</depend>
+  <depend>tinyxml</depend>
 
   <export>
         <!--cpp cflags="-I${prefix}/common/include -I${prefix}/ros/include" lflags="-Wl,-rpath,${prefix}/common/lib -L${prefix}/common/lib -lcob_vision_utils"/-->

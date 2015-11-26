@@ -282,6 +282,12 @@ unsigned long CameraSensorToolbox::ConvertCameraTypeToString(ipa_CameraSensors::
 	case CAM_VIRTUALRANGE:
 		cameraTypeString = "VirtualRangeCam";
 		break;
+	case CAM_ENSENSO_N30:
+		cameraTypeString = "EnsensoN30";
+		break;
+	case CAM_IDS_UEYE:
+		cameraTypeString = "IDSuEyeCamera";
+		break;
 	default:
 		std::cerr << "ERROR - CameraSensorToolbox::ConvertCameraTypeToString:" << std::endl;
 		std::cerr << "\t ... Camera type " << cameraType << " unspecified." << std::endl;

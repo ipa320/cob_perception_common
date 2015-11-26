@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 
 <launch>
-	<arg name="camera" default="cam3d" />
+	<arg name="camera" default="camera" />
 	<arg name="start_manager" default="false"/>
 	<arg name="nodelet_manager" default="$(arg camera)_nodelet_manager"/>
 	
@@ -9,10 +9,12 @@
 
 	<node pkg="nodelet" type="nodelet" name="ImageFlipNodelet" ns="/cob_image_flip" args="load cob_image_flip/ImageFlipNodelet /$(arg camera)/$(arg nodelet_manager)" output="screen">
 		<rosparam command="load" file="$(find cob_image_flip)/ros/launch/image_flip_params.yaml"/>
-		<remap from="~pointcloud_in" to="/$(arg camera)/rgb/points"/>
-		<remap from="~pointcloud_out" to="/$(arg camera)_upright/rgb/points"/>
+		<remap from="~pointcloud_in" to="/$(arg camera)/depth_registered/points"/>
+		<remap from="~pointcloud_out" to="/$(arg camera)_upright/depth_registered/points"/>
 		<remap from="~colorimage_in" to="/$(arg camera)/rgb/image_raw"/>
 		<remap from="~colorimage_out" to="/$(arg camera)_upright/rgb/image_raw"/>
+		<remap from="~disparityimage_in" to="/$(arg camera)/depth_registered/disparity"/>
+		<remap from="~disparityimage_out" to="/$(arg camera)_upright/depth_registered/disparity"/>
 	</node>
 
 </launch>

@@ -13,18 +13,12 @@
   <author email="goa@ipa.fhg.de">Georg Arbeiter</author>
 
   <buildtool_depend>catkin</buildtool_depend>
-  
-  <depend>roscpp</depend>
-  <depend>sensor_msgs</depend>
-  <depend>pluginlib</depend>
+
   <depend>message_filters</depend>
   <depend>nodelet</depend>
-
-  <!-- <test_depend>roscpp</test_depend> -->
-  <!-- <test_depend>sensor_msgs</test_depend> -->
-  <!-- <test_depend>pluginlib</test_depend> -->
-  <!-- <test_depend>message_filters</test_depend> -->
-  <!-- <test_depend>nodelet</test_depend> -->
+  <depend>pluginlib</depend>
+  <depend>roscpp</depend>
+  <depend>sensor_msgs</depend>
 
   <export>
     <nodelet plugin="${prefix}/nodelet_plugins.xml"/>

@@ -1,16 +1,18 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(cob_image_flip)
 
-set(catkin_RUN_PACKAGES # all ROS packages from package.xml (libopencv-dev is system dependency --> sudo apt-get install)
-	roscpp
-	sensor_msgs
-	geometry_msgs
-	tf
-	image_transport
+# all ROS packages from package.xml (libopencv-dev is system dependency --> sudo apt-get install)
+set(catkin_RUN_PACKAGES 
 	cv_bridge
+	geometry_msgs
+	image_transport
 	nodelet
 	pcl_ros
 	pcl_conversions
+	roscpp
+	sensor_msgs
+	stereo_msgs
+	tf
 )
 
 set(catkin_BUILD_PACKAGES 
@@ -79,7 +81,7 @@ target_link_libraries(image_flip_nodelet
 	${OpenCV_LIBS}
 	#${PCL_LIBRARIES}
 )
-add_dependencies(image_flip_nodelet ${catkin_EXPORTED_TARGETS} ${PROJECT_NAME}_generate_messages_cpp)
+add_dependencies(image_flip_nodelet ${catkin_EXPORTED_TARGETS})
 
 
 ## Declare a cpp executable
@@ -94,7 +96,7 @@ target_link_libraries(image_flip
 	${OpenCV_LIBS}
 	#${PCL_LIBRARIES}
 )
-add_dependencies(image_flip ${catkin_EXPORTED_TARGETS} ${PROJECT_NAME}_generate_messages_cpp)
+add_dependencies(image_flip ${catkin_EXPORTED_TARGETS})
 
 
 #############

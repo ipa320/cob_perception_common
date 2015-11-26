@@ -9,21 +9,20 @@
   
   <license>LGPL</license>
   
-  <maintainer email="jsf@ipa.fhg.de">Jan Fischer</maintainer>
+  <maintainer email="rmb@ipa.fhg.de">Richard Bormann</maintainer>
   <author>Jan Fischer</author>
   
   <url>http://wiki.ros.org/cob_vision_utils</url>
 
   <buildtool_depend>catkin</buildtool_depend>
   
+  <depend>cmake_modules</depend>
   <depend>libopencv-dev</depend>
   <depend>roscpp</depend>
-  <depend>visualization_msgs</depend>
-  <depend>cmake_modules</depend>
   <depend>tinyxml</depend>
+  <depend>visualization_msgs</depend>
 
   <export>
-        <!--cpp cflags="-I${prefix}/common/include -I${prefix}/ros/include" lflags="-Wl,-rpath,${prefix}/common/lib -L${prefix}/common/lib -lcob_vision_utils"/-->
   </export>
 	
 </package>

@@ -59,7 +59,7 @@
 namespace cob_image_flip
 {
 ImageFlip::ImageFlip(ros::NodeHandle nh)
-: 	node_handle_(nh), img_sub_counter_(0), pc_sub_counter_(0), transform_listener_(nh), it_(0), last_rotation_angle_(0)
+: 	node_handle_(nh), img_sub_counter_(0), pc_sub_counter_(0), disparity_sub_counter_(0), transform_listener_(nh), it_(0), last_rotation_angle_(0)
 {
 	// set parameters
 	ROS_DEBUG_STREAM("\n--------------------------\nImage Flip Parameters:\n--------------------------");
@@ -86,6 +86,8 @@ ImageFlip::ImageFlip(ros::NodeHandle nh)
 	ROS_DEBUG_STREAM("flip_color_image = " << flip_color_image_);
 	node_handle_.param("flip_pointcloud", flip_pointcloud_, false);
 	ROS_DEBUG_STREAM("flip_pointcloud = " << flip_pointcloud_);
+	node_handle_.param("flip_disparity_image", flip_disparity_image_, false);
+	ROS_DEBUG_STREAM("flip_disparity_image = " << flip_disparity_image_);
 	node_handle_.param("display_warnings", display_warnings_, false);
 	ROS_DEBUG_STREAM("display_warnings = " << display_warnings_);
 
@@ -100,6 +102,11 @@ ImageFlip::ImageFlip(ros::NodeHandle nh)
 	if (flip_pointcloud_ == true)
 	{
 		point_cloud_pub_ = node_handle_.advertise<sensor_msgs::PointCloud2>("pointcloud_out", 1,  boost::bind(&ImageFlip::pcConnectCB, this, _1), boost::bind(&ImageFlip::pcDisconnectCB, this, _1));
+	}
+
+	if (flip_disparity_image_ == true)
+	{
+		disparity_image_pub_ = node_handle_.advertise<stereo_msgs::DisparityImage>("disparityimage_out", 1,  boost::bind(&ImageFlip::disparityConnectCB, this, _1), boost::bind(&ImageFlip::disparityDisconnectCB, this, _1));
 	}
 
 	ROS_DEBUG_STREAM("ImageFlip initialized.");
@@ -160,18 +167,18 @@ double ImageFlip::determineRotationAngle(const std::string& camera_frame_id, con
 }
 
 
-bool ImageFlip::convertColorImageMessageToMat(const sensor_msgs::Image::ConstPtr& color_image_msg, cv_bridge::CvImageConstPtr& color_image_ptr, cv::Mat& color_image)
+bool ImageFlip::convertImageMessageToMat(const sensor_msgs::Image::ConstPtr& image_msg, cv_bridge::CvImageConstPtr& image_ptr, cv::Mat& image)
 {
 	try
 	{
-		color_image_ptr = cv_bridge::toCvShare(color_image_msg, sensor_msgs::image_encodings::BGR8);
+		image_ptr = cv_bridge::toCvShare(image_msg, image_msg->encoding);
 	}
 	catch (cv_bridge::Exception& e)
 	{
 		ROS_ERROR("ImageFlip::convertColorImageMessageToMat: cv_bridge exception: %s", e.what());
 		return false;
 	}
-	color_image = color_image_ptr->image;
+	image = image_ptr->image;
 
 	return true;
 }
@@ -182,7 +189,7 @@ void ImageFlip::imageCallback(const sensor_msgs::ImageConstPtr& color_image_msg)
 	// read image
 	cv_bridge::CvImageConstPtr color_image_ptr;
 	cv::Mat color_image;
-	if (convertColorImageMessageToMat(color_image_msg, color_image_ptr, color_image) == false)
+	if (convertImageMessageToMat(color_image_msg, color_image_ptr, color_image) == false)
 		return;
 	cv::Mat color_image_turned;
 
@@ -273,7 +280,7 @@ void ImageFlip::imageCallback(const sensor_msgs::ImageConstPtr& color_image_msg)
 	// publish turned image
 	cv_bridge::CvImage cv_ptr;
 	cv_ptr.image = color_image_turned;
-	cv_ptr.encoding = "bgr8";
+	cv_ptr.encoding = color_image_msg->encoding;
 	sensor_msgs::Image::Ptr color_image_turned_msg = cv_ptr.toImageMsg();
 	color_image_turned_msg->header = color_image_msg->header;
 	color_camera_image_pub_.publish(color_image_turned_msg);
@@ -505,5 +512,134 @@ void ImageFlip::pcDisconnectCB(const ros::SingleSubscriberPublisher& pub)
 		point_cloud_sub_.shutdown();
 	}
 }
+
+void void_delete_image_msg(const sensor_msgs::Image*)
+{
+	return;
+}
+
+void ImageFlip::disparityCallback(const stereo_msgs::DisparityImage::ConstPtr& disparity_image_msg)
+{
+	// read image
+	cv_bridge::CvImageConstPtr disparity_image_ptr;
+	cv::Mat disparity_image;
+	sensor_msgs::ImageConstPtr disparity_image_constptr = boost::shared_ptr<const sensor_msgs::Image>(&disparity_image_msg->image, void_delete_image_msg);
+	if (convertImageMessageToMat(disparity_image_constptr, disparity_image_ptr, disparity_image) == false)
+		return;
+	cv::Mat disparity_image_turned;
+
+	// determine rotation angle
+	double rotation_angle = determineRotationAngle(disparity_image_msg->header.frame_id, disparity_image_msg->header.stamp);
+
+	// rotate
+	// fast hard coded rotations
+	if (rotation_angle==0. || rotation_angle==360. || rotation_angle==-360.)
+	{
+		disparity_image_turned = disparity_image;
+	}
+	else if (rotation_angle==90. || rotation_angle==-270.)
+	{
+		// rotate images by 90 degrees
+		disparity_image_turned.create(disparity_image.cols, disparity_image.rows, disparity_image.type());
+		if (disparity_image.type() != CV_32FC1)
+		{
+			ROS_ERROR("ImageFlip::imageCallback: Error: The image format of the disparity image is not CV_32FC1.\n");
+			return;
+		}
+		for (int v = 0; v < disparity_image_turned.rows; v++)
+			for (int u = 0; u < disparity_image_turned.cols; u++)
+				disparity_image_turned.at<float>(v,u) = disparity_image.at<float>(disparity_image.rows-1-u,v);
+	}
+	else if (rotation_angle==270. || rotation_angle==-90.)
+	{
+		// rotate images by 270 degrees
+		disparity_image_turned.create(disparity_image.cols, disparity_image.rows, disparity_image.type());
+		if (disparity_image.type() != CV_32FC1)
+		{
+			std::cout << "ImageFlip::imageCallback: Error: The image format of the color image is not CV_32FC1.\n";
+			return;
+		}
+		for (int v = 0; v < disparity_image_turned.rows; v++)
+			for (int u = 0; u < disparity_image_turned.cols; u++)
+				disparity_image_turned.at<float>(v,u) = disparity_image.at<float>(u,disparity_image.cols-1-v);
+	}
+	else if (rotation_angle==180 || rotation_angle==-180)
+	{
+		// rotate images by 180 degrees
+		disparity_image_turned.create(disparity_image.rows, disparity_image.cols, disparity_image.type());
+		if (disparity_image.type() != CV_32FC1)
+		{
+			std::cout << "ImageFlip::imageCallback: Error: The image format of the color image is not CV_32FC1.\n";
+			return;
+		}
+		for (int v = 0; v < disparity_image.rows; v++)
+		{
+			float* src = (float*)disparity_image.ptr(v);
+			float* dst = (float*)disparity_image_turned.ptr(disparity_image.rows - v - 1) + (disparity_image.cols - 1);
+			for (int u = 0; u < disparity_image.cols; u++)
+			{
+				*dst = *src;
+				src++;
+				dst--;
+			}
+		}
+	}
+	else
+	{
+		// arbitrary rotation
+		bool switch_aspect_ratio = !(fabs(sin(rotation_angle*CV_PI/180.)) < 0.707106781);
+		if (switch_aspect_ratio==false)
+			disparity_image_turned.create(disparity_image.rows, disparity_image.cols, disparity_image.type());		// automatically decide for landscape or portrait orientation of resulting image
+		else
+			disparity_image_turned.create(disparity_image.cols, disparity_image.rows, disparity_image.type());
+		if (disparity_image.type() != CV_32FC1)
+		{
+			ROS_ERROR("ImageFlip::imageCallback: Error: The image format of the color image is not CV_32FC1.\n");
+			return;
+		}
+
+		cv::Point center = cv::Point(disparity_image.cols/2, disparity_image.rows/2);
+		cv::Mat rot_mat = cv::getRotationMatrix2D(center, -rotation_angle, 1.0);
+		if (switch_aspect_ratio==true)
+		{
+			rot_mat.at<double>(0,2) += 0.5*(disparity_image_turned.cols-disparity_image.cols);
+			rot_mat.at<double>(1,2) += 0.5*(disparity_image_turned.rows-disparity_image.rows);
+		}
+		cv::warpAffine(disparity_image, disparity_image_turned, rot_mat, disparity_image_turned.size());
+	}
+
+	// publish turned image
+	cv_bridge::CvImage cv_ptr;
+	cv_ptr.image = disparity_image_turned;
+	cv_ptr.encoding = disparity_image_msg->image.encoding;
+	stereo_msgs::DisparityImage::Ptr disparity_image_turned_msg(new stereo_msgs::DisparityImage);
+	sensor_msgs::ImagePtr disparity_image_turned_msg_image = cv_ptr.toImageMsg();
+	disparity_image_turned_msg_image->header = disparity_image_msg->image.header;
+	disparity_image_turned_msg->image = *disparity_image_turned_msg_image;
+	disparity_image_turned_msg->header = disparity_image_msg->header;
+	disparity_image_pub_.publish(disparity_image_turned_msg);
+}
+
+
+void ImageFlip::disparityConnectCB(const ros::SingleSubscriberPublisher& pub)
+{
+	disparity_sub_counter_++;
+	if (disparity_sub_counter_ == 1)
+	{
+		ROS_DEBUG("ImageFlip::disparityConnectCB: Connecting disparity callback.");
+		disparity_image_sub_ = node_handle_.subscribe<stereo_msgs::DisparityImage>("disparityimage_in", 1, &ImageFlip::disparityCallback, this);
+	}
+}
+
+void ImageFlip::disparityDisconnectCB(const ros::SingleSubscriberPublisher& pub)
+{
+	disparity_sub_counter_--;
+	if (disparity_sub_counter_ == 0)
+	{
+		ROS_DEBUG("ImageFlip::disparityDisconnectCB: Disconnecting disparity callback.");
+		disparity_image_sub_.shutdown();
+	}
+}
+
 
 }

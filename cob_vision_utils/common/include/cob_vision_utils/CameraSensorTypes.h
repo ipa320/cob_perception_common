@@ -114,7 +114,9 @@ namespace ipa_CameraSensors {
 		CAM_PMDCAM,		///< PMD camera
 		CAM_KINECT,		///< Microsoft Kinect camera
 		CAM_OPENCVCAMERA,		///< OpenCV supported generic video camera
-		ROBOT					///< Robot
+		ROBOT,					///< Robot
+		CAM_ENSENSO_N30,		///< Ensenso N30 3d stereo camera
+		CAM_IDS_UEYE			///< IDS uEye 5MP camera	
 	};
 
 	/// Enum to identify camera device properties

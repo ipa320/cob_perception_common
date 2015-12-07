@@ -288,6 +288,9 @@ unsigned long CameraSensorToolbox::ConvertCameraTypeToString(ipa_CameraSensors::
 	case CAM_IDS_UEYE:
 		cameraTypeString = "IDSuEyeCamera";
 		break;
+	case CAM_ENSENSO_IDS_RACK:
+		cameraTypeString = "EnsensoIDSColorRack";
+		break;
 	default:
 		std::cerr << "ERROR - CameraSensorToolbox::ConvertCameraTypeToString:" << std::endl;
 		std::cerr << "\t ... Camera type " << cameraType << " unspecified." << std::endl;

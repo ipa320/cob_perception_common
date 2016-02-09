@@ -11,8 +11,16 @@
   <buildtool_depend>catkin</buildtool_depend>
 
   <depend>cmake_modules</depend>
-  <depend>cob_object_detection_msgs</depend>  
+  <depend>cob_object_detection_msgs</depend>
+  <depend>cv_bridge</depend>
+  <depend>eigen_conversions</depend>
+  <depend>image_transport</depend>
+  <depend>libopencv-dev</depend>
+  <depend>libpcl-all-dev</depend>
+  <depend>message_filters</depend>
+  <depend>pcl_ros</depend>
   <depend>roscpp</depend>
+  <depend>sensor_msgs</depend>
   <depend>visualization_msgs</depend>
 
   <export>

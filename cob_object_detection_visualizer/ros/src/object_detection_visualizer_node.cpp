@@ -101,10 +101,11 @@ public:
 	: node_handle_(nh), prev_marker_array_size_(0), projection_matrix_received_(false), image_counter_(0)
 	{
 		// parameters
+		ros::NodeHandle pnh("~");
 		std::cout << "\n========== ObjectDetectionVisualizer Parameters ==========\n";
-		node_handle_.param("display_rviz_markers", display_rviz_markers_, true);
+		pnh.param("display_rviz_markers", display_rviz_markers_, true);
 		std::cout << "display_rviz_markers: " << display_rviz_markers_ << std::endl;
-		node_handle_.param("display_detection_image", display_detection_image_, true);
+		pnh.param("display_detection_image", display_detection_image_, true);
 		std::cout << "display_detection_image: " << display_detection_image_ << std::endl;
 
 		projection_matrix_ = cv::Mat::eye(3, 3, CV_64FC1);
@@ -121,13 +122,15 @@ public:
 		{
 //			it_ = new image_transport::ImageTransport(node_handle_);
 //			color_image_sub_.subscribe(*it_, "color_image", 1);
-			pointcloud_sub_.subscribe(node_handle_, "pointcloud", 1);
-			sync_detection_array_sub_.subscribe(node_handle_, "detection_array_topic", 1);
-			pointcloud_info_sub_ = node_handle_.subscribe("pointcloud_info", 1, &ObjectDetectionVisualizer::pointcloudInfoCallback, this);
+			pointcloud_sub_ = node_handle_.subscribe("pointcloud", 1, &ObjectDetectionVisualizer::pointcloudCallback, this);
+			detection_array_sub_ = node_handle_.subscribe("detection_array_topic", 1, &ObjectDetectionVisualizer::objectDetectionDisplayCallback, this);
 
-			sync_input_ = new message_filters::Synchronizer<message_filters::sync_policies::ApproximateTime<cob_object_detection_msgs::DetectionArray, sensor_msgs::PointCloud2> >(5);
-			sync_input_->connectInput(sync_detection_array_sub_, pointcloud_sub_);
-			sync_input_->registerCallback(boost::bind(&ObjectDetectionVisualizer::detectionImageCallback, this, _1, _2));
+//			sync_detection_array_sub_.subscribe(node_handle_, "detection_array_topic", 1);
+//			sync_input_ = new message_filters::Synchronizer<message_filters::sync_policies::ApproximateTime<cob_object_detection_msgs::DetectionArray, sensor_msgs::PointCloud2> >(2);
+//			sync_input_->connectInput(sync_detection_array_sub_, pointcloud_sub_);
+//			sync_input_->registerCallback(boost::bind(&ObjectDetectionVisualizer::detectionImageCallback, this, _1, _2));
+
+			pointcloud_info_sub_ = node_handle_.subscribe("pointcloud_info", 1, &ObjectDetectionVisualizer::pointcloudInfoCallback, this);
 		}
 	}
 
@@ -135,8 +138,8 @@ public:
 	{
 //		if (it_ != NULL)
 //			delete it_;
-		if (sync_input_ != NULL)
-			delete sync_input_;
+//		if (sync_input_ != NULL)
+//			delete sync_input_;
 	}
 
 private:
@@ -258,6 +261,36 @@ private:
 		return true;
 	}
 
+	void pointcloudCallback(const sensor_msgs::PointCloud2::ConstPtr& pointcloud_msg)
+	{
+		// secure this access with a mutex
+		boost::mutex::scoped_lock lock(color_image_mutex_);
+
+		pcl::PointCloud<pcl::PointXYZRGB> pointcloud;
+		convertPclMessageToMat(pointcloud_msg, pointcloud, color_image_);
+	}
+
+	void objectDetectionDisplayCallback(const cob_object_detection_msgs::DetectionArray::ConstPtr& object_detection_msg)
+	{
+		cv::Mat image;
+		{
+			// secure this access with a mutex
+			boost::mutex::scoped_lock lock(color_image_mutex_);
+			image = color_image_.clone();
+		}
+		renderDetections(image, object_detection_msg);
+
+		cv::Mat display;
+		cv::resize(image, display, cv::Size(), 0.5, 0.5);
+		cv::imshow("object detections", display);
+		cv::waitKey(50);
+
+		std::stringstream file;
+		file << "object_detection_visualizer/" << image_counter_ << ".png";
+		cv::imwrite(file.str().c_str(), image);
+		image_counter_++;
+	}
+
 	void detectionImageCallback(const cob_object_detection_msgs::DetectionArray::ConstPtr& object_detection_msg, const sensor_msgs::PointCloud2::ConstPtr& pointcloud_msg)
 	{
 //		// read image
@@ -272,8 +305,10 @@ private:
 
 		renderDetections(image, object_detection_msg);
 
-		cv::imshow("object detections", image);
-		cv::waitKey(20);
+		cv::Mat display;
+		cv::resize(image, display, cv::Size(), 0.5, 0.5);
+		cv::imshow("object detections", display);
+		cv::waitKey(50);
 
 		std::stringstream file;
 		file << "object_detection_visualizer/" << image_counter_ << ".png";
@@ -322,7 +357,7 @@ private:
 					{
 						Eigen::Affine3d corner = pose * Eigen::Translation3d(i*s*detection.bounding_box_lwh.x, j*detection.bounding_box_lwh.y, k*detection.bounding_box_lwh.z);
 						corners_3d.push_back(cv::Vec3d(corner.translation()(0), corner.translation()(1), corner.translation()(2)));
-						std::cout << " > " << corner.translation()(0) << ", " << corner.translation()(1) << ", " << corner.translation()(2) << std::endl;
+						//std::cout << " > " << corner.translation()(0) << ", " << corner.translation()(1) << ", " << corner.translation()(2) << std::endl;
 					}
 					s *= -1;
 				}
@@ -344,7 +379,7 @@ private:
 
 			// annotate bounding box with object name
 			cv::Point center_top;
-			for (int i=0; i<4; ++i)
+			for (int i=4; i<8; ++i)
 				center_top += corners_2d[i];
 			center_top *= 0.25;
 			cv::putText(image, detection.label, center_top, cv::FONT_HERSHEY_SIMPLEX, 0.75, object_name_to_color_map_[detection.label], 2);
@@ -407,6 +442,7 @@ private:
 		std::cout << std::setw(8) << projection_matrix_.at<double>(2, 2) << " / "<< std::endl << std::endl;
 
 		projection_matrix_received_ = true;
+		pointcloud_info_sub_.shutdown();
 	}
 
 	ros::NodeHandle node_handle_;
@@ -417,13 +453,17 @@ private:
 
 //	image_transport::ImageTransport* it_;
 //	image_transport::SubscriberFilter color_image_sub_; ///< color camera image topic
-	message_filters::Subscriber<sensor_msgs::PointCloud2> pointcloud_sub_; ///< receives the detection messages
-	message_filters::Subscriber<cob_object_detection_msgs::DetectionArray> sync_detection_array_sub_; ///< receives the detection messages
-	message_filters::Synchronizer<message_filters::sync_policies::ApproximateTime<cob_object_detection_msgs::DetectionArray, sensor_msgs::PointCloud2> >* sync_input_;
+//	message_filters::Subscriber<sensor_msgs::PointCloud2> pointcloud_sub_; ///< receives the detection messages
+//	message_filters::Subscriber<cob_object_detection_msgs::DetectionArray> sync_detection_array_sub_; ///< receives the detection messages
+//	message_filters::Synchronizer<message_filters::sync_policies::ApproximateTime<cob_object_detection_msgs::DetectionArray, sensor_msgs::PointCloud2> >* sync_input_;
 	ros::Subscriber pointcloud_info_sub_;
+	ros::Subscriber pointcloud_sub_;
 
 	bool projection_matrix_received_;
 	cv::Mat projection_matrix_;		// 3x3 intrinsic matrix
+
+	boost::mutex color_image_mutex_; // secures read and write operations on camera data
+	cv::Mat color_image_;
 
 	std::map<std::string, cv::Scalar> object_name_to_color_map_;
 	int image_counter_;

@@ -70,8 +70,15 @@ public:
 	ObjectDetectionVisualizer(ros::NodeHandle& nh)
 	: node_handle_(nh), prev_marker_array_size_(0)
 	{
+		// parameters
+		std::cout << "\n========== ObjectDetectionVisualizer Parameters ==========\n";
+		node_handle_.param("display_detection_image", display_detection_image_, false);
+		std::cout << "display_detection_image: " << display_detection_image_ << std::endl;
+
 		detection_array_sub_ = node_handle_.subscribe("detection_array_topic", 1, &ObjectDetectionVisualizer::objectDetectionArrayCallback, this);
 		marker_array_publisher_ = node_handle_.advertise<visualization_msgs::MarkerArray>("object_detection_marker_array", 0);
+
+
 	}
 
 	~ObjectDetectionVisualizer()
@@ -170,9 +177,10 @@ private:
 	ros::NodeHandle node_handle_;
 	ros::Subscriber detection_array_sub_;
 	ros::Publisher marker_array_publisher_;
-
 	unsigned int prev_marker_array_size_;
 	visualization_msgs::MarkerArray marker_array_msg_;
+
+	bool display_detection_image_;
 };
 
 

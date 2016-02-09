@@ -6,7 +6,8 @@
 	<!--rosparam command="load" file="$(find cob_object_detection_visualizer)/ros/launch/object_detection_visualizer_params.yaml"/-->
 	<!--remap from="detection_array_topic" to="/surface_classification/object_detections"/-->
 	<remap from="detection_array_topic" to="/label_reading/read_label/text_tag_detections"/>
-	<!--remap from="pointcloud_out" to="/cam3d/upright/rgb/points"/-->
+	
+	<param name="display_detection_image" value="true" />
 </node>
 
 </launch>

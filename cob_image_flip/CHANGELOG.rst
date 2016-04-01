@@ -2,8 +2,8 @@
 Changelog for package cob_image_flip
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.6.7 (2016-04-01)
+------------------
 * added the possibility to turn DisparityImages
 * fix remaining issues from `#54 <https://github.com/ipa320/cob_perception_common/issues/54>`_
 * removing dependency to message_generation because no messages are generated in this package

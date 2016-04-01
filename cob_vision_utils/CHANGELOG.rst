@@ -2,8 +2,8 @@
 Changelog for package cob_vision_utils
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.6.7 (2016-04-01)
+------------------
 * work on uEye and N30 integration
 * added Ensenso N30 sensor
 * fix remaining issues from `#54 <https://github.com/ipa320/cob_perception_common/issues/54>`_

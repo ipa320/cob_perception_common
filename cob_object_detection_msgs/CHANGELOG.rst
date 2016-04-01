@@ -2,8 +2,8 @@
 Changelog for package cob_object_detection_msgs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.6.7 (2016-04-01)
+------------------
 * fix remaining issues from `#54 <https://github.com/ipa320/cob_perception_common/issues/54>`_
 * conversion to package format 2
 * Contributors: Richard Bormann, ipa-fmw

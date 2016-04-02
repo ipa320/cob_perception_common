@@ -2,6 +2,13 @@
 Changelog for package cob_perception_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.6.7 (2016-04-01)
+------------------
+* add cob_3d_mapping_msgs to meta-package
+* fix remaining issues from `#54 <https://github.com/ipa320/cob_perception_common/issues/54>`_
+* conversion to package format 2
+* Contributors: Richard Bormann, ipa-fmw, ipa-fxm
+
 0.6.6 (2015-06-17)
 ------------------
 

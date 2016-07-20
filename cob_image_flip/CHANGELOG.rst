@@ -2,6 +2,19 @@
 Changelog for package cob_image_flip
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.6.7 (2016-04-01)
+------------------
+* added the possibility to turn DisparityImages
+* fix remaining issues from `#54 <https://github.com/ipa320/cob_perception_common/issues/54>`_
+* removing dependency to message_generation because no messages are generated in this package
+* conversion to package format 2
+* removed an obsolete parameter
+* added point cloud rotation, i.e. the rotation of the ordered indexing matrix of the point cloud data
+* added wait for transform because of non-flipping bug
+* added standard output on point cloud flip
+* hopefully corrected dependencies to message generation
+* Contributors: Florian Weisshardt, Richard Bormann, ipa-fmw
+
 0.6.6 (2015-06-17)
 ------------------
 

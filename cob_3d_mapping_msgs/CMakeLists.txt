@@ -35,6 +35,10 @@ add_message_files(
     CurvedPolygon.msg
     Feature.msg
     FilterObject.msg
+    Plane.msg
+    PlaneScene.msg
+    Point2D.msg
+    Polygon.msg 
     PolylinePoint.msg
     ShapeArray.msg
     Shape.msg

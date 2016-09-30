@@ -7,10 +7,13 @@
 		<rosparam command="load" file="$(find cob_image_flip)/ros/launch/image_flip_params.yaml"/>
 		<remap from="~pointcloud_in" to="/$(arg camera)/depth_registered/points"/>
 		<remap from="~pointcloud_out" to="/$(arg camera)_upright/depth_registered/points"/>
+		<remap from="~pointcloud_inplane_transform" to="/$(arg camera)_upright/depth_registered/points_inplane_transform"/>
 		<remap from="~colorimage_in" to="/$(arg camera)/rgb/image_raw"/>
 		<remap from="~colorimage_out" to="/$(arg camera)_upright/rgb/image_raw"/>
+		<remap from="~colorimage_inplane_transform" to="/$(arg camera)_upright/rgb/image_raw_inplane_transform"/>
 		<remap from="~disparityimage_in" to="/$(arg camera)/depth_registered/disparity"/>
 		<remap from="~disparityimage_out" to="/$(arg camera)_upright/depth_registered/disparity"/>
+		<remap from="~disparityimage_inplane_transform" to="/$(arg camera)_upright/rgb/disparity_inplane_transform"/>
 	</node>
 
 </launch>

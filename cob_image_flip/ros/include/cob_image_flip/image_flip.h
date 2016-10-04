@@ -61,6 +61,7 @@
 #include <sensor_msgs/PointCloud2.h>
 #include <stereo_msgs/DisparityImage.h>
 #include <tf/transform_listener.h>
+#include <cob_perception_msgs/Float64ArrayStamped.h>
 
 // topics
 #include <image_transport/image_transport.h>
@@ -106,11 +107,14 @@ protected:
 
 	ros::Subscriber point_cloud_sub_;	///< point cloud input topic
 	ros::Publisher point_cloud_pub_;	///< point cloud output topic
+	ros::Publisher point_cloud_2d_transform_pub_;	///< publisher for the transformation matrix for the in plane rotation and translation in the image plane, this matrix converts coordinates of the turned image into coordinates of the original image (with camera calibration applicable there): p_original = T * p_turned
 	image_transport::ImageTransport* it_;
 	image_transport::SubscriberFilter color_camera_image_sub_;	///< color camera image input topic
 	image_transport::Publisher color_camera_image_pub_;			///< color camera image output topic
+	ros::Publisher color_camera_image_2d_transform_pub_;	///< publisher for the transformation matrix for the in plane rotation and translation in the image plane, this matrix converts coordinates of the turned image into coordinates of the original image (with camera calibration applicable there): p_original = T * p_turned
 	ros::Subscriber disparity_image_sub_;	///< disparity image input topic
 	ros::Publisher disparity_image_pub_;	///< disparity image output topic
+	ros::Publisher disparity_image_2d_transform_pub_;	///< publisher for the transformation matrix for the in plane rotation and translation in the image plane, this matrix converts coordinates of the turned image into coordinates of the original image (with camera calibration applicable there): p_original = T * p_turned
 
 	tf::TransformListener transform_listener_;
 

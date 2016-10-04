@@ -3,6 +3,7 @@ project(cob_image_flip)
 
 # all ROS packages from package.xml (libopencv-dev is system dependency --> sudo apt-get install)
 set(catkin_RUN_PACKAGES 
+	cob_perception_msgs
 	cv_bridge
 	geometry_msgs
 	image_transport

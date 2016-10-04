@@ -7,9 +7,15 @@ if(NOT CMAKE_BUILD_TYPE)
 endif(NOT CMAKE_BUILD_TYPE)
 
 # all ROS packages from package.xml (libopencv-dev is system dependency --> sudo apt-get install)
-set(catkin_RUN_PACKAGES 
+set(catkin_RUN_PACKAGES
   cob_object_detection_msgs
+  cv_bridge
+  eigen_conversions
+  image_transport
+  message_filters
+  pcl_ros
   roscpp
+  sensor_msgs
   visualization_msgs
 )
 
@@ -29,8 +35,9 @@ find_package(catkin REQUIRED COMPONENTS
 )
 
 ## System dependencies are found with CMake's conventions
-# find_package(Boost REQUIRED COMPONENTS system)
-
+find_package(Boost REQUIRED COMPONENTS system)
+find_package(OpenCV REQUIRED)
+find_package(PCL REQUIRED)
 
 ## Uncomment this if the package has a setup.py. This macro ensures
 ## modules and global scripts declared therein get installed
@@ -104,6 +111,9 @@ LIBRARIES
 CATKIN_DEPENDS
 	${catkin_RUN_PACKAGES}
 DEPENDS
+	Boost
+	OpenCV
+	PCL
 )
 ###########
 ## Build ##
@@ -115,13 +125,19 @@ DEPENDS
 include_directories(
 	#ros/include
 	${catkin_INCLUDE_DIRS} # same name as find_package
+	${Boost_INCLUDE_DIRS}
+	${OpenCV_INCLUDE_DIRS}
+	${PCL_INCLUDE_DIRS}
 )
 
 ## Declare a cpp executable
-add_executable(cob_object_detection_visualizer ros/src/object_detection_visualizer_node.cpp)
-add_dependencies(cob_object_detection_visualizer ${catkin_EXPORTED_TARGETS} ${PROJECT_NAME}_generate_messages_cpp)
-target_link_libraries(cob_object_detection_visualizer
-  ${catkin_LIBRARIES}
+add_executable(object_detection_visualizer ros/src/object_detection_visualizer_node.cpp)
+add_dependencies(object_detection_visualizer ${catkin_EXPORTED_TARGETS} ${PROJECT_NAME}_generate_messages_cpp)
+target_link_libraries(object_detection_visualizer
+	${catkin_LIBRARIES}
+	${Boost_LIBRARIES}
+	${OpenCV_LIBRARIES}
+	${PCL_LIBRARIES}
 )
 
 #############
@@ -139,7 +155,7 @@ target_link_libraries(cob_object_detection_visualizer
 # )
 
 # Mark executables and/or libraries for installation
-install(TARGETS cob_object_detection_visualizer
+install(TARGETS object_detection_visualizer
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}

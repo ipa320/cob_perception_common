@@ -26,6 +26,7 @@ add_message_files(
     ColorDepthImageArray.msg
     Detection.msg
     DetectionArray.msg
+    Float64ArrayStamped.msg
     PositionMeasurement.msg 
     PositionMeasurementArray.msg 
     PersonStamped.msg

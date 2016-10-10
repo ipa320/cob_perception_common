@@ -9,6 +9,15 @@ Changelog for package cob_cam3d_throttle
 * hopefully corrected dependencies to message generation
 * Contributors: Richard Bormann, ipa-fmw
 
+Forthcoming
+-----------
+* 0.6.7
+* update changelog
+* fix remaining issues from `#54 <https://github.com/ipa320/cob_perception_common/issues/54>`_
+* conversion to package format 2
+* hopefully corrected dependencies to message generation
+* Contributors: Richard Bormann, ipa-fmw, ipa-fxm
+
 0.6.6 (2015-06-17)
 ------------------
 

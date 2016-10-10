@@ -9,8 +9,8 @@ Changelog for package cob_perception_common
 * conversion to package format 2
 * Contributors: Richard Bormann, ipa-fmw, ipa-fxm
 
-Forthcoming
------------
+0.6.8 (2016-10-10)
+------------------
 * 0.6.7
 * update changelog
 * add cob_3d_mapping_msgs to meta-package

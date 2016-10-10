@@ -8,8 +8,8 @@ Changelog for package cob_3d_mapping_msgs
 * move cob_3d_mapping_msgs to cob_perception_common
 * Contributors: ipa-fxm
 
-Forthcoming
------------
+0.6.8 (2016-10-10)
+------------------
 * added missing messages
 * 0.6.7
 * update changelog

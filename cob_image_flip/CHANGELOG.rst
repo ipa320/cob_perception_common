@@ -15,8 +15,8 @@ Changelog for package cob_image_flip
 * hopefully corrected dependencies to message generation
 * Contributors: Florian Weisshardt, Richard Bormann, ipa-fmw
 
-Forthcoming
------------
+0.6.8 (2016-10-10)
+------------------
 * added publisher to image flip for providing the inverse inplane rotation to subscribers to the upright image
 * Merge branch 'indigo_dev' of github.com:ipa320/cob_perception_common into indigo_dev
 * 0.6.7

@@ -11,8 +11,8 @@ Changelog for package cob_vision_utils
 * hopefully corrected dependencies to message generation
 * Contributors: Richard Bormann, ipa-fmw
 
-Forthcoming
------------
+0.6.8 (2016-10-10)
+------------------
 * 0.6.7
 * update changelog
 * added passthrough varaint of Ensenso-IDS-Rack

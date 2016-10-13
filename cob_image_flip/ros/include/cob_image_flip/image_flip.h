@@ -99,6 +99,7 @@ protected:
 	bool display_timing_;			// display timing information
 
 	double last_rotation_angle_;
+	double last_rotation_factor_;
 
 	// subscriber counters
 	unsigned int img_sub_counter_;

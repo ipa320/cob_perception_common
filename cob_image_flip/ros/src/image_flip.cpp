@@ -166,7 +166,7 @@ double ImageFlip::determineRotationAngle(const std::string& camera_frame_id, con
 				last_rotation_factor_ = factor;
 				x_axis_target *= factor;
 				// 3. compute angle
-				rotation_angle = 180./CV_PI * asin(x_axis_target.cross(x_axis_ref).length());
+				rotation_angle = 180./CV_PI * asin(x_axis_ref.cross(x_axis_target).length());
 			}
 			if (rotation_mode_ == AUTOMATIC_GRAVITY_DIRECTION_90)
 				rotation_angle = 90. * cvRound(rotation_angle*1./90.);

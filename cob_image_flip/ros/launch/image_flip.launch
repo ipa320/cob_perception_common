@@ -3,7 +3,7 @@
 <launch>
 	<arg name="camera" default="camera" />
 	
-	<node name="image_flip" pkg="cob_image_flip" ns="/cob_image_flip" type="image_flip" output="screen">
+	<node name="image_flip" pkg="cob_image_flip" type="image_flip" output="screen">
 		<rosparam command="load" file="$(find cob_image_flip)/ros/launch/image_flip_params.yaml"/>
 		<remap from="~pointcloud_in" to="/$(arg camera)/depth_registered/points"/>
 		<remap from="~pointcloud_out" to="/$(arg camera)_upright/depth_registered/points"/>

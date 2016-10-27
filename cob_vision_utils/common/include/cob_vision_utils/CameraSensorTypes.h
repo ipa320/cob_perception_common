@@ -117,7 +117,8 @@ namespace ipa_CameraSensors {
 		ROBOT,					///< Robot
 		CAM_ENSENSO_N30,		///< Ensenso N30 3d stereo camera
 		CAM_IDS_UEYE,			///< IDS uEye 5MP camera
-		CAM_ENSENSO_IDS_RACK	///< RGB-D camera consisting of Ensenso N30 and IDS uEye cameras
+		CAM_ENSENSO_IDS_RACK,	///< RGB-D camera consisting of Ensenso N30 and IDS uEye cameras
+		CAM_SOFTKINETIC			///< Softkinetic DS325
 	};
 
 	/// Enum to identify camera device properties

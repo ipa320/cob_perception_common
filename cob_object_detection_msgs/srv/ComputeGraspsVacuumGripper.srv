@@ -1,0 +1,6 @@
+# the service accepts one detected object for which it computes a set of grasp points for a vacuum gripper
+# NOTE: potential collisions with the surroundings of the object are possibly not considered in the result
+cob_object_detection_msgs/Detection object
+---
+# a set of grasp points for a vacuum gripper
+geometry_msgs/PoseStamped[] grasp_points

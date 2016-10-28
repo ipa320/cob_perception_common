@@ -50,6 +50,7 @@ add_service_files(
     AcquireObjectImage.srv
     BagTrainObject.srv
     BaTestEnvironment.srv
+    ComputeGraspsVacuumGripper.srv
     DetectObjects.srv
     SaveRecordedObject.srv
     StartObjectRecording.srv

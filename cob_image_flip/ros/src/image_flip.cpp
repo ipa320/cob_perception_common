@@ -196,7 +196,7 @@ double ImageFlip::determineRotationAngle(const std::string& camera_frame_id, con
 		catch (tf2::TransformException& ex)
 		{
 			if (display_warnings_ == true)
-				ROS_WARN("%s",ex.what());
+				ROS_DEBUG("%s",ex.what());
 			rotation_angle = last_rotation_angle_;
 		}
 	}

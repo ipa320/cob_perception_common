@@ -59,7 +59,7 @@
 namespace cob_image_flip
 {
 ImageFlip::ImageFlip(ros::NodeHandle nh)
-: 	node_handle_(nh), img_sub_counter_(0), pc_sub_counter_(0), disparity_sub_counter_(0), transform_listener_(nh), it_(0), last_rotation_angle_(0)
+: 	node_handle_(nh), img_sub_counter_(0), pc_sub_counter_(0), disparity_sub_counter_(0), transform_listener_(nh), it_(0), last_rotation_angle_(0), last_rotation_factor_(0)
 {
 	// set parameters
 	ROS_DEBUG_STREAM("\n--------------------------\nImage Flip Parameters:\n--------------------------");
@@ -96,17 +96,20 @@ ImageFlip::ImageFlip(ros::NodeHandle nh)
 		it_ = new image_transport::ImageTransport(node_handle_);
 		color_camera_image_sub_.registerCallback(boost::bind(&ImageFlip::imageCallback, this, _1));
 		color_camera_image_pub_ = it_->advertise("colorimage_out", 1, boost::bind(&ImageFlip::imgConnectCB, this, _1), boost::bind(&ImageFlip::imgDisconnectCB, this, _1));
+		color_camera_image_2d_transform_pub_ = node_handle_.advertise<cob_perception_msgs::Float64ArrayStamped>("colorimage_inplane_transform", 1,false);
 	}
 
 	// point cloud flip
 	if (flip_pointcloud_ == true)
 	{
 		point_cloud_pub_ = node_handle_.advertise<sensor_msgs::PointCloud2>("pointcloud_out", 1,  boost::bind(&ImageFlip::pcConnectCB, this, _1), boost::bind(&ImageFlip::pcDisconnectCB, this, _1));
+		point_cloud_2d_transform_pub_ = node_handle_.advertise<cob_perception_msgs::Float64ArrayStamped>("pointcloud_inplane_transform", 1,false);
 	}
 
 	if (flip_disparity_image_ == true)
 	{
 		disparity_image_pub_ = node_handle_.advertise<stereo_msgs::DisparityImage>("disparityimage_out", 1,  boost::bind(&ImageFlip::disparityConnectCB, this, _1), boost::bind(&ImageFlip::disparityDisconnectCB, this, _1));
+		disparity_image_2d_transform_pub_ = node_handle_.advertise<cob_perception_msgs::Float64ArrayStamped>("disparityimage_inplane_transform", 1,false);
 	}
 
 	ROS_DEBUG_STREAM("ImageFlip initialized.");
@@ -137,8 +140,48 @@ double ImageFlip::determineRotationAngle(const std::string& camera_frame_id, con
 			transform_listener_.waitForTransform(reference_frame_, camera_frame_id, x_axis_camera.stamp_, ros::Duration(0.2));
 			transform_listener_.transformVector(reference_frame_, x_axis_camera, x_axis_ref);
 			transform_listener_.transformVector(reference_frame_, y_axis_camera, y_axis_ref);
- 			int factor = (y_axis_ref.z()<0. ? 1 : -1);
-			rotation_angle = 180./CV_PI * atan2(-x_axis_ref.z(), factor*sqrt(x_axis_ref.x()*x_axis_ref.x() + x_axis_ref.y()*x_axis_ref.y()));
+			// compute the rotation angle so that the x-axis of the rotated image has 0 z-coordinate in the reference coordinate system (i.e. x-axis of rotated image is then parallel to the ground)
+			// the rotation is around the z-axis of the camera system
+			// 1. Compute the intersection between
+			//    E_1: x-y-plane in reference system coordinates: z=0
+			//    E_2: x-y-plane of camera system (but without translation, just the rotational part): [x,y,z] = [0,0,0] + r*[x_axis_ref.x,x_axis_ref.y,x_axis_ref.z] + s*[y_axis_ref.x,y_axis_ref.y,y_axis_ref.z]
+			//    --> r = -s*y_axis_ref.z/x_axis_ref.z
+			//    --> line equation: x = s*[y_axis_ref.x-x_axis_ref.x*y_axis_ref.z/x_axis_ref.z,y_axis_ref.y-x_axis_ref.y*y_axis_ref.z/x_axis_ref.z,0]
+			// 2. Compute the target camera x-axis, which is parallel to the ground. The vector for x is given by the line equation, the direction of the target y-axis decides about the direction (+ or -).
+			// 3. Compute the rotation between camera x-axis and target camera x-axis (i.e. between x_axis_ref and x_axis_target)
+			if (x_axis_ref.z()!=0)		// do not compute a rotation if the camera's x-axis is already correctly aligned
+			{
+				// 1. line intersection
+				const double a = y_axis_ref.z()/x_axis_ref.z();
+				tf::Vector3 x_axis_target(y_axis_ref.x()-x_axis_ref.x()*a,y_axis_ref.y()-x_axis_ref.y()*a, 0);		// this is the line of intersection
+				x_axis_target.normalize();
+				// 2. resolve direction ambiguity
+				tf::Vector3 z_axis_target = x_axis_ref.cross(y_axis_ref);	// remark: z_axis_ref == z_axis_target
+				tf::Vector3 y_axis_target = z_axis_target.cross(x_axis_target);
+				y_axis_target.normalize();
+
+				//std::cout << "\n\nx_axis_ref=" << x_axis_ref.x() << ", " << x_axis_ref.y() << ", " << x_axis_ref.z()
+				//		<< "\ny_axis_ref=" << y_axis_ref.x() << ", " << y_axis_ref.y() << ", " << y_axis_ref.z()
+				//		<< "\nx_axis_target=" << x_axis_target.x() << ", " << x_axis_target.y() << ", " << x_axis_target.z()
+				//		<< "\ny_axis_target=" << y_axis_target.x() << ", " << y_axis_target.y() << ", " << y_axis_target.z() << "\n" << std::endl;
+
+				// compute a factor than rotates the image in a way that the new y-axis in the rotated image directs against the z-direction of the reference system (i.e. points downwards)
+				int factor = (y_axis_target.z()<0. ? 1 : -1);
+				if (factor != last_rotation_factor_ && fabs(y_axis_target.z()) < 0.01)		// this hysteresis stops continuous flipping near 0
+					factor = last_rotation_factor_;
+				last_rotation_factor_ = factor;
+				x_axis_target *= factor;
+
+				//std::cout << "x_axis_target factored=" << x_axis_target.x() << ", " << x_axis_target.y() << ", " << x_axis_target.z() << "\n" << std::endl;
+
+				// 3. compute angle
+				tf::Vector3 rot_axis_x = x_axis_ref.cross(x_axis_target);
+				double rot_sin = ((rot_axis_x.dot(z_axis_target)) >= 0 ? 1 : -1) * rot_axis_x.length();		// sign of sin() depends on alignment of cross-product rotation axis with z-axis
+				double rot_cos = x_axis_ref.dot(x_axis_target);
+				rotation_angle = -180./CV_PI * atan2(rot_sin, rot_cos);
+
+				//std::cout << "rot_sin=" << rot_sin << "\trot_cos=" << rot_cos << "\trotation_angle=" << rotation_angle << "\n=========================================\n" << std::endl;
+			}
 			if (rotation_mode_ == AUTOMATIC_GRAVITY_DIRECTION_90)
 				rotation_angle = 90. * cvRound(rotation_angle*1./90.);
 			last_rotation_angle_ = rotation_angle;
@@ -153,7 +196,7 @@ double ImageFlip::determineRotationAngle(const std::string& camera_frame_id, con
 		catch (tf2::TransformException& ex)
 		{
 			if (display_warnings_ == true)
-				ROS_WARN("%s",ex.what());
+				ROS_DEBUG("%s",ex.what());
 			rotation_angle = last_rotation_angle_;
 		}
 	}
@@ -192,6 +235,7 @@ void ImageFlip::imageCallback(const sensor_msgs::ImageConstPtr& color_image_msg)
 	if (convertImageMessageToMat(color_image_msg, color_image_ptr, color_image) == false)
 		return;
 	cv::Mat color_image_turned;
+	cv::Mat rot_mat = cv::Mat::zeros(2,3,CV_64FC1);
 
 	// determine rotation angle
 	double rotation_angle = determineRotationAngle(color_image_msg->header.frame_id, color_image_msg->header.stamp);
@@ -201,6 +245,8 @@ void ImageFlip::imageCallback(const sensor_msgs::ImageConstPtr& color_image_msg)
 	if (rotation_angle==0. || rotation_angle==360. || rotation_angle==-360.)
 	{
 		color_image_turned = color_image;
+		rot_mat.at<double>(0,0) = 1.;
+		rot_mat.at<double>(1,1) = 1.;
 	}
 	else if (rotation_angle==90. || rotation_angle==-270.)
 	{
@@ -214,6 +260,9 @@ void ImageFlip::imageCallback(const sensor_msgs::ImageConstPtr& color_image_msg)
 		for (int v = 0; v < color_image_turned.rows; v++)
 			for (int u = 0; u < color_image_turned.cols; u++)
 				color_image_turned.at<cv::Vec3b>(v,u) = color_image.at<cv::Vec3b>(color_image.rows-1-u,v);
+		rot_mat.at<double>(0,1) = -1.;
+		rot_mat.at<double>(0,2) = color_image.rows;
+		rot_mat.at<double>(1,0) = 1.;
 	}
 	else if (rotation_angle==270. || rotation_angle==-90.)
 	{
@@ -227,6 +276,9 @@ void ImageFlip::imageCallback(const sensor_msgs::ImageConstPtr& color_image_msg)
 		for (int v = 0; v < color_image_turned.rows; v++)
 			for (int u = 0; u < color_image_turned.cols; u++)
 				color_image_turned.at<cv::Vec3b>(v,u) = color_image.at<cv::Vec3b>(u,color_image.cols-1-v);
+		rot_mat.at<double>(0,1) = 1.;
+		rot_mat.at<double>(1,0) = -1.;
+		rot_mat.at<double>(1,2) = color_image.cols;
 	}
 	else if (rotation_angle==180 || rotation_angle==-180)
 	{
@@ -252,6 +304,10 @@ void ImageFlip::imageCallback(const sensor_msgs::ImageConstPtr& color_image_msg)
 				dst -= 6;
 			}
 		}
+		rot_mat.at<double>(0,0) = -1.;
+		rot_mat.at<double>(0,2) = color_image.cols;
+		rot_mat.at<double>(1,1) = -1.;
+		rot_mat.at<double>(1,2) = color_image.rows;
 	}
 	else
 	{
@@ -268,7 +324,7 @@ void ImageFlip::imageCallback(const sensor_msgs::ImageConstPtr& color_image_msg)
 		}
 
 		cv::Point center = cv::Point(color_image.cols/2, color_image.rows/2);
-		cv::Mat rot_mat = cv::getRotationMatrix2D(center, -rotation_angle, 1.0);
+		rot_mat = cv::getRotationMatrix2D(center, -rotation_angle, 1.0);
 		if (switch_aspect_ratio==true)
 		{
 			rot_mat.at<double>(0,2) += 0.5*(color_image_turned.cols-color_image.cols);
@@ -284,6 +340,21 @@ void ImageFlip::imageCallback(const sensor_msgs::ImageConstPtr& color_image_msg)
 	sensor_msgs::Image::Ptr color_image_turned_msg = cv_ptr.toImageMsg();
 	color_image_turned_msg->header = color_image_msg->header;
 	color_camera_image_pub_.publish(color_image_turned_msg);
+
+	// publish rotation matrix for backward transform to non-turned coordinates using a homogeneous image coordinate representation
+	// the original, non-turned coordinates are of interest if the camera calibration shall be used (the calibration does not apply to coordinates of the turned image)
+	cv::Mat rot33 = cv::Mat::eye(3,3,CV_64FC1);
+	for (int r=0; r<2; ++r)
+		for (int c=0; c<3; ++c)
+			rot33.at<double>(r,c) = rot_mat.at<double>(r,c);
+	cv::Mat rot33_inv = rot33.inv();
+	cob_perception_msgs::Float64ArrayStamped rot33_inv_msg;
+	rot33_inv_msg.header = color_image_msg->header;
+	rot33_inv_msg.data.resize(9);
+	for (int r=0; r<3; ++r)
+		for (int c=0; c<3; ++c)
+			rot33_inv_msg.data[r*3+c] = rot33_inv.at<double>(r,c);
+	color_camera_image_2d_transform_pub_.publish(rot33_inv_msg);
 }
 
 void ImageFlip::imgConnectCB(const image_transport::SingleSubscriberPublisher& pub)
@@ -311,6 +382,7 @@ void ImageFlip::pcCallback(const sensor_msgs::PointCloud2::ConstPtr& point_cloud
 {
 	// determine rotation angle
 	double rotation_angle = determineRotationAngle(point_cloud_msg->header.frame_id, point_cloud_msg->header.stamp);
+	cv::Mat rot_mat = cv::Mat::zeros(2,3,CV_64FC1);
 
 	// prepare turned point cloud
 	const int element_size = point_cloud_msg->point_step;	// length of point in bytes
@@ -331,6 +403,8 @@ void ImageFlip::pcCallback(const sensor_msgs::PointCloud2::ConstPtr& point_cloud
 	if (rotation_angle==0. || rotation_angle==360. || rotation_angle==-360.)
 	{
 		memcpy(&(point_cloud_out_msg->data[0]), &(point_cloud_msg->data[0]), point_cloud_msg->height*point_cloud_msg->width*element_size);
+		rot_mat.at<double>(0,0) = 1.;
+		rot_mat.at<double>(1,1) = 1.;
 	}
 	else if (rotation_angle==90. || rotation_angle==-270.)
 	{
@@ -342,6 +416,9 @@ void ImageFlip::pcCallback(const sensor_msgs::PointCloud2::ConstPtr& point_cloud
 		for (int v = 0; v < point_cloud_out_msg->height; v++)
 			for (int u = 0; u < point_cloud_out_msg->width; u++)
 				memcpy(&(point_cloud_out_msg->data[v*row_size_out+u*element_size]), &(point_cloud_msg->data[(point_cloud_msg->height-1-u)*row_size+v*element_size]), element_size);
+		rot_mat.at<double>(0,1) = -1.;
+		rot_mat.at<double>(0,2) = point_cloud_msg->height;
+		rot_mat.at<double>(1,0) = 1.;
 	}
 	else if (rotation_angle==270. || rotation_angle==-90.)
 	{
@@ -353,6 +430,9 @@ void ImageFlip::pcCallback(const sensor_msgs::PointCloud2::ConstPtr& point_cloud
 		for (int v = 0; v < point_cloud_out_msg->height; v++)
 			for (int u = 0; u < point_cloud_out_msg->width; u++)
 				memcpy(&(point_cloud_out_msg->data[v*row_size_out+u*element_size]), &(point_cloud_msg->data[u*row_size+(point_cloud_msg->width-1-v)*element_size]), element_size);
+		rot_mat.at<double>(0,1) = 1.;
+		rot_mat.at<double>(1,0) = -1.;
+		rot_mat.at<double>(1,2) = point_cloud_msg->width;
 	}
 	else if (rotation_angle==180 || rotation_angle==-180)
 	{
@@ -360,6 +440,10 @@ void ImageFlip::pcCallback(const sensor_msgs::PointCloud2::ConstPtr& point_cloud
 		for (int v = 0; v < point_cloud_out_msg->height; v++)
 			for (int u = 0; u < point_cloud_out_msg->width; u++)
 				memcpy(&(point_cloud_out_msg->data[v*row_size+u*element_size]), &(point_cloud_msg->data[(point_cloud_msg->height-1-v)*row_size+(point_cloud_msg->width-1-u)*element_size]), element_size);
+		rot_mat.at<double>(0,0) = -1.;
+		rot_mat.at<double>(0,2) = point_cloud_msg->width;
+		rot_mat.at<double>(1,1) = -1.;
+		rot_mat.at<double>(1,2) = point_cloud_msg->height;
 	}
 	else
 	{
@@ -377,7 +461,7 @@ void ImageFlip::pcCallback(const sensor_msgs::PointCloud2::ConstPtr& point_cloud
 
 		// compute transform
 		cv::Point center = cv::Point(point_cloud_msg->width/2, point_cloud_msg->height/2);
-		cv::Mat rot_mat = cv::getRotationMatrix2D(center, -rotation_angle, 1.0);
+		rot_mat = cv::getRotationMatrix2D(center, -rotation_angle, 1.0);
 		if (switch_aspect_ratio==true)
 		{
 			rot_mat.at<double>(0,2) += 0.5*((double)point_cloud_out_msg->width - (double)point_cloud_msg->width);
@@ -424,6 +508,20 @@ void ImageFlip::pcCallback(const sensor_msgs::PointCloud2::ConstPtr& point_cloud
 	// publish turned point cloud
 	point_cloud_pub_.publish(point_cloud_out_msg);
 
+	// publish rotation matrix for backward transform to non-turned coordinates using a homogeneous image coordinate representation
+	// the original, non-turned coordinates are of interest if the camera calibration shall be used (the calibration does not apply to coordinates of the turned image)
+	cv::Mat rot33 = cv::Mat::eye(3,3,CV_64FC1);
+	for (int r=0; r<2; ++r)
+		for (int c=0; c<3; ++c)
+			rot33.at<double>(r,c) = rot_mat.at<double>(r,c);
+	cv::Mat rot33_inv = rot33.inv();
+	cob_perception_msgs::Float64ArrayStamped rot33_inv_msg;
+	rot33_inv_msg.header = point_cloud_msg->header;
+	rot33_inv_msg.data.resize(9);
+	for (int r=0; r<3; ++r)
+		for (int c=0; c<3; ++c)
+			rot33_inv_msg.data[r*3+c] = rot33_inv.at<double>(r,c);
+	point_cloud_2d_transform_pub_.publish(rot33_inv_msg);
 
 
 //	// check camera link orientation and decide whether image must be turned around
@@ -527,6 +625,7 @@ void ImageFlip::disparityCallback(const stereo_msgs::DisparityImage::ConstPtr& d
 	if (convertImageMessageToMat(disparity_image_constptr, disparity_image_ptr, disparity_image) == false)
 		return;
 	cv::Mat disparity_image_turned;
+	cv::Mat rot_mat = cv::Mat::zeros(2,3,CV_64FC1);
 
 	// determine rotation angle
 	double rotation_angle = determineRotationAngle(disparity_image_msg->header.frame_id, disparity_image_msg->header.stamp);
@@ -536,6 +635,8 @@ void ImageFlip::disparityCallback(const stereo_msgs::DisparityImage::ConstPtr& d
 	if (rotation_angle==0. || rotation_angle==360. || rotation_angle==-360.)
 	{
 		disparity_image_turned = disparity_image;
+		rot_mat.at<double>(0,0) = 1.;
+		rot_mat.at<double>(1,1) = 1.;
 	}
 	else if (rotation_angle==90. || rotation_angle==-270.)
 	{
@@ -549,6 +650,9 @@ void ImageFlip::disparityCallback(const stereo_msgs::DisparityImage::ConstPtr& d
 		for (int v = 0; v < disparity_image_turned.rows; v++)
 			for (int u = 0; u < disparity_image_turned.cols; u++)
 				disparity_image_turned.at<float>(v,u) = disparity_image.at<float>(disparity_image.rows-1-u,v);
+		rot_mat.at<double>(0,1) = -1.;
+		rot_mat.at<double>(0,2) = disparity_image.rows;
+		rot_mat.at<double>(1,0) = 1.;
 	}
 	else if (rotation_angle==270. || rotation_angle==-90.)
 	{
@@ -562,6 +666,9 @@ void ImageFlip::disparityCallback(const stereo_msgs::DisparityImage::ConstPtr& d
 		for (int v = 0; v < disparity_image_turned.rows; v++)
 			for (int u = 0; u < disparity_image_turned.cols; u++)
 				disparity_image_turned.at<float>(v,u) = disparity_image.at<float>(u,disparity_image.cols-1-v);
+		rot_mat.at<double>(0,1) = 1.;
+		rot_mat.at<double>(1,0) = -1.;
+		rot_mat.at<double>(1,2) = disparity_image.cols;
 	}
 	else if (rotation_angle==180 || rotation_angle==-180)
 	{
@@ -583,6 +690,10 @@ void ImageFlip::disparityCallback(const stereo_msgs::DisparityImage::ConstPtr& d
 				dst--;
 			}
 		}
+		rot_mat.at<double>(0,0) = -1.;
+		rot_mat.at<double>(0,2) = disparity_image.cols;
+		rot_mat.at<double>(1,1) = -1.;
+		rot_mat.at<double>(1,2) = disparity_image.rows;
 	}
 	else
 	{
@@ -599,7 +710,7 @@ void ImageFlip::disparityCallback(const stereo_msgs::DisparityImage::ConstPtr& d
 		}
 
 		cv::Point center = cv::Point(disparity_image.cols/2, disparity_image.rows/2);
-		cv::Mat rot_mat = cv::getRotationMatrix2D(center, -rotation_angle, 1.0);
+		rot_mat = cv::getRotationMatrix2D(center, -rotation_angle, 1.0);
 		if (switch_aspect_ratio==true)
 		{
 			rot_mat.at<double>(0,2) += 0.5*(disparity_image_turned.cols-disparity_image.cols);
@@ -618,6 +729,21 @@ void ImageFlip::disparityCallback(const stereo_msgs::DisparityImage::ConstPtr& d
 	disparity_image_turned_msg->image = *disparity_image_turned_msg_image;
 	disparity_image_turned_msg->header = disparity_image_msg->header;
 	disparity_image_pub_.publish(disparity_image_turned_msg);
+
+	// publish rotation matrix for backward transform to non-turned coordinates using a homogeneous image coordinate representation
+	// the original, non-turned coordinates are of interest if the camera calibration shall be used (the calibration does not apply to coordinates of the turned image)
+	cv::Mat rot33 = cv::Mat::eye(3,3,CV_64FC1);
+	for (int r=0; r<2; ++r)
+		for (int c=0; c<3; ++c)
+			rot33.at<double>(r,c) = rot_mat.at<double>(r,c);
+	cv::Mat rot33_inv = rot33.inv();
+	cob_perception_msgs::Float64ArrayStamped rot33_inv_msg;
+	rot33_inv_msg.header = disparity_image_msg->header;
+	rot33_inv_msg.data.resize(9);
+	for (int r=0; r<3; ++r)
+		for (int c=0; c<3; ++c)
+			rot33_inv_msg.data[r*3+c] = rot33_inv.at<double>(r,c);
+	disparity_image_2d_transform_pub_.publish(rot33_inv_msg);
 }
 
 

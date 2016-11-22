@@ -16,11 +16,11 @@ flip_color_image: true
 
 # flip point cloud (usually unnecessary because tf takes care of this with original point cloud)
 # bool
-flip_pointcloud: true
+flip_pointcloud: false
 
 # flip disparity image
 # bool
-flip_disparity_image: true
+flip_disparity_image: false
 
 # display warning if transformation not available
 # bool

@@ -7,9 +7,15 @@ if(NOT CMAKE_BUILD_TYPE)
 endif(NOT CMAKE_BUILD_TYPE)
 
 # all ROS packages from package.xml (libopencv-dev is system dependency --> sudo apt-get install)
-set(catkin_RUN_PACKAGES 
+set(catkin_RUN_PACKAGES
   cob_object_detection_msgs
+  cv_bridge
+  eigen_conversions
+  image_transport
+  message_filters
+  pcl_ros
   roscpp
+  sensor_msgs
   visualization_msgs
 )
 
@@ -29,8 +35,9 @@ find_package(catkin REQUIRED COMPONENTS
 )
 
 ## System dependencies are found with CMake's conventions
-# find_package(Boost REQUIRED COMPONENTS system)
-
+find_package(Boost REQUIRED COMPONENTS system)
+find_package(OpenCV REQUIRED)
+find_package(PCL REQUIRED)
 
 ## Uncomment this if the package has a setup.py. This macro ensures
 ## modules and global scripts declared therein get installed

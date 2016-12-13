@@ -2,6 +2,9 @@
 Changelog for package cob_vision_utils
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.6.8 (2016-10-10)
+------------------
+
 0.6.7 (2016-04-01)
 ------------------
 * work on uEye and N30 integration
@@ -10,18 +13,6 @@ Changelog for package cob_vision_utils
 * conversion to package format 2
 * hopefully corrected dependencies to message generation
 * Contributors: Richard Bormann, ipa-fmw
-
-0.6.8 (2016-10-10)
-------------------
-* 0.6.7
-* update changelog
-* added passthrough varaint of Ensenso-IDS-Rack
-* work on uEye and N30 integration
-* added Ensenso N30 sensor
-* fix remaining issues from `#54 <https://github.com/ipa320/cob_perception_common/issues/54>`_
-* conversion to package format 2
-* hopefully corrected dependencies to message generation
-* Contributors: Richard Bormann, ipa-fmw, ipa-fxm
 
 0.6.6 (2015-06-17)
 ------------------

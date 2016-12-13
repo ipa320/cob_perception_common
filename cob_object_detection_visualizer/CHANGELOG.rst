@@ -2,24 +2,15 @@
 Changelog for package cob_object_detection_visualizer
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-0.6.7 (2016-04-01)
-------------------
-* fix remaining issues from `#54 <https://github.com/ipa320/cob_perception_common/issues/54>`_
-* conversion to package format 2
-* added wait for transform because of non-flipping bug
-* Merge branch 'indigo_dev' of github.com:ipa320/cob_perception_common into indigo_dev
-* catkin_lint
-* hopefully corrected dependencies to message generation
-* Contributors: Richard Bormann, ipa-fmw, ipa-fxm
-
 0.6.8 (2016-10-10)
 ------------------
-* Merge branch 'indigo_dev' of github.com:ipa320/cob_perception_common into indigo_dev
-* 0.6.7
-* update changelog
 * object detection visualization working
 * added an image based visualization function for object detection messages
 * working on image display of detections
+* Contributors: Richard Bormann
+
+0.6.7 (2016-04-01)
+------------------
 * fix remaining issues from `#54 <https://github.com/ipa320/cob_perception_common/issues/54>`_
 * conversion to package format 2
 * added wait for transform because of non-flipping bug

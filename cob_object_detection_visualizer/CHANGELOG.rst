@@ -2,6 +2,13 @@
 Changelog for package cob_object_detection_visualizer
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.6.8 (2016-10-10)
+------------------
+* object detection visualization working
+* added an image based visualization function for object detection messages
+* working on image display of detections
+* Contributors: Richard Bormann
+
 0.6.7 (2016-04-01)
 ------------------
 * fix remaining issues from `#54 <https://github.com/ipa320/cob_perception_common/issues/54>`_

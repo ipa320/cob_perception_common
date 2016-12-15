@@ -2,6 +2,11 @@
 Changelog for package cob_perception_msgs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.6.8 (2016-10-10)
+------------------
+* added publisher to image flip for providing the inverse inplane rotation to subscribers to the upright image
+* Contributors: Richard Bormann
+
 0.6.7 (2016-04-01)
 ------------------
 * fix remaining issues from `#54 <https://github.com/ipa320/cob_perception_common/issues/54>`_

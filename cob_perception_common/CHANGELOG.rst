@@ -2,6 +2,9 @@
 Changelog for package cob_perception_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.6.8 (2016-10-10)
+------------------
+
 0.6.7 (2016-04-01)
 ------------------
 * add cob_3d_mapping_msgs to meta-package

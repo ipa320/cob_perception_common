@@ -61,7 +61,7 @@ target_link_libraries(cob_vision_utils
   ${TinyXML_LIBRARIES}
 )
 set_target_properties(cob_vision_utils PROPERTIES COMPILE_FLAGS "-D__LINUX__ -D__COB_ROS__")
-add_dependencies(cob_vision_utils ${catkin_EXPORTED_TARGETS} ${PROJECT_NAME}_generate_messages_cpp)
+add_dependencies(cob_vision_utils ${catkin_EXPORTED_TARGETS})
 
 
 #############

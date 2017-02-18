@@ -132,7 +132,7 @@ include_directories(
 
 ## Declare a cpp executable
 add_executable(object_detection_visualizer ros/src/object_detection_visualizer_node.cpp)
-add_dependencies(object_detection_visualizer ${catkin_EXPORTED_TARGETS} ${PROJECT_NAME}_generate_messages_cpp)
+add_dependencies(object_detection_visualizer ${catkin_EXPORTED_TARGETS})
 target_link_libraries(object_detection_visualizer
 	${catkin_LIBRARIES}
 	${Boost_LIBRARIES}

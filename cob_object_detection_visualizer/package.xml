@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package format="2">
   <name>cob_object_detection_visualizer</name>
-  <version>0.6.7</version>
+  <version>0.6.8</version>
   <description>The cob_object_detection_visualizer package</description>
 
   <maintainer email="richard.bormann@ipa.fraunhofer.de">Richard Bormann</maintainer>
@@ -16,7 +16,6 @@
   <depend>cv_bridge</depend>
   <depend>eigen_conversions</depend>
   <depend>image_transport</depend>
-  <depend>libopencv-dev</depend>
   <depend>libpcl-all-dev</depend>
   <depend>message_filters</depend>
   <depend>pcl_ros</depend>
@@ -24,6 +23,4 @@
   <depend>sensor_msgs</depend>
   <depend>visualization_msgs</depend>
 
-  <export>
-  </export>
 </package>

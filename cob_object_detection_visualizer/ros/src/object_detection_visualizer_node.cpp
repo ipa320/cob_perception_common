@@ -76,7 +76,15 @@
 
 // opencv
 #include <opencv/cv.h>
+#include <opencv2/core/version.hpp>
+#if CV_MAJOR_VERSION == 2
+// do opencv 2 code
 #include <opencv/highgui.h>
+#elif CV_MAJOR_VERSION == 3
+// do opencv 3 code
+#include <opencv2/highgui.hpp>
+#endif
+
 #include <cv_bridge/cv_bridge.h>
 
 // PCL

@@ -2,6 +2,12 @@
 Changelog for package cob_image_flip
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.6.8 (2016-10-10)
+------------------
+* added publisher to image flip for providing the inverse inplane rotation to subscribers to the upright image
+* Merge branch 'indigo_dev' of github.com:ipa320/cob_perception_common into indigo_dev
+* Contributors: Richard Bormann
+
 0.6.7 (2016-04-01)
 ------------------
 * added the possibility to turn DisparityImages

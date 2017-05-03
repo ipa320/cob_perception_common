@@ -160,10 +160,10 @@ double ImageFlip::determineRotationAngle(const std::string& camera_frame_id, con
 				tf::Vector3 y_axis_target = z_axis_target.cross(x_axis_target);
 				y_axis_target.normalize();
 
-				std::cout << "\n\nx_axis_ref=" << x_axis_ref.x() << ", " << x_axis_ref.y() << ", " << x_axis_ref.z()
-						<< "\ny_axis_ref=" << y_axis_ref.x() << ", " << y_axis_ref.y() << ", " << y_axis_ref.z()
-						<< "\nx_axis_target=" << x_axis_target.x() << ", " << x_axis_target.y() << ", " << x_axis_target.z()
-						<< "\ny_axis_target=" << y_axis_target.x() << ", " << y_axis_target.y() << ", " << y_axis_target.z() << "\n" << std::endl;
+				//std::cout << "\n\nx_axis_ref=" << x_axis_ref.x() << ", " << x_axis_ref.y() << ", " << x_axis_ref.z()
+				//		<< "\ny_axis_ref=" << y_axis_ref.x() << ", " << y_axis_ref.y() << ", " << y_axis_ref.z()
+				//		<< "\nx_axis_target=" << x_axis_target.x() << ", " << x_axis_target.y() << ", " << x_axis_target.z()
+				//		<< "\ny_axis_target=" << y_axis_target.x() << ", " << y_axis_target.y() << ", " << y_axis_target.z() << "\n" << std::endl;
 
 				// compute a factor than rotates the image in a way that the new y-axis in the rotated image directs against the z-direction of the reference system (i.e. points downwards)
 				int factor = (y_axis_target.z()<0. ? 1 : -1);
@@ -172,7 +172,7 @@ double ImageFlip::determineRotationAngle(const std::string& camera_frame_id, con
 				last_rotation_factor_ = factor;
 				x_axis_target *= factor;
 
-				std::cout << "x_axis_target factored=" << x_axis_target.x() << ", " << x_axis_target.y() << ", " << x_axis_target.z() << "\n" << std::endl;
+				//std::cout << "x_axis_target factored=" << x_axis_target.x() << ", " << x_axis_target.y() << ", " << x_axis_target.z() << "\n" << std::endl;
 
 				// 3. compute angle
 				tf::Vector3 rot_axis_x = x_axis_ref.cross(x_axis_target);
@@ -180,7 +180,7 @@ double ImageFlip::determineRotationAngle(const std::string& camera_frame_id, con
 				double rot_cos = x_axis_ref.dot(x_axis_target);
 				rotation_angle = -180./CV_PI * atan2(rot_sin, rot_cos);
 
-				std::cout << "rot_sin=" << rot_sin << "\trot_cos=" << rot_cos << "\trotation_angle=" << rotation_angle << "\n=========================================\n" << std::endl;
+				//std::cout << "rot_sin=" << rot_sin << "\trot_cos=" << rot_cos << "\trotation_angle=" << rotation_angle << "\n=========================================\n" << std::endl;
 			}
 			if (rotation_mode_ == AUTOMATIC_GRAVITY_DIRECTION_90)
 				rotation_angle = 90. * cvRound(rotation_angle*1./90.);
@@ -196,7 +196,7 @@ double ImageFlip::determineRotationAngle(const std::string& camera_frame_id, con
 		catch (tf2::TransformException& ex)
 		{
 			if (display_warnings_ == true)
-				ROS_WARN("%s",ex.what());
+				ROS_DEBUG("%s",ex.what());
 			rotation_angle = last_rotation_angle_;
 		}
 	}

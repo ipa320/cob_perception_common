@@ -7,7 +7,7 @@
     This stack provides utilities commonly needed for a variety of computer vision tasks.
   </description>
 
-  <version>0.6.7</version>
+  <version>0.6.8</version>
   <license>LGPL</license>
 
   <maintainer email="rmb@ipa.fhg.de">Richard Bormann</maintainer>

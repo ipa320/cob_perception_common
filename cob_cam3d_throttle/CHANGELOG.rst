@@ -2,6 +2,9 @@
 Changelog for package cob_cam3d_throttle
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.6.8 (2016-10-10)
+------------------
+
 0.6.7 (2016-04-01)
 ------------------
 * fix remaining issues from `#54 <https://github.com/ipa320/cob_perception_common/issues/54>`_

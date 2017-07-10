@@ -11,7 +11,6 @@
   <buildtool_depend>catkin</buildtool_depend>
 
   <depend>boost</depend>
-  <depend>cmake_modules</depend>
   <depend>cob_object_detection_msgs</depend>
   <depend>cv_bridge</depend>
   <depend>eigen_conversions</depend>

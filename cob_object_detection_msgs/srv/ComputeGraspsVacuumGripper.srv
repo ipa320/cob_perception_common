@@ -1,9 +1,0 @@
-# the service accepts one detected object for which it computes a set of grasp points for a vacuum gripper
-# NOTE: potential collisions with the surroundings of the object are possibly not considered in the result
-cob_object_detection_msgs/Detection object
-
-# [optional] this external reference coordinate system can be used to reason about collisions in a defined coordinate frame, e.g. with special alignment to the supporting surface from which objects are grasped
-string external_reference_frame_id
----
-# a set of grasp points for a vacuum gripper
-geometry_msgs/PoseStamped[] grasp_points

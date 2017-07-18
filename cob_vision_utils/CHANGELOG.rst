@@ -2,6 +2,13 @@
 Changelog for package cob_vision_utils
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Softkinetic DS 325 integration (`#77 <https://github.com/ipa320/cob_perception_common/issues/77>`_)
+* Update CMakeLists.txt
+* manually fix changelog
+* Contributors: Felix Messmer, Richard Bormann, ipa-fxm
+
 0.6.8 (2016-10-10)
 ------------------
 

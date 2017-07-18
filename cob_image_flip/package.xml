@@ -7,7 +7,7 @@
      Flips the image of Care-O-bots kinect in dependence of the viewing direction of the cameras to receive an upright image all the time.
   </description>
   
-  <license>LGPL</license>
+  <license>Apache 2.0</license>
   
   <maintainer email="richard.bormann@ipa.fraunhofer.de">Richard Bormann</maintainer>
   <author>Richard Bormann</author>

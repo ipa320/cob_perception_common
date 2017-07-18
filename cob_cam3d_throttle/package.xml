@@ -4,7 +4,7 @@
   <version>0.6.8</version>
   <description>cob_cam3d_throttle: only for Trottel</description>
 
-  <license>LGPL</license>
+  <license>Apache 2.0</license>
 
   <url type="website">http://ros.org/wiki/cob_cam3d_throttle</url>
   <!-- <url type="bugtracker"></url> -->

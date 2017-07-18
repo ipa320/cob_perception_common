@@ -7,7 +7,7 @@
      This package contains message type definitions for object detection
   </description>
   
-  <license>LGPL</license>
+  <license>Apache 2.0</license>
   
   <maintainer email="rmb@ipa.fhg.de">Richard Bormann</maintainer>
   <author>Florian Weisshardt</author>

@@ -7,7 +7,7 @@
      Contains utilities used within the object detection tool chain.
   </description>
   
-  <license>LGPL</license>
+  <license>Apache 2.0</license>
   
   <maintainer email="rmb@ipa.fhg.de">Richard Bormann</maintainer>
   <author>Jan Fischer</author>

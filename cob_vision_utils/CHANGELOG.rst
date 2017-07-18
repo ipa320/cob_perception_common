@@ -2,8 +2,8 @@
 Changelog for package cob_vision_utils
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.6.9 (2017-07-18)
+------------------
 * Softkinetic DS 325 integration (`#77 <https://github.com/ipa320/cob_perception_common/issues/77>`_)
 * Update CMakeLists.txt
 * manually fix changelog

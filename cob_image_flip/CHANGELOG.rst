@@ -2,8 +2,8 @@
 Changelog for package cob_image_flip
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.6.9 (2017-07-18)
+------------------
 * remove obsolete dependencies to cmake_modules
 * manually fix changelog
 * reduce console logs

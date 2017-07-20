@@ -2,6 +2,9 @@
 Changelog for package cob_object_detection_visualizer
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+
 0.6.9 (2017-07-18)
 ------------------
 * remove obsolete dependencies to cmake_modules

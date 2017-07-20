@@ -2,6 +2,14 @@
 Changelog for package cob_object_detection_msgs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* remove grasping service
+* added property to a service
+* added srv to CMakeLists
+* added a service for computing grasp points for vacuum grippers
+* Contributors: Richard Bormann
+
 0.6.9 (2017-07-18)
 ------------------
 * manually fix changelog

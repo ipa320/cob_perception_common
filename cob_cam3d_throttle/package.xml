@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package format="2">
   <name>cob_cam3d_throttle</name>
-  <version>0.6.9</version>
+  <version>0.6.10</version>
   <description>cob_cam3d_throttle: only for Trottel</description>
 
   <license>LGPL</license>

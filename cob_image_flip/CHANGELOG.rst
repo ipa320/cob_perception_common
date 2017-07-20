@@ -2,8 +2,8 @@
 Changelog for package cob_image_flip
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.6.10 (2017-07-20)
+-------------------
 * removed unnecessary cmake_modules in CMakeLists
 * Contributors: Richard Bormann
 

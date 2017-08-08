@@ -6,7 +6,7 @@
 
   <maintainer email="richard.bormann@ipa.fraunhofer.de">Richard Bormann</maintainer>
   <license>Apache 2.0</license>
-  <author email="richard.bormann@ipa.fraunhofer.de">Richard Bormann</author> -->
+  <author email="richard.bormann@ipa.fraunhofer.de">Richard Bormann</author>
 
   <buildtool_depend>catkin</buildtool_depend>
 

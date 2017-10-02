@@ -7,7 +7,7 @@
      This package contains common message type definitions for perception tasks.
   </description>
 
-  <license>LGPL</license>
+  <license>Apache 2.0</license>
 
   <maintainer email="rmb@ipa.fhg.de">Richard Bormann</maintainer>
   <author>Richard Bormann</author>

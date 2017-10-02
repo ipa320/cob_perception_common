@@ -7,7 +7,7 @@
      Message, service and action definitions for environment perception.
   </description>
 
-  <license>LGPL</license>
+  <license>Apache 2.0</license>
 
   <maintainer email="joshua.hampp@ipa.fhg.de">Joshua Hampp</maintainer>
   <author>Georg Arbeiter</author>

@@ -170,6 +170,6 @@ private:
 };
 
 
-PLUGINLIB_DECLARE_CLASS(cob_cam3d_throttle, Cam3DThrottle, cob_cam3d_throttle::Cam3DThrottle, nodelet::Nodelet);
+PLUGINLIB_EXPORT_CLASS(cob_cam3d_throttle::Cam3DThrottle, nodelet::Nodelet);
 }
 

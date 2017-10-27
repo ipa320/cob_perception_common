@@ -61,4 +61,4 @@ public:
 }
 
 // watch the capitalization carefully
-PLUGINLIB_DECLARE_CLASS(cob_image_flip, ImageFlipNodelet, cob_image_flip::ImageFlipNodelet, nodelet::Nodelet)
+PLUGINLIB_EXPORT_CLASS(cob_image_flip::ImageFlipNodelet, nodelet::Nodelet)

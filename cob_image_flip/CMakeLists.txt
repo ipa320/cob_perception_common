@@ -10,6 +10,7 @@ set(catkin_RUN_PACKAGES
 	nodelet
 	pcl_ros
 	pcl_conversions
+	pluginlib
 	roscpp
 	sensor_msgs
 	stereo_msgs

@@ -2,6 +2,18 @@
 Changelog for package cob_image_flip
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.6.11 (2018-01-07)
+-------------------
+* Merge remote-tracking branch 'origin/indigo_release_candidate' into indigo_dev
+* Merge pull request `#87 <https://github.com/ipa320/cob_perception_common/issues/87>`_ from ipa-fxm/fix/depend_pluginlib
+  add missing dependency
+* add missing dependency
+* Merge pull request `#86 <https://github.com/ipa320/cob_perception_common/issues/86>`_ from mikaelarguedas/patch-1
+  update to use non deprecated pluginlib macro
+* update to use non deprecated pluginlib macro
+* use license apache 2.0
+* Contributors: Mikael Arguedas, Richard Bormann, ipa-fxm, ipa-uhr-mk
+
 0.6.10 (2017-07-20)
 -------------------
 * removed unnecessary cmake_modules in CMakeLists

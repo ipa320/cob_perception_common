@@ -2,6 +2,12 @@
 Changelog for package cob_object_detection_msgs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.6.11 (2018-01-07)
+-------------------
+* Merge remote-tracking branch 'origin/indigo_release_candidate' into indigo_dev
+* use license apache 2.0
+* Contributors: ipa-fxm, ipa-uhr-mk
+
 0.6.10 (2017-07-20)
 -------------------
 * remove grasping service

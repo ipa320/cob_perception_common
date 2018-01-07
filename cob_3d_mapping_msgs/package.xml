@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
 <package format="2">
   <name>cob_3d_mapping_msgs</name>
-  <version>0.6.10</version>
+  <version>0.6.11</version>
 
   <description>
      Message, service and action definitions for environment perception.
   </description>
 
-  <license>LGPL</license>
+  <license>Apache 2.0</license>
 
   <maintainer email="joshua.hampp@ipa.fhg.de">Joshua Hampp</maintainer>
   <author>Georg Arbeiter</author>

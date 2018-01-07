@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <package format="2">
   <name>cob_cam3d_throttle</name>
-  <version>0.6.10</version>
+  <version>0.6.11</version>
   <description>cob_cam3d_throttle: only for Trottel</description>
 
-  <license>LGPL</license>
+  <license>Apache 2.0</license>
 
   <url type="website">http://ros.org/wiki/cob_cam3d_throttle</url>
   <!-- <url type="bugtracker"></url> -->

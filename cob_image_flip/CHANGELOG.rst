@@ -2,6 +2,23 @@
 Changelog for package cob_image_flip
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.6.10 (2017-07-20)
+-------------------
+* removed unnecessary cmake_modules in CMakeLists
+* Contributors: Richard Bormann
+
+0.6.9 (2017-07-18)
+------------------
+* remove obsolete dependencies to cmake_modules
+* manually fix changelog
+* reduce console logs
+* comment std out
+* fixed a direction sign bug with sin() in gravity mode
+* fixed upside down rotation bug in gravity mode
+* 180deg flip for gravity mode
+* fixed image flip rotation against gravity
+* Contributors: Richard Bormann, ipa-cob4-1, ipa-fxm, msh
+
 0.6.8 (2016-10-10)
 ------------------
 * added publisher to image flip for providing the inverse inplane rotation to subscribers to the upright image

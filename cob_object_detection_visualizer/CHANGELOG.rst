@@ -2,6 +2,16 @@
 Changelog for package cob_object_detection_visualizer
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.6.10 (2017-07-20)
+-------------------
+
+0.6.9 (2017-07-18)
+------------------
+* remove obsolete dependencies to cmake_modules
+* opencv3 compatibility
+* manually fix changelog
+* Contributors: ipa-fxm
+
 0.6.8 (2016-10-10)
 ------------------
 * object detection visualization working

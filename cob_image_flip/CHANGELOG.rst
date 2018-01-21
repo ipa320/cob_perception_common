@@ -2,6 +2,35 @@
 Changelog for package cob_image_flip
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.6.11 (2018-01-07)
+-------------------
+* Merge remote-tracking branch 'origin/indigo_release_candidate' into indigo_dev
+* Merge pull request `#87 <https://github.com/ipa320/cob_perception_common/issues/87>`_ from ipa-fxm/fix/depend_pluginlib
+  add missing dependency
+* add missing dependency
+* Merge pull request `#86 <https://github.com/ipa320/cob_perception_common/issues/86>`_ from mikaelarguedas/patch-1
+  update to use non deprecated pluginlib macro
+* update to use non deprecated pluginlib macro
+* use license apache 2.0
+* Contributors: Mikael Arguedas, Richard Bormann, ipa-fxm, ipa-uhr-mk
+
+0.6.10 (2017-07-20)
+-------------------
+* removed unnecessary cmake_modules in CMakeLists
+* Contributors: Richard Bormann
+
+0.6.9 (2017-07-18)
+------------------
+* remove obsolete dependencies to cmake_modules
+* manually fix changelog
+* reduce console logs
+* comment std out
+* fixed a direction sign bug with sin() in gravity mode
+* fixed upside down rotation bug in gravity mode
+* 180deg flip for gravity mode
+* fixed image flip rotation against gravity
+* Contributors: Richard Bormann, ipa-cob4-1, ipa-fxm, msh
+
 0.6.8 (2016-10-10)
 ------------------
 * added publisher to image flip for providing the inverse inplane rotation to subscribers to the upright image

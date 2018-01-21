@@ -2,6 +2,20 @@
 Changelog for package cob_perception_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.6.11 (2018-01-07)
+-------------------
+* Merge remote-tracking branch 'origin/indigo_release_candidate' into indigo_dev
+* use license apache 2.0
+* Contributors: ipa-fxm, ipa-uhr-mk
+
+0.6.10 (2017-07-20)
+-------------------
+
+0.6.9 (2017-07-18)
+------------------
+* manually fix changelog
+* Contributors: ipa-fxm
+
 0.6.8 (2016-10-10)
 ------------------
 

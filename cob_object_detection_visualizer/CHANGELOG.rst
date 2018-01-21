@@ -2,6 +2,28 @@
 Changelog for package cob_object_detection_visualizer
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.6.11 (2018-01-07)
+-------------------
+* Merge remote-tracking branch 'origin/indigo_release_candidate' into indigo_dev
+* Merge pull request `#83 <https://github.com/ipa320/cob_perception_common/issues/83>`_ from ipa-rmb/indigo_dev
+  fixed typo in package.xml
+* fixed typo in package.xml
+* use license apache 2.0
+* Merge pull request `#82 <https://github.com/ipa320/cob_perception_common/issues/82>`_ from ipa-rmb/indigo_dev
+  bugfix for a warning
+* bugfix for a warning
+* Contributors: Richard Bormann, ipa-fxm, ipa-uhr-mk
+
+0.6.10 (2017-07-20)
+-------------------
+
+0.6.9 (2017-07-18)
+------------------
+* remove obsolete dependencies to cmake_modules
+* opencv3 compatibility
+* manually fix changelog
+* Contributors: ipa-fxm
+
 0.6.8 (2016-10-10)
 ------------------
 * object detection visualization working

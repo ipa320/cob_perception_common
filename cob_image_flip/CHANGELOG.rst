@@ -2,6 +2,12 @@
 Changelog for package cob_image_flip
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.6.12 (2018-07-21)
+-------------------
+* fixed opencv include names (`#90 <https://github.com/ipa320/cob_perception_common/issues/90>`_)
+  fixed opencv include names
+* Contributors: Richard Bormann
+
 0.6.11 (2018-01-07)
 -------------------
 * Merge remote-tracking branch 'origin/indigo_release_candidate' into indigo_dev

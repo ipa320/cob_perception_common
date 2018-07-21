@@ -2,8 +2,8 @@
 Changelog for package cob_image_flip
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.6.12 (2018-07-21)
+-------------------
 * fixed opencv include names (`#90 <https://github.com/ipa320/cob_perception_common/issues/90>`_)
   fixed opencv include names
 * Contributors: Richard Bormann

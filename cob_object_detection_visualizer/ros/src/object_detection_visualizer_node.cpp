@@ -240,7 +240,7 @@ private:
 
 		cv::Mat display;
 		cv::resize(image, display, cv::Size(), 0.5, 0.5);
-		cv::imshow("object detections", display);
+        //cv::imshow("object detections", display);
 		cv::waitKey(50);
 
 		std::stringstream file;

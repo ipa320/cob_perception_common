@@ -18,9 +18,7 @@
 #include <image_geometry/pinhole_camera_model.h>
 #include <iostream>
 #include <ros/ros.h>
-#include "std_msgs/Float32.h"
-#include "sensor_msgs/Joy.h"
-#include "sensor_msgs/CameraInfo.h"
+#include <sensor_msgs/CameraInfo.h>
 #include <visualization_msgs/Marker.h>
 
 class FOVNode

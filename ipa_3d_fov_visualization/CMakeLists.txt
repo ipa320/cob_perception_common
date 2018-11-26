@@ -6,14 +6,11 @@ find_package(catkin REQUIRED COMPONENTS
             cv_bridge
             image_geometry
             roscpp
-            std_msgs
             sensor_msgs
             visualization_msgs
             )
 
-catkin_package(
-  CATKIN_DEPENDS roscpp std_msgs
-)
+catkin_package()
 
 include_directories(
   include
@@ -24,7 +21,14 @@ include_directories(
 add_executable(ipa_3d_fov_visualization src/ipa_3d_fov_visualization.cpp)
 
 
-target_link_libraries(ipa_3d_fov_visualization ${catkin_LIBRARIES} ${WIRINGPI_LIBRARY})
+target_link_libraries(ipa_3d_fov_visualization ${catkin_LIBRARIES})
 
+add_dependencies(ipa_3d_fov_visualization ${catkin_EXPORTED_TARGETS})
 
+## Mark executables and/or libraries for installation
+install(TARGETS ipa_3d_fov_visualization
+        ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+        LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+        RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
 

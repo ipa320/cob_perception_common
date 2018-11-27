@@ -20,6 +20,7 @@ include_directories(
 
 add_executable(ipa_3d_fov_visualization src/ipa_3d_fov_visualization.cpp)
 
+add_dependencies(ipa_3d_fov_visualization ${catkin_EXPORTED_TARGETS})
 
 target_link_libraries(ipa_3d_fov_visualization ${catkin_LIBRARIES})
 
@@ -32,3 +33,6 @@ install(TARGETS ipa_3d_fov_visualization
         RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
+install(DIRECTORY launch
+        DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+)

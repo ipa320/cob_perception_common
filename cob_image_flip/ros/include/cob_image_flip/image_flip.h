@@ -117,6 +117,15 @@ public:
 	void disparityConnectCB(const ros::SingleSubscriberPublisher& pub);
 
 	void disparityDisconnectCB(const ros::SingleSubscriberPublisher& pub);
+
+
+	template <typename T>void setMatValuePtr(cv::Mat& image, int row, int index, double value);
+
+	void setMatValuePtr(cv::Mat &image, int row, int index, double value);
+
+	template <typename T> T getMatValuePtr(cv::Mat& image, int row, int index);
+
+	double getMatValuePtr(cv::Mat& image, int row, int index);
 };
 
 }

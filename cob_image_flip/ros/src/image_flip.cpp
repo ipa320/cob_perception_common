@@ -191,6 +191,55 @@ bool ImageFlip::convertImageMessageToMat(const sensor_msgs::Image::ConstPtr& ima
 	return true;
 }
 
+template <typename T> void ImageFlip::setMatValuePtr(cv::Mat& color_image, int u, int v, double value)
+{
+	color_image.ptr<T>(u)[v] = T(value);
+}
+
+void ImageFlip::setMatValuePtr(cv::Mat& color_image, int u, int v, double value)
+{
+    switch(color_image.type() % 8)
+    {
+    // color_image.type() // 8 is related to the number of channels which doesn't matter here
+    // for a table about the 28 different opencv-mat-types please refer to:
+    // http://ninghang.blogspot.com/2012/11/list-of-mat-type-in-opencv.html
+
+    case 0: ImageFlip::setMatValuePtr<unsigned char>(color_image, u, v, value);  break;
+    case 1: ImageFlip::setMatValuePtr<signed char>(color_image, u, v, value);  break;
+    case 2: ImageFlip::setMatValuePtr<unsigned short>(color_image, u, v, value);  break;
+    case 3: ImageFlip::setMatValuePtr<signed short>(color_image, u, v, value);  break;
+    case 4: ImageFlip::setMatValuePtr<int>(color_image, u, v, value);  break;
+    case 5: ImageFlip::setMatValuePtr<float>(color_image, u, v, value);  break;
+    case 6: ImageFlip::setMatValuePtr<double>(color_image, u, v, value);  break;
+
+    }
+}
+
+template <typename T> T ImageFlip::getMatValuePtr(cv::Mat& color_image, int u, int v)
+{
+	return color_image.ptr<T>(u)[v];
+}
+
+double ImageFlip::getMatValuePtr(cv::Mat& color_image, int u, int v)
+{
+    double value;
+    switch(color_image.type() % 8)
+    {
+    // color_image.type() // 8 is related to the number of channels which doesn't matter here
+    // for a table about the 28 different opencv-mat-types please refer to:
+    // http://ninghang.blogspot.com/2012/11/list-of-mat-type-in-opencv.html
+
+    case 0: value = ImageFlip::getMatValuePtr<unsigned char>(color_image, u, v);  break;
+    case 1: value = ImageFlip::getMatValuePtr<signed char>(color_image, u, v);  break;
+    case 2: value = ImageFlip::getMatValuePtr<unsigned short>(color_image, u, v);  break;
+    case 3: value = ImageFlip::getMatValuePtr<signed short>(color_image, u, v);  break;
+    case 4: value = ImageFlip::getMatValuePtr<int>(color_image, u, v);  break;
+    case 5: value = ImageFlip::getMatValuePtr<float>(color_image, u, v);  break;
+    case 6: value = ImageFlip::getMatValuePtr<double>(color_image, u, v);  break;
+
+    }
+    return value;
+}
 
 void ImageFlip::imageCallback(const sensor_msgs::ImageConstPtr& color_image_msg)
 {
@@ -217,14 +266,12 @@ void ImageFlip::imageCallback(const sensor_msgs::ImageConstPtr& color_image_msg)
 	{
 		// rotate images by 90 degrees
 		color_image_turned.create(color_image.cols, color_image.rows, color_image.type());
-		if (color_image.type() != CV_8UC3)
-		{
-			ROS_ERROR("ImageFlip::imageCallback: Error: The image format of the color image is not CV_8UC3.\n");
-			return;
-		}
+		int nr_channels = color_image.channels();
 		for (int v = 0; v < color_image_turned.rows; v++)
 			for (int u = 0; u < color_image_turned.cols; u++)
-				color_image_turned.at<cv::Vec3b>(v,u) = color_image.at<cv::Vec3b>(color_image.rows-1-u,v);
+				for (int k = 0; k < nr_channels; k++)
+					ImageFlip::setMatValuePtr(color_image_turned, u, (color_image.rows-1-v)*nr_channels+k, ImageFlip::getMatValuePtr(color_image,v,nr_channels*u+k));
+
 		rot_mat.at<double>(0,1) = -1.;
 		rot_mat.at<double>(0,2) = color_image.rows;
 		rot_mat.at<double>(1,0) = 1.;
@@ -233,14 +280,12 @@ void ImageFlip::imageCallback(const sensor_msgs::ImageConstPtr& color_image_msg)
 	{
 		// rotate images by 270 degrees
 		color_image_turned.create(color_image.cols, color_image.rows, color_image.type());
-		if (color_image.type() != CV_8UC3)
-		{
-			std::cout << "ImageFlip::imageCallback: Error: The image format of the color image is not CV_8UC3.\n";
-			return;
-		}
+		int nr_channels = color_image.channels();
 		for (int v = 0; v < color_image_turned.rows; v++)
 			for (int u = 0; u < color_image_turned.cols; u++)
-				color_image_turned.at<cv::Vec3b>(v,u) = color_image.at<cv::Vec3b>(u,color_image.cols-1-v);
+				for (int k = 0; k < nr_channels; k++)
+					ImageFlip::setMatValuePtr(color_image_turned, (color_image.cols -1 -u), v*nr_channels + k, ImageFlip::getMatValuePtr(color_image, v, nr_channels * u + k));
+		
 		rot_mat.at<double>(0,1) = 1.;
 		rot_mat.at<double>(1,0) = -1.;
 		rot_mat.at<double>(1,2) = color_image.cols;
@@ -249,26 +294,12 @@ void ImageFlip::imageCallback(const sensor_msgs::ImageConstPtr& color_image_msg)
 	{
 		// rotate images by 180 degrees
 		color_image_turned.create(color_image.rows, color_image.cols, color_image.type());
-		if (color_image.type() != CV_8UC3)
-		{
-			std::cout << "ImageFlip::imageCallback: Error: The image format of the color image is not CV_8UC3.\n";
-			return;
-		}
+		int nr_channels = color_image.channels();
 		for (int v = 0; v < color_image.rows; v++)
-		{
-			uchar* src = color_image.ptr(v);
-			uchar* dst = color_image_turned.ptr(color_image.rows - v - 1) + 3 * (color_image.cols - 1);
 			for (int u = 0; u < color_image.cols; u++)
-			{
-				for (int k = 0; k < 3; k++)
-				{
-					*dst = *src;
-					src++;
-					dst++;
-				}
-				dst -= 6;
-			}
-		}
+				for (int k = 0; k < nr_channels; k++)
+					ImageFlip::setMatValuePtr(color_image_turned, (color_image.rows -1 - v), nr_channels*(color_image.cols - 1 -u) + k, ImageFlip::getMatValuePtr(color_image, v, nr_channels * u + k));
+
 		rot_mat.at<double>(0,0) = -1.;
 		rot_mat.at<double>(0,2) = color_image.cols;
 		rot_mat.at<double>(1,1) = -1.;
@@ -282,11 +313,6 @@ void ImageFlip::imageCallback(const sensor_msgs::ImageConstPtr& color_image_msg)
 			color_image_turned.create(color_image.rows, color_image.cols, color_image.type());		// automatically decide for landscape or portrait orientation of resulting image
 		else
 			color_image_turned.create(color_image.cols, color_image.rows, color_image.type());
-		if (color_image.type() != CV_8UC3)
-		{
-			ROS_ERROR("ImageFlip::imageCallback: Error: The image format of the color image is not CV_8UC3.\n");
-			return;
-		}
 
 		cv::Point center = cv::Point(color_image.cols/2, color_image.rows/2);
 		rot_mat = cv::getRotationMatrix2D(center, -rotation_angle, 1.0);
@@ -607,14 +633,12 @@ void ImageFlip::disparityCallback(const stereo_msgs::DisparityImage::ConstPtr& d
 	{
 		// rotate images by 90 degrees
 		disparity_image_turned.create(disparity_image.cols, disparity_image.rows, disparity_image.type());
-		if (disparity_image.type() != CV_32FC1)
-		{
-			ROS_ERROR("ImageFlip::imageCallback: Error: The image format of the disparity image is not CV_32FC1.\n");
-			return;
-		}
+		int nr_channels = disparity_image.channels();
 		for (int v = 0; v < disparity_image_turned.rows; v++)
 			for (int u = 0; u < disparity_image_turned.cols; u++)
-				disparity_image_turned.at<float>(v,u) = disparity_image.at<float>(disparity_image.rows-1-u,v);
+				for (int k = 0; k < nr_channels; k++)
+					ImageFlip::setMatValuePtr(disparity_image_turned,u,(disparity_image.rows-1-v)*nr_channels+k, ImageFlip::getMatValuePtr(disparity_image,v,nr_channels*u+k));
+
 		rot_mat.at<double>(0,1) = -1.;
 		rot_mat.at<double>(0,2) = disparity_image.rows;
 		rot_mat.at<double>(1,0) = 1.;
@@ -623,14 +647,12 @@ void ImageFlip::disparityCallback(const stereo_msgs::DisparityImage::ConstPtr& d
 	{
 		// rotate images by 270 degrees
 		disparity_image_turned.create(disparity_image.cols, disparity_image.rows, disparity_image.type());
-		if (disparity_image.type() != CV_32FC1)
-		{
-			std::cout << "ImageFlip::imageCallback: Error: The image format of the color image is not CV_32FC1.\n";
-			return;
-		}
+		int nr_channels = disparity_image.channels();
 		for (int v = 0; v < disparity_image_turned.rows; v++)
 			for (int u = 0; u < disparity_image_turned.cols; u++)
-				disparity_image_turned.at<float>(v,u) = disparity_image.at<float>(u,disparity_image.cols-1-v);
+				for (int k = 0; k < nr_channels; k++)
+					ImageFlip::setMatValuePtr(disparity_image_turned, (disparity_image.cols-1-u),v*nr_channels+k, ImageFlip::getMatValuePtr(disparity_image,v,nr_channels*u+k));
+
 		rot_mat.at<double>(0,1) = 1.;
 		rot_mat.at<double>(1,0) = -1.;
 		rot_mat.at<double>(1,2) = disparity_image.cols;
@@ -639,22 +661,12 @@ void ImageFlip::disparityCallback(const stereo_msgs::DisparityImage::ConstPtr& d
 	{
 		// rotate images by 180 degrees
 		disparity_image_turned.create(disparity_image.rows, disparity_image.cols, disparity_image.type());
-		if (disparity_image.type() != CV_32FC1)
-		{
-			std::cout << "ImageFlip::imageCallback: Error: The image format of the color image is not CV_32FC1.\n";
-			return;
-		}
+		int nr_channels = disparity_image.channels();
 		for (int v = 0; v < disparity_image.rows; v++)
-		{
-			float* src = (float*)disparity_image.ptr(v);
-			float* dst = (float*)disparity_image_turned.ptr(disparity_image.rows - v - 1) + (disparity_image.cols - 1);
 			for (int u = 0; u < disparity_image.cols; u++)
-			{
-				*dst = *src;
-				src++;
-				dst--;
-			}
-		}
+				for (int k = 0; k < nr_channels; k++)
+					ImageFlip::setMatValuePtr(disparity_image_turned, (disparity_image.rows-1-v), nr_channels*(disparity_image.cols-1-u)+k, ImageFlip::getMatValuePtr(disparity_image,v,nr_channels*u+k));
+
 		rot_mat.at<double>(0,0) = -1.;
 		rot_mat.at<double>(0,2) = disparity_image.cols;
 		rot_mat.at<double>(1,1) = -1.;
@@ -668,11 +680,6 @@ void ImageFlip::disparityCallback(const stereo_msgs::DisparityImage::ConstPtr& d
 			disparity_image_turned.create(disparity_image.rows, disparity_image.cols, disparity_image.type());		// automatically decide for landscape or portrait orientation of resulting image
 		else
 			disparity_image_turned.create(disparity_image.cols, disparity_image.rows, disparity_image.type());
-		if (disparity_image.type() != CV_32FC1)
-		{
-			ROS_ERROR("ImageFlip::imageCallback: Error: The image format of the color image is not CV_32FC1.\n");
-			return;
-		}
 
 		cv::Point center = cv::Point(disparity_image.cols/2, disparity_image.rows/2);
 		rot_mat = cv::getRotationMatrix2D(center, -rotation_angle, 1.0);

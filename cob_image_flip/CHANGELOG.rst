@@ -2,6 +2,9 @@
 Changelog for package cob_image_flip
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.6.13 (2019-03-14)
+-------------------
+
 0.6.12 (2018-07-21)
 -------------------
 * fixed opencv include names (`#90 <https://github.com/ipa320/cob_perception_common/issues/90>`_)

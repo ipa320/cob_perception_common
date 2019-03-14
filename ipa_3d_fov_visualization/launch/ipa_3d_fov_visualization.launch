@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<launch>
+        <!-- LAUNCH NODE -->
+        <node name="ipa_3d_fov_visualization" pkg="ipa_3d_fov_visualization" type="ipa_3d_fov_visualization" output="screen">
+
+            <!--define camera info topic -->
+            <remap from="camera_info" to="camera/color/camera_info"/>
+
+            <!--set parameters -->
+            <param name="show_marker" value="True" />             <!--bool--> 
+            <param name="min_distance" value="0.2" />             <!--float of min polygon dist--> 
+            <param name="max_distance" value="1.8" />             <!--float of max polygon dist-->
+        </node>
+</launch>

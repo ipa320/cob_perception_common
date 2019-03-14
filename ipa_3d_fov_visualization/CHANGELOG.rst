@@ -2,8 +2,8 @@
 Changelog for package ipa_3d_fov_visualization
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.6.13 (2019-03-14)
+-------------------
 * added feature 3d fov visualization (`#91 <https://github.com/ipa320/cob_perception_common/issues/91>`_)
   * added feature 3d fov visualization
   * removed modification

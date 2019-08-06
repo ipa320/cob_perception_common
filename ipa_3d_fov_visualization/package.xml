@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package format="2">
   <name>ipa_3d_fov_visualization</name>
-  <version>0.6.13</version>
+  <version>0.6.14</version>
   <description>The ipa_3d_fov_visualization package</description>
 
   <maintainer email="florenz.graf@ipa.fraunhofer.de">Florenz Graf</maintainer>

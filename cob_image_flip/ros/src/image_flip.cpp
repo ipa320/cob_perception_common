@@ -191,65 +191,55 @@ bool ImageFlip::convertImageMessageToMat(const sensor_msgs::Image::ConstPtr& ima
 	return true;
 }
 
-template <typename T> void ImageFlip::setMatValuePtr(cv::Mat& color_image, int row, int index, T value)
+template <typename T> void ImageFlip::setMatValuePtrType(cv::Mat& color_image, int row, int index, T value)
 {
-    // general: storing is carried out in row-major-style (rows change first)
-    // color_iamge.ptr<T>(u) returns a pointer the specific row (u-coordinate), starting at index 0
-    // [v] accesses the specific column of the pointer to the row
-    // For COLOR-Images (amount of channels>1):
-    // The order of the pixel-values in cv::Mat is as follows
-    // (http://blog.comart.io/assets/post-rgb/rgb-div-2e9ba3475bd9897a937811ad5a3746d84032fd2b24b7ec06356d7abf763442fb.png):
-    // blue(0,0), green(0, 0), red(0,0), blue(0,1), green(0,1), red(0,1), blue(0,2), green(0,2), red(0,2)
-    // blue(1,0), green(1, 0), red(1,0), blue(1,1), green(1,1), red(1,1), blue(1,2), green(1,2), red(1,2)
-    // The total number of channels has to be taken into consideration for the column-value.
-    // index_for_column = total_number_channels * index_for_row + index_for_channel
-    color_image.ptr<T>(row)[index] = value;
+	color_image.ptr<T>(row)[index] = value;
 }
 
 // necessary to use typename T::type instead of just T as otherwise the signature of this function and the one above is identical -> type deduction not possible
-template <typename T> void ImageFlip::setMatValuePtr(cv::Mat& color_image, int row, int index, typename T::type value)
+template <typename T> void ImageFlip::setMatValuePtr(cv::Mat& color_image, int row, int index, T value)
 {
-    switch(color_image.type() % 8)
-    {
-    // color_image.type() // 8 is related to the number of channels which doesn't matter here
-    // for a table about the 28 different opencv-mat-types please refer to:
-    // http://ninghang.blogspot.com/2012/11/list-of-mat-type-in-opencv.html
+	switch(color_image.type() % 8)
+	{
+	// color_image.type() // 8 is related to the number of channels which doesn't matter here
+	// for a table about the 28 different opencv-mat-types please refer to:
+	// http://ninghang.blogspot.com/2012/11/list-of-mat-type-in-opencv.html
 
-    case 0: ImageFlip::setMatValuePtr<unsigned char>(color_image, row, index, value);  break;
-    case 1: ImageFlip::setMatValuePtr<signed char>(color_image, row, index, value);  break;
-    case 2: ImageFlip::setMatValuePtr<unsigned short>(color_image, row, index, value);  break;
-    case 3: ImageFlip::setMatValuePtr<signed short>(color_image, row, index, value);  break;
-    case 4: ImageFlip::setMatValuePtr<int>(color_image, row, index, value);  break;
-    case 5: ImageFlip::setMatValuePtr<float>(color_image, row, index, value);  break;
-    case 6: ImageFlip::setMatValuePtr<double>(color_image, row, index, value);  break;
+	case 0: ImageFlip::setMatValuePtrType<unsigned char>(color_image, row, index, value);  break;
+	case 1: ImageFlip::setMatValuePtrType<signed char>(color_image, row, index, value);  break;
+	case 2: ImageFlip::setMatValuePtrType<unsigned short>(color_image, row, index, value);  break;
+	case 3: ImageFlip::setMatValuePtrType<signed short>(color_image, row, index, value);  break;
+	case 4: ImageFlip::setMatValuePtrType<int>(color_image, row, index, value);  break;
+	case 5: ImageFlip::setMatValuePtrType<float>(color_image, row, index, value);  break;
+	case 6: ImageFlip::setMatValuePtrType<double>(color_image, row, index, value);  break;
 
-    }
+	}
 }
 
-template <typename T> T ImageFlip::getMatValuePtr(cv::Mat& color_image, int row, int index)
+template <typename T> T ImageFlip::getMatValuePtrType(cv::Mat& color_image, int row, int index)
 {
-    return color_image.ptr<T>(row)[index];
+	return color_image.ptr<T>(row)[index];
 }
 
 double ImageFlip::getMatValuePtr(cv::Mat& color_image, int row, int index)
 {
-    double value;
-    switch(color_image.type() % 8)
-    {
-    // color_image.type() // 8 is related to the number of channels which doesn't matter here
-    // for a table about the 28 different opencv-mat-types please refer to:
-    // http://ninghang.blogspot.com/2012/11/list-of-mat-type-in-opencv.html
+	double value;
+	switch(color_image.type() % 8)
+	{
+	// color_image.type() // 8 is related to the number of channels which doesn't matter here
+	// for a table about the 28 different opencv-mat-types please refer to:
+	// http://ninghang.blogspot.com/2012/11/list-of-mat-type-in-opencv.html
 
-    case 0: value = ImageFlip::getMatValuePtr<unsigned char>(color_image, row, index);  break;
-    case 1: value = ImageFlip::getMatValuePtr<signed char>(color_image, row, index);  break;
-    case 2: value = ImageFlip::getMatValuePtr<unsigned short>(color_image, row, index);  break;
-    case 3: value = ImageFlip::getMatValuePtr<signed short>(color_image, row, index);  break;
-    case 4: value = ImageFlip::getMatValuePtr<int>(color_image, row, index);  break;
-    case 5: value = ImageFlip::getMatValuePtr<float>(color_image, row, index);  break;
-    case 6: value = ImageFlip::getMatValuePtr<double>(color_image, row, index);  break;
+	case 0: value = ImageFlip::getMatValuePtrType<unsigned char>(color_image, row, index);  break;
+	case 1: value = ImageFlip::getMatValuePtrType<signed char>(color_image, row, index);  break;
+	case 2: value = ImageFlip::getMatValuePtrType<unsigned short>(color_image, row, index);  break;
+	case 3: value = ImageFlip::getMatValuePtrType<signed short>(color_image, row, index);  break;
+	case 4: value = ImageFlip::getMatValuePtrType<int>(color_image, row, index);  break;
+	case 5: value = ImageFlip::getMatValuePtrType<float>(color_image, row, index);  break;
+	case 6: value = ImageFlip::getMatValuePtrType<double>(color_image, row, index);  break;
 
-    }
-    return value;
+	}
+	return value;
 }
 
 void ImageFlip::imageCallback(const sensor_msgs::ImageConstPtr& color_image_msg)
@@ -278,11 +268,13 @@ void ImageFlip::imageCallback(const sensor_msgs::ImageConstPtr& color_image_msg)
 		// rotate images by 90 degrees
 		color_image_turned.create(color_image.cols, color_image.rows, color_image.type());
 		int nr_channels = color_image.channels();
-		for (int v = 0; v < color_image_turned.rows; v++)
-			for (int u = 0; u < color_image_turned.cols; u++)
+		for (int v = 0; v < color_image_turned.cols; v++)
+			for (int u = 0; u < color_image_turned.rows; u++)
 				for (int k = 0; k < nr_channels; k++)
-					ImageFlip::setMatValuePtr(color_image_turned, u, (color_image.rows-1-v)*nr_channels+k, ImageFlip::getMatValuePtr(color_image,v,nr_channels*u+k));
-
+				{
+					
+                    			ImageFlip::setMatValuePtr(color_image_turned, u, (color_image_turned.cols-1-v)*nr_channels+k, ImageFlip::getMatValuePtr(color_image,v,nr_channels*u+k));
+				}
 		rot_mat.at<double>(0,1) = -1.;
 		rot_mat.at<double>(0,2) = color_image.rows;
 		rot_mat.at<double>(1,0) = 1.;
@@ -292,10 +284,10 @@ void ImageFlip::imageCallback(const sensor_msgs::ImageConstPtr& color_image_msg)
 		// rotate images by 270 degrees
 		color_image_turned.create(color_image.cols, color_image.rows, color_image.type());
 		int nr_channels = color_image.channels();
-		for (int v = 0; v < color_image_turned.rows; v++)
-			for (int u = 0; u < color_image_turned.cols; u++)
+		for (int v = 0; v < color_image_turned.cols; v++)
+			for (int u = 0; u < color_image_turned.rows; u++)
 				for (int k = 0; k < nr_channels; k++)
-					ImageFlip::setMatValuePtr(color_image_turned, (color_image.cols -1 -u), v*nr_channels + k, ImageFlip::getMatValuePtr(color_image, v, nr_channels * u + k));
+                    ImageFlip::setMatValuePtr(color_image_turned, (color_image_turned.rows -1 -u), v*nr_channels + k, ImageFlip::getMatValuePtr(color_image, v, nr_channels * u + k));
 		
 		rot_mat.at<double>(0,1) = 1.;
 		rot_mat.at<double>(1,0) = -1.;
@@ -306,8 +298,8 @@ void ImageFlip::imageCallback(const sensor_msgs::ImageConstPtr& color_image_msg)
 		// rotate images by 180 degrees
 		color_image_turned.create(color_image.rows, color_image.cols, color_image.type());
 		int nr_channels = color_image.channels();
-		for (int v = 0; v < color_image.rows; v++)
-			for (int u = 0; u < color_image.cols; u++)
+		for (int v = 0; v < color_image_turned.cols; v++)
+			for (int u = 0; u < color_image_turned.rows; u++)
 				for (int k = 0; k < nr_channels; k++)
 					ImageFlip::setMatValuePtr(color_image_turned, (color_image.rows -1 - v), nr_channels*(color_image.cols - 1 -u) + k, ImageFlip::getMatValuePtr(color_image, v, nr_channels * u + k));
 

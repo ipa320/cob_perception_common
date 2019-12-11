@@ -29,7 +29,7 @@ find_package(catkin REQUIRED COMPONENTS
 	${catkin_BUILD_PACKAGES}
 )
 
-find_package(Boost REQUIRED COMPONENTS signals)
+find_package(Boost REQUIRED COMPONENTS)
 find_package(OpenCV REQUIRED)
 #find_package(PCL REQUIRED)
 

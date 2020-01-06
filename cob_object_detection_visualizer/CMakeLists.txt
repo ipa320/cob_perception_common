@@ -4,7 +4,7 @@ project(cob_object_detection_visualizer)
 # set default build type
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release) # RelWithDebInfo)
-endif(NOT CMAKE_BUILD_TYPE)
+endif()
 
 # all ROS packages from package.xml (libopencv-dev is system dependency --> sudo apt-get install)
 set(catkin_RUN_PACKAGES

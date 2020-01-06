@@ -31,8 +31,8 @@ add_message_files(
   DIRECTORY
     msg
   FILES
-    CurvedPolygonArray.msg
     CurvedPolygon.msg
+    CurvedPolygonArray.msg
     Feature.msg
     FilterObject.msg
     Plane.msg
@@ -40,8 +40,8 @@ add_message_files(
     Point2D.msg
     Polygon.msg 
     PolylinePoint.msg
-    ShapeArray.msg
     Shape.msg
+    ShapeArray.msg
     SimilarityScore.msg
 )
 
@@ -84,8 +84,8 @@ catkin_package(
     actionlib
     actionlib_msgs
     cob_object_detection_msgs
-    message_runtime
     geometry_msgs
+    message_runtime
     sensor_msgs
     std_msgs
 )

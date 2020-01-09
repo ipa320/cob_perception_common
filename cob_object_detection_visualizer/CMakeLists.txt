@@ -1,12 +1,6 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(cob_object_detection_visualizer)
 
-# set default build type
-if(NOT CMAKE_BUILD_TYPE)
-    set(CMAKE_BUILD_TYPE Release) # RelWithDebInfo)
-endif(NOT CMAKE_BUILD_TYPE)
-
-# all ROS packages from package.xml (libopencv-dev is system dependency --> sudo apt-get install)
 set(catkin_RUN_PACKAGES
   cob_object_detection_msgs
   cv_bridge
@@ -24,18 +18,14 @@ set(catkin_BUILD_PACKAGES
 )
 
 find_package(catkin REQUIRED COMPONENTS
-	${catkin_BUILD_PACKAGES} # this makes ${catkin_LIBRARIES} include all libraries of ${catkin_BUILD_PACKAGES}
+	${catkin_BUILD_PACKAGES}
 )
 
-## System dependencies are found with CMake's conventions
 find_package(Boost REQUIRED COMPONENTS system)
 find_package(OpenCV REQUIRED)
 find_package(PCL REQUIRED)
 
 catkin_package(
-INCLUDE_DIRS
-	#ros/include
-LIBRARIES
 CATKIN_DEPENDS
 	${catkin_RUN_PACKAGES}
 DEPENDS
@@ -48,8 +38,7 @@ DEPENDS
 ###########
 
 include_directories(
-	#ros/include
-	${catkin_INCLUDE_DIRS} # same name as find_package
+	${catkin_INCLUDE_DIRS}
 	${Boost_INCLUDE_DIRS}
 	${OpenCV_INCLUDE_DIRS}
 	${PCL_INCLUDE_DIRS}

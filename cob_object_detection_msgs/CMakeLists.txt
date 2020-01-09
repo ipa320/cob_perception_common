@@ -33,13 +33,13 @@ add_message_files(
   DIRECTORY
     msg
   FILES
-    DetectionArray.msg
     Detection.msg
-    MaskArray.msg
+    DetectionArray.msg
     Mask.msg
+    MaskArray.msg
     PoseRT.msg
-    RectArray.msg
     Rect.msg
+    RectArray.msg
 )
 
 ## Generate services in the 'srv' folder
@@ -48,8 +48,8 @@ add_service_files(
     srv
   FILES
     AcquireObjectImage.srv
-    BagTrainObject.srv
     BaTestEnvironment.srv
+    BagTrainObject.srv
     DetectObjects.srv
     SaveRecordedObject.srv
     StartObjectRecording.srv
@@ -95,7 +95,7 @@ catkin_package(
 
 ## Mark executable scripts (Python etc.) for installation
 ## in contrast to setup.py, you can choose the destination
-install(PROGRAMS
+catkin_install_python(PROGRAMS
   test/detection_component_testing.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )

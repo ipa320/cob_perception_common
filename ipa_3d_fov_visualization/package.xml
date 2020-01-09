@@ -2,7 +2,7 @@
 <package format="2">
   <name>ipa_3d_fov_visualization</name>
   <version>0.6.14</version>
-  <description>The ipa_3d_fov_visualization package</description>
+  <description>The ipa_3d_fov_visualization package allows to visualize the field-of-view of a camera.</description>
 
   <maintainer email="florenz.graf@ipa.fraunhofer.de">Florenz Graf</maintainer>
   <author>Florenz Graf</author>

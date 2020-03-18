@@ -2,8 +2,8 @@
 Changelog for package cob_object_detection_msgs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.6.15 (2020-03-18)
+-------------------
 * Merge pull request `#100 <https://github.com/ipa320/cob_perception_common/issues/100>`_ from fmessmer/feature/python3_compatibility
   [ci_updates] pylint + Python3 compatibility
 * fix pylint errors

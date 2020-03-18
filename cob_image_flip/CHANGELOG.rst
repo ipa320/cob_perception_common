@@ -2,6 +2,16 @@
 Changelog for package cob_image_flip
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.6.15 (2020-03-18)
+-------------------
+* Merge pull request `#99 <https://github.com/ipa320/cob_perception_common/issues/99>`_ from fmessmer/ci_updates
+  [travis] ci updates
+* catkin_lint fixes
+* Merge pull request `#98 <https://github.com/ipa320/cob_perception_common/issues/98>`_ from fmessmer/fix/boost_signals
+  removed unused Boost signals dependency
+* removed unused Boost signals dependency
+* Contributors: Felix Messmer, fmessmer
+
 0.6.14 (2019-08-06)
 -------------------
 

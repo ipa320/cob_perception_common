@@ -21,18 +21,18 @@ add_message_files(
   DIRECTORY
     msg
   FILES 
-    PointCloud2Array.msg
     ColorDepthImage.msg
     ColorDepthImageArray.msg
     Detection.msg
     DetectionArray.msg
     Float64ArrayStamped.msg
-    PositionMeasurement.msg 
-    PositionMeasurementArray.msg 
-    PersonStamped.msg
-    Person.msg
-    People.msg
     Mask.msg
+    People.msg
+    Person.msg
+    PersonStamped.msg
+    PointCloud2Array.msg
+    PositionMeasurement.msg 
+    PositionMeasurementArray.msg
     Rect.msg
     Skeleton.msg
 )
@@ -40,8 +40,8 @@ add_message_files(
 ## Generate added messages and services with any dependencies listed here
 generate_messages(
   DEPENDENCIES
-	sensor_msgs
 	geometry_msgs
+	sensor_msgs
 	std_msgs
 )
 

@@ -8,8 +8,8 @@ set(catkin_RUN_PACKAGES
 	geometry_msgs
 	image_transport
 	nodelet
-	pcl_ros
 	pcl_conversions
+	pcl_ros
 	pluginlib
 	roscpp
 	sensor_msgs
@@ -29,7 +29,7 @@ find_package(catkin REQUIRED COMPONENTS
 	${catkin_BUILD_PACKAGES}
 )
 
-find_package(Boost REQUIRED COMPONENTS signals)
+find_package(Boost REQUIRED COMPONENTS)
 find_package(OpenCV REQUIRED)
 #find_package(PCL REQUIRED)
 
@@ -72,8 +72,8 @@ include_directories(
 
 ## Declare a cpp library
 add_library(image_flip_nodelet
-	ros/src/image_flip_nodelet.cpp
 	ros/src/image_flip.cpp
+	ros/src/image_flip_nodelet.cpp
 )
 set_target_properties(image_flip_nodelet PROPERTIES COMPILE_FLAGS -D__LINUX__)
 target_link_libraries(image_flip_nodelet
@@ -87,8 +87,8 @@ add_dependencies(image_flip_nodelet ${catkin_EXPORTED_TARGETS})
 
 ## Declare a cpp executable
 add_executable(image_flip
-	ros/src/image_flip_main.cpp
 	ros/src/image_flip.cpp
+	ros/src/image_flip_main.cpp
 )
 set_target_properties(image_flip PROPERTIES COMPILE_FLAGS -D__LINUX__)
 target_link_libraries(image_flip
@@ -105,7 +105,7 @@ add_dependencies(image_flip ${catkin_EXPORTED_TARGETS})
 #############
 
 ## Mark executables and/or libraries for installation
-install(TARGETS image_flip_nodelet image_flip
+install(TARGETS image_flip image_flip_nodelet
 	ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 	LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 	RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}

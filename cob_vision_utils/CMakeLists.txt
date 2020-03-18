@@ -27,7 +27,7 @@ catkin_package(
     common/include
     ros/include
   LIBRARIES
-    cob_vision_utils
+    ${PROJECT_NAME}
   CATKIN_DEPENDS
     roscpp
     visualization_msgs
@@ -52,16 +52,16 @@ include_directories(
 )
 
 ## Declare a cpp library
-add_library(cob_vision_utils
-  common/src/VisionUtils.cpp
+add_library(${PROJECT_NAME}
   common/src/CameraSensorToolbox.cpp
+  common/src/VisionUtils.cpp
 )
-target_link_libraries(cob_vision_utils
+target_link_libraries(${PROJECT_NAME}
   ${OpenCV_LIBS}
   ${TinyXML_LIBRARIES}
 )
-set_target_properties(cob_vision_utils PROPERTIES COMPILE_FLAGS "-D__LINUX__ -D__COB_ROS__")
-add_dependencies(cob_vision_utils ${catkin_EXPORTED_TARGETS})
+set_target_properties(${PROJECT_NAME} PROPERTIES COMPILE_FLAGS "-D__LINUX__ -D__COB_ROS__")
+add_dependencies(${PROJECT_NAME} ${catkin_EXPORTED_TARGETS})
 
 
 #############

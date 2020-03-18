@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package format="2">
   <name>cob_object_detection_visualizer</name>
-  <version>0.6.14</version>
-  <description>The cob_object_detection_visualizer package</description>
+  <version>0.6.15</version>
+  <description>The cob_object_detection_visualizer package visualizes the object detection result.</description>
 
   <maintainer email="richard.bormann@ipa.fraunhofer.de">Richard Bormann</maintainer>
   <license>Apache 2.0</license>

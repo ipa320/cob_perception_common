@@ -7,7 +7,7 @@
     This stack provides utilities commonly needed for a variety of computer vision tasks.
   </description>
 
-  <version>0.6.14</version>
+  <version>0.6.15</version>
   <license>Apache 2.0</license>
 
   <maintainer email="rmb@ipa.fhg.de">Richard Bormann</maintainer>

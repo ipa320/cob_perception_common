@@ -2,6 +2,9 @@
 Changelog for package cob_perception_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+
 0.6.14 (2019-08-06)
 -------------------
 

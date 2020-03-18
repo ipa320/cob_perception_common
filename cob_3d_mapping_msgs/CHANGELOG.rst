@@ -2,6 +2,13 @@
 Changelog for package cob_3d_mapping_msgs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Merge pull request `#99 <https://github.com/ipa320/cob_perception_common/issues/99>`_ from fmessmer/ci_updates
+  [travis] ci updates
+* catkin_lint fixes
+* Contributors: Felix Messmer, fmessmer
+
 0.6.14 (2019-08-06)
 -------------------
 

@@ -16,12 +16,10 @@
 
   <buildtool_depend>catkin</buildtool_depend>
 
-  <depend>boost</depend>
   <depend>cob_perception_msgs</depend>
   <depend>cv_bridge</depend>
   <depend>geometry_msgs</depend>
   <depend>image_transport</depend>
-  <depend>libopencv-dev</depend>
   <depend>nodelet</depend>
   <depend>pcl_conversions</depend>
   <depend>pcl_ros</depend>

@@ -2,8 +2,8 @@
 Changelog for package cob_perception_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.6.16 (2020-10-10)
+-------------------
 * Merge pull request `#101 <https://github.com/ipa320/cob_perception_common/issues/101>`_ from fmessmer/test_noetic
   test noetic
 * remove cob_vision_utils

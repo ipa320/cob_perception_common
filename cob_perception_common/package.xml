@@ -7,7 +7,7 @@
     This stack provides utilities commonly needed for a variety of computer vision tasks.
   </description>
 
-  <version>0.6.15</version>
+  <version>0.6.16</version>
   <license>Apache 2.0</license>
 
   <maintainer email="rmb@ipa.fhg.de">Richard Bormann</maintainer>
@@ -23,7 +23,6 @@
   <exec_depend>cob_object_detection_msgs</exec_depend>
   <exec_depend>cob_object_detection_visualizer</exec_depend>
   <exec_depend>cob_perception_msgs</exec_depend>
-  <exec_depend>cob_vision_utils</exec_depend>
 
   <export>
     <metapackage/>

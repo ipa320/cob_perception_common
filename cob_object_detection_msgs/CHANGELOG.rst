@@ -2,6 +2,13 @@
 Changelog for package cob_object_detection_msgs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.6.16 (2020-10-10)
+-------------------
+* Merge pull request `#101 <https://github.com/ipa320/cob_perception_common/issues/101>`_ from fmessmer/test_noetic
+  test noetic
+* Bump CMake version to avoid CMP0048 warning
+* Contributors: Felix Messmer, fmessmer
+
 0.6.15 (2020-03-18)
 -------------------
 * Merge pull request `#100 <https://github.com/ipa320/cob_perception_common/issues/100>`_ from fmessmer/feature/python3_compatibility

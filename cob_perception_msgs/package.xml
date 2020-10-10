@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package format="2">
   <name>cob_perception_msgs</name>
-  <version>0.6.15</version>
+  <version>0.6.16</version>
 
   <description>
      This package contains common message type definitions for perception tasks.

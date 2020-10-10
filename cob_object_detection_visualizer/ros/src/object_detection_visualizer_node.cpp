@@ -44,7 +44,7 @@
 
 #include <eigen_conversions/eigen_msg.h>
 
-#include "cob_object_detection_msgs/DetectionArray.h"
+#include <cob_object_detection_msgs/DetectionArray.h>
 
 #include <map>
 #include <vector>

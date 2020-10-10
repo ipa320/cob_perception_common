@@ -1,7 +1,6 @@
-cmake_minimum_required(VERSION 2.8.3)
+cmake_minimum_required(VERSION 3.0.2)
 project(cob_image_flip)
 
-# all ROS packages from package.xml (libopencv-dev is system dependency --> sudo apt-get install)
 set(catkin_RUN_PACKAGES 
 	cob_perception_msgs
 	cv_bridge

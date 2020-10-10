@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package format="2">
   <name>cob_image_flip</name>
-  <version>0.6.15</version>
+  <version>0.6.16</version>
   
   <description>
      Flips the image of Care-O-bots kinect in dependence of the viewing direction of the cameras to receive an upright image all the time.
@@ -16,12 +16,10 @@
 
   <buildtool_depend>catkin</buildtool_depend>
 
-  <depend>boost</depend>
   <depend>cob_perception_msgs</depend>
   <depend>cv_bridge</depend>
   <depend>geometry_msgs</depend>
   <depend>image_transport</depend>
-  <depend>libopencv-dev</depend>
   <depend>nodelet</depend>
   <depend>pcl_conversions</depend>
   <depend>pcl_ros</depend>

@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.0.2)
 project(cob_vision_utils)
 
 find_package(catkin REQUIRED COMPONENTS
+  cv_bridge
   roscpp
   visualization_msgs
 )
@@ -15,6 +16,7 @@ catkin_package(
   LIBRARIES
     ${PROJECT_NAME}
   CATKIN_DEPENDS
+    cv_bridge
     roscpp
     visualization_msgs
   DEPENDS

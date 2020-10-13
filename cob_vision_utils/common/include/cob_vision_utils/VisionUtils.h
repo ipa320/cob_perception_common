@@ -31,10 +31,6 @@ namespace ipa_Utils {
 /// @return The stacked matrix
 cv::Mat vstack(const std::vector<cv::Mat> &mats);
 
-/// Function to replace the buggy OpenCV 1.1 function.
-void InitUndistortMap( const cv::Mat& A, const cv::Mat& dist_coeffs,
-					cv::Mat& mapxarr, cv::Mat& mapyarr );
-
 /// Function to convert a 32 bit, n channel image into a eight bit, 1 channel image.
 /// @param source The 32 bit, n channel source image
 /// @param dest The resulting 8 bit, 1 channel image
@@ -95,18 +91,6 @@ unsigned long FilterSpeckles( cv::Mat& img, int maxSpeckleSize, double _maxDiff,
 /// @param max Maximum for scaling
 /// @return Vector containing RGB values
 cv::Vec3b GrayColorMap(double value, double min, double max);
-
-/// Returns mat as HSV or gray image 
-/// @param img_32F Float matrix
-/// @return Colorcoded image
-cv::Mat GetColorcoded(const cv::Mat& img_32F);
-
-/// Returns mat as HSV or gray image 
-/// @param img_32F Float matrix
-/// @param min Minimum for scaling
-/// @param max Maximum for scaling
-/// @return Colorcoded image
-cv::Mat GetColorcoded(const cv::Mat& img_32F, double min, double max);
 
 /// Save OpenCV matrix in binary format.
 /// @param mat The OpenCV mat data structure

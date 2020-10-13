@@ -21,6 +21,11 @@ catkin_package(
     OpenCV
 )
 
+
+###########
+## Build ##
+###########
+
 include_directories(
   common/include
   ros/include

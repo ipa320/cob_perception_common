@@ -18,12 +18,8 @@
 #ifndef __IPA_VISIONUTILS_H__
 #define __IPA_VISIONUTILS_H__
 
-#ifdef __LINUX__
-	#include "cob_vision_utils/GlobalDefines.h"
-#else
-	#include "cob_perception_common/cob_vision_utils/common/include/cob_vision_utils/GlobalDefines.h"
-#endif
 
+#include <cob_vision_utils/GlobalDefines.h>
 #include <opencv2/core/core.hpp>
 #include <iostream>
 

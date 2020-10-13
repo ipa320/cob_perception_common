@@ -15,16 +15,10 @@
  */
  
 
-// Relevant, just for windows
-#include <cob_vision_utils/StdAfx.h>
-#ifdef __LINUX__
-#include "cob_vision_utils/VisionUtils.h"
+#include <cob_vision_utils/VisionUtils.h>
 #include <opencv2/core/core.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 #include <fstream>
-#else
-#include "cob_perception_common/cob_vision_utils/common/include/cob_vision_utils/VisionUtils.h"
-#endif
 
 
 using namespace ipa_Utils;

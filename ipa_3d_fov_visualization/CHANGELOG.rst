@@ -2,6 +2,9 @@
 Changelog for package ipa_3d_fov_visualization
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.6.17 (2020-10-14)
+-------------------
+
 0.6.16 (2020-10-10)
 -------------------
 * Merge pull request `#101 <https://github.com/ipa320/cob_perception_common/issues/101>`_ from fmessmer/test_noetic

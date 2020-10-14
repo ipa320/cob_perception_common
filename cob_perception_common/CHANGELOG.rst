@@ -2,6 +2,14 @@
 Changelog for package cob_perception_common
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.6.17 (2020-10-14)
+-------------------
+* Merge pull request `#102 <https://github.com/ipa320/cob_perception_common/issues/102>`_ from fmessmer/minimal_cob_vision_utils
+  minimal cob_vision_utils
+* Revert "remove cob_vision_utils"
+  This reverts commit ce1a4f9a397abd11f4d038c5ea4c769324bf53af.
+* Contributors: Felix Messmer, fmessmer
+
 0.6.16 (2020-10-10)
 -------------------
 * Merge pull request `#101 <https://github.com/ipa320/cob_perception_common/issues/101>`_ from fmessmer/test_noetic

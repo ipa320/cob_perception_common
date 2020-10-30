@@ -11,7 +11,7 @@ find_package(catkin REQUIRED COMPONENTS
             )
 
 catkin_package(
-  CATKIN_DEPENDS sensor_msgs visualization_msgs
+  CATKIN_DEPENDS roscpp sensor_msgs visualization_msgs
 )
 
 include_directories(

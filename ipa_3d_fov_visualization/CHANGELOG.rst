@@ -2,6 +2,9 @@
 Changelog for package ipa_3d_fov_visualization
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.6.19 (2022-07-29)
+-------------------
+
 0.6.18 (2021-05-10)
 -------------------
 * Merge pull request `#104 <https://github.com/ipa320/cob_perception_common/issues/104>`_ from fmessmer/fix_catkin_lint

@@ -1,0 +1,38 @@
+-
+  ros1_package_name: 'cob_3d_mapping_msgs'
+  ros1_message_name: 'CurvedPolygon'
+  ros2_package_name: 'cob_3d_mapping_msgs'
+  ros2_message_name: 'CurvedPolygon'
+  fields_1_to_2:
+    stamp: 'stamp'
+    ID: 'id'
+    parameter: 'parameter'
+    #polyline: 'polyline'
+    score: 'score'
+    polyline: 'polyline'
+    features: 'features'
+    energy: 'energy'
+    weight: 'weight'
+-
+  ros1_package_name: 'cob_3d_mapping_msgs'
+  ros1_message_name: 'Feature'
+  ros2_package_name: 'cob_3d_mapping_msgs'
+  ros2_message_name: 'Feature'
+  fields_1_to_2:
+    x: 'x'
+    y: 'y'
+    z: 'z'
+    ID: 'id'
+-
+  ros1_package_name: 'cob_3d_mapping_msgs'
+  ros1_message_name: 'SimilarityScore'
+  ros2_package_name: 'cob_3d_mapping_msgs'
+  ros2_message_name: 'SimilarityScore'
+  fields_1_to_2:
+    ID: 'id'
+    prob: 'prob'
+# add mapping rule for:
+#  - action/PlaneExtraction.action
+#  - action/TableObjectCluster.action
+#  - action/Trigger.action
+#  - srv/MoveToTable.srv

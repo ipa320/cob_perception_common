@@ -4,4 +4,4 @@
 #result definition
 ---
 #feedback
-std_msgs/String currentStep
+std_msgs/String current_step

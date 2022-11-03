@@ -1,4 +1,4 @@
-time stamp
+builtin_interfaces/Time stamp
 uint32 ID
 float32[6] parameter
 #float32[][3] polyline

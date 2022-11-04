@@ -31,8 +31,33 @@
   fields_1_to_2:
     ID: 'id'
     prob: 'prob'
-# add mapping rule for:
-#  - action/PlaneExtraction.action
-#  - action/TableObjectCluster.action
-#  - action/Trigger.action
-#  - srv/MoveToTable.srv
+-
+  ros1_package_name: 'cob_3d_mapping_msgs'
+  ros1_action_name: 'PlaneExtraction'
+  ros2_package_name: 'cob_3d_mapping_msgs'
+  ros2_action_name: 'PlaneExtraction'
+  feedback_fields_1_to_2:
+    currentStep: 'current_step'
+-
+  ros1_package_name: 'cob_3d_mapping_msgs'
+  ros1_action_name: 'TableObjectCluster'
+  ros2_package_name: 'cob_3d_mapping_msgs'
+  ros2_action_name: 'TableObjectCluster'
+  feedback_fields_1_to_2:
+    currentStep: 'current_step'
+-
+  ros1_package_name: 'cob_3d_mapping_msgs'
+  ros1_action_name: 'Trigger'
+  ros2_package_name: 'cob_3d_mapping_msgs'
+  ros2_action_name: 'Trigger'
+  feedback_fields_1_to_2:
+    currentStep: 'current_step'
+-
+  ros1_package_name: 'cob_3d_mapping_msgs'
+  ros1_service_name: 'MoveToTable'
+  ros2_package_name: 'cob_3d_mapping_msgs'
+  ros2_service_name: 'MoveToTable'
+  request_fields_1_to_2:
+    targetTable: 'target_table'
+    tableCentroid: 'table_centroid'
+

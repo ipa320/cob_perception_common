@@ -59,5 +59,5 @@
   ros2_service_name: 'MoveToTable'
   request_fields_1_to_2:
     targetTable: 'target_table'
-    tableCentroid: 'table_centroid'
+    #tableCentroid: 'table_centroid'
 

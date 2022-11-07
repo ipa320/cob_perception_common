@@ -26,9 +26,9 @@ find_package(sensor_msgs REQUIRED)
 find_package(std_msgs REQUIRED)
 
 set(action_files
-  "action/PlaneExtraction.action"
-  "action/TableObjectCluster.action"
-  "action/Trigger.action"
+  # "action/PlaneExtraction.action"
+  # "action/TableObjectCluster.action"
+  # "action/Trigger.action"
 )
 
 set(msg_files

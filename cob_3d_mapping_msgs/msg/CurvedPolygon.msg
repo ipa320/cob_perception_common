@@ -1,5 +1,5 @@
-time stamp
-uint32 ID
+builtin_interfaces/Time stamp
+uint32 id
 float32[6] parameter
 #float32[][3] polyline
 SimilarityScore[] score

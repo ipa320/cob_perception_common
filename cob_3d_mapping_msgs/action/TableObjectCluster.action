@@ -6,4 +6,4 @@ cob_object_detection_msgs/DetectionArray known_objects
 cob_object_detection_msgs/DetectionArray bounding_boxes
 ---
 #feedback
-std_msgs/String currentStep
+std_msgs/String current_step

@@ -1,4 +1,4 @@
-Header header
+std_msgs/Header header
 
 uint8 POLYGON=0
 uint8 LINE=1

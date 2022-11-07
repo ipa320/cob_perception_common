@@ -1,0 +1,63 @@
+-
+  ros1_package_name: 'cob_3d_mapping_msgs'
+  ros1_message_name: 'CurvedPolygon'
+  ros2_package_name: 'cob_3d_mapping_msgs'
+  ros2_message_name: 'CurvedPolygon'
+  fields_1_to_2:
+    stamp: 'stamp'
+    ID: 'id'
+    parameter: 'parameter'
+    #polyline: 'polyline'
+    score: 'score'
+    polyline: 'polyline'
+    features: 'features'
+    energy: 'energy'
+    weight: 'weight'
+-
+  ros1_package_name: 'cob_3d_mapping_msgs'
+  ros1_message_name: 'Feature'
+  ros2_package_name: 'cob_3d_mapping_msgs'
+  ros2_message_name: 'Feature'
+  fields_1_to_2:
+    x: 'x'
+    y: 'y'
+    z: 'z'
+    ID: 'id'
+-
+  ros1_package_name: 'cob_3d_mapping_msgs'
+  ros1_message_name: 'SimilarityScore'
+  ros2_package_name: 'cob_3d_mapping_msgs'
+  ros2_message_name: 'SimilarityScore'
+  fields_1_to_2:
+    ID: 'id'
+    prob: 'prob'
+# -
+#   ros1_package_name: 'cob_3d_mapping_msgs'
+#   ros1_action_name: 'PlaneExtraction'
+#   ros2_package_name: 'cob_3d_mapping_msgs'
+#   ros2_action_name: 'PlaneExtraction'
+#   feedback_fields_1_to_2:
+#     currentStep: 'current_step'
+# -
+#   ros1_package_name: 'cob_3d_mapping_msgs'
+#   ros1_action_name: 'TableObjectCluster'
+#   ros2_package_name: 'cob_3d_mapping_msgs'
+#   ros2_action_name: 'TableObjectCluster'
+#   feedback_fields_1_to_2:
+#     currentStep: 'current_step'
+# -
+#   ros1_package_name: 'cob_3d_mapping_msgs'
+#   ros1_action_name: 'Trigger'
+#   ros2_package_name: 'cob_3d_mapping_msgs'
+#   ros2_action_name: 'Trigger'
+#   feedback_fields_1_to_2:
+#     currentStep: 'current_step'
+-
+  ros1_package_name: 'cob_3d_mapping_msgs'
+  ros1_service_name: 'MoveToTable'
+  ros2_package_name: 'cob_3d_mapping_msgs'
+  ros2_service_name: 'MoveToTable'
+  request_fields_1_to_2:
+    targetTable: 'target_table'
+    #tableCentroid: 'table_centroid'
+

@@ -1,2 +1,2 @@
-uint32 ID
+uint32 id
 float32 prob

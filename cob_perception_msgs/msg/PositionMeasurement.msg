@@ -1,6 +1,6 @@
 # origin from  url = https://github.com/wg-perception/people/tree/hydro-devel/people_msgs
 
-Header          header
+std_msgs/Header          header
 string          name
 string          object_id
 geometry_msgs/Point pos

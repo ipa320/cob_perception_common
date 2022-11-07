@@ -6,4 +6,4 @@ bool start
 std_msgs/String message
 ---
 #feedback
-std_msgs/String currentStep
+std_msgs/String current_step

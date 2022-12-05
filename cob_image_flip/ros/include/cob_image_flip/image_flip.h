@@ -117,6 +117,27 @@ public:
 	void disparityConnectCB(const ros::SingleSubscriberPublisher& pub);
 
 	void disparityDisconnectCB(const ros::SingleSubscriberPublisher& pub);
+
+
+	/* general: storing is carried out in row-major-style (rows change first)
+	* color_iamge.ptr<T>(u) returns a pointer the specific row (u-coordinate), starting at index 0
+	* [v] accesses the specific column of the pointer to the row
+	* For COLOR-Images (amount of channels>1):
+	* The order of the pixel-values in cv::Mat is as follows
+	* (http://blog.comart.io/assets/post-rgb/rgb-div-2e9ba3475bd9897a937811ad5a3746d84032fd2b24b7ec06356d7abf763442fb.png):
+	* blue(0,0), green(0, 0), red(0,0), blue(0,1), green(0,1), red(0,1), blue(0,2), green(0,2), red(0,2)
+	* blue(1,0), green(1, 0), red(1,0), blue(1,1), green(1,1), red(1,1), blue(1,2), green(1,2), red(1,2)
+	* The total number of channels has to be taken into consideration for the column-value.
+	* index_for_column = total_number_channels * idx_for_row + idx_for_channel
+	*/
+	template <typename T>void setMatValuePtrType(cv::Mat& image, int row, int index, T value);
+
+	template <typename T>void setMatValuePtr(cv::Mat &image, int row, int index, T value);
+
+	template <typename T> T getMatValuePtrType(cv::Mat& image, int row, int index);
+
+	double getMatValuePtr(cv::Mat& image, int row, int index);
 };
 
 }
+
